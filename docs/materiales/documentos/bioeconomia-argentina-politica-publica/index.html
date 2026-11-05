@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Renato Vargas">
+
+<title>La bioeconomía en las cuentas nacionales de Argentina – Taller de bioeconomía</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-e4e559c663af5827835e13fcb8553903.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../../index.html">
+    <span class="navbar-title">Taller de bioeconomía</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../../materiales/index.html" aria-current="page"> 
+<span class="menu-text">Materiales</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../materiales/descargas.html"> 
+<span class="menu-text">Descargas</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../../about.html"> 
+<span class="menu-text">Acerca de</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../materiales/documentos/bioeconomia-argentina-politica-publica/index.html">Documentos</a></li><li class="breadcrumb-item"><a href="../../../materiales/documentos/bioeconomia-argentina-politica-publica/index.html">Bioeconomía y política pública en Argentina</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../materiales/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Materiales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Presentaciones</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../materiales/presentaciones/01-bioeconomia-cuentas-nacionales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">La contabilidad nacional y la bioeconomía</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../materiales/presentaciones/02-cuadros-oferta-utilizacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Los cuadros de oferta y utilización</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../materiales/presentaciones/03-hallazgos-politica-publica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">De los hallazgos a la política pública</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Documentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../materiales/documentos/bioeconomia-argentina-politica-publica/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Bioeconomía y política pública en Argentina</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../materiales/descargas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Descargas y scripts</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#por-qué-medir-la-bioeconomía" id="toc-por-qué-medir-la-bioeconomía" class="nav-link active" data-scroll-target="#por-qué-medir-la-bioeconomía"><span class="header-section-number">1</span> Por qué medir la bioeconomía</a></li>
+  <li><a href="#cómo-se-construye-la-cuenta" id="toc-cómo-se-construye-la-cuenta" class="nav-link" data-scroll-target="#cómo-se-construye-la-cuenta"><span class="header-section-number">2</span> Cómo se construye la cuenta</a>
+  <ul class="collapse">
+  <li><a href="#tres-categorías-para-productos-y-actividades" id="toc-tres-categorías-para-productos-y-actividades" class="nav-link" data-scroll-target="#tres-categorías-para-productos-y-actividades"><span class="header-section-number">2.1</span> Tres categorías para productos y actividades</a></li>
+  <li><a href="#del-cuadro-a-la-base-de-datos" id="toc-del-cuadro-a-la-base-de-datos" class="nav-link" data-scroll-target="#del-cuadro-a-la-base-de-datos"><span class="header-section-number">2.2</span> Del cuadro a la base de datos</a></li>
+  <li><a href="#dos-maneras-de-medir-el-valor-agregado" id="toc-dos-maneras-de-medir-el-valor-agregado" class="nav-link" data-scroll-target="#dos-maneras-de-medir-el-valor-agregado"><span class="header-section-number">2.3</span> Dos maneras de medir el valor agregado</a></li>
+  <li><a href="#multiplicadores-de-uso" id="toc-multiplicadores-de-uso" class="nav-link" data-scroll-target="#multiplicadores-de-uso"><span class="header-section-number">2.4</span> Multiplicadores de uso</a></li>
+  </ul></li>
+  <li><a href="#resultados-para-argentina" id="toc-resultados-para-argentina" class="nav-link" data-scroll-target="#resultados-para-argentina"><span class="header-section-number">3</span> Resultados para Argentina</a>
+  <ul class="collapse">
+  <li><a href="#el-panorama-general" id="toc-el-panorama-general" class="nav-link" data-scroll-target="#el-panorama-general"><span class="header-section-number">3.1</span> El panorama general</a></li>
+  <li><a href="#valor-agregado" id="toc-valor-agregado" class="nav-link" data-scroll-target="#valor-agregado"><span class="header-section-number">3.2</span> Valor agregado</a></li>
+  <li><a href="#comercio-exterior-superávit-y-concentración" id="toc-comercio-exterior-superávit-y-concentración" class="nav-link" data-scroll-target="#comercio-exterior-superávit-y-concentración"><span class="header-section-number">3.3</span> Comercio exterior: superávit y concentración</a></li>
+  <li><a href="#impuestos-sobre-los-productos" id="toc-impuestos-sobre-los-productos" class="nav-link" data-scroll-target="#impuestos-sobre-los-productos"><span class="header-section-number">3.4</span> Impuestos sobre los productos</a></li>
+  <li><a href="#encadenamientos" id="toc-encadenamientos" class="nav-link" data-scroll-target="#encadenamientos"><span class="header-section-number">3.5</span> Encadenamientos</a></li>
+  <li><a href="#insumos-clave" id="toc-insumos-clave" class="nav-link" data-scroll-target="#insumos-clave"><span class="header-section-number">3.6</span> Insumos clave</a></li>
+  </ul></li>
+  <li><a href="#implicaciones-para-la-política-pública" id="toc-implicaciones-para-la-política-pública" class="nav-link" data-scroll-target="#implicaciones-para-la-política-pública"><span class="header-section-number">4</span> Implicaciones para la política pública</a>
+  <ul class="collapse">
+  <li><a href="#coherencia-fiscal" id="toc-coherencia-fiscal" class="nav-link" data-scroll-target="#coherencia-fiscal"><span class="header-section-number">4.1</span> Coherencia fiscal</a></li>
+  <li><a href="#diversificación-y-valor-agregado" id="toc-diversificación-y-valor-agregado" class="nav-link" data-scroll-target="#diversificación-y-valor-agregado"><span class="header-section-number">4.2</span> Diversificación y valor agregado</a></li>
+  <li><a href="#insumos-y-bioinsumos" id="toc-insumos-y-bioinsumos" class="nav-link" data-scroll-target="#insumos-y-bioinsumos"><span class="header-section-number">4.3</span> Insumos y bioinsumos</a></li>
+  <li><a href="#encadenamientos-1" id="toc-encadenamientos-1" class="nav-link" data-scroll-target="#encadenamientos-1"><span class="header-section-number">4.4</span> Encadenamientos</a></li>
+  <li><a href="#inversión-e-innovación" id="toc-inversión-e-innovación" class="nav-link" data-scroll-target="#inversión-e-innovación"><span class="header-section-number">4.5</span> Inversión e innovación</a></li>
+  <li><a href="#un-sistema-de-información-permanente" id="toc-un-sistema-de-información-permanente" class="nav-link" data-scroll-target="#un-sistema-de-información-permanente"><span class="header-section-number">4.6</span> Un sistema de información permanente</a></li>
+  </ul></li>
+  <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones"><span class="header-section-number">5</span> Limitaciones</a></li>
+  <li><a href="#glosario" id="toc-glosario" class="nav-link" data-scroll-target="#glosario"><span class="header-section-number">6</span> Glosario</a></li>
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias">Referencias</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../materiales/documentos/bioeconomia-argentina-politica-publica/index.html">Documentos</a></li><li class="breadcrumb-item"><a href="../../../materiales/documentos/bioeconomia-argentina-politica-publica/index.html">Bioeconomía y política pública en Argentina</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">La bioeconomía en las cuentas nacionales de Argentina</h1>
+<p class="subtitle lead">Una lectura para la política pública a partir del cuadro de oferta y utilización de 2021</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Autor/a</div>
+  <div class="quarto-title-meta-heading">Afiliación</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Renato Vargas </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Economista / Analista de datos
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Resumen</div>
+    <p>Esta nota retoma la metodología de las cuentas satélite de bioeconomía desarrollada para Costa Rica y trece países de América Latina y el Caribe, y la aplica a los cuadros de oferta y utilización de Argentina de 2018 a 2021. Los productos bioeconómicos representan alrededor de una quinta parte de la producción, pero más de la mitad de las exportaciones y cerca de un tercio de los impuestos netos sobre los productos. Generan un superávit comercial amplio y concentrado en pocos productos, y tributan a una tasa implícita que duplica a la del resto de la economía. La nota revisa estos resultados, sus límites y seis cursos de política pública que se pueden discutir a partir de ellos.</p>
+  </div>
+</div>
+
+
+</header>
+
+
+<section id="por-qué-medir-la-bioeconomía" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Por qué medir la bioeconomía</h1>
+<p>La bioeconomía abarca “la producción, utilización, conservación y regeneración de recursos biológicos, incluyendo los conocimientos, la ciencia, la tecnología y la innovación relacionados con dichos recursos”, para proporcionar productos y servicios a todos los sectores, con el propósito de avanzar hacia una economía sostenible e inclusiva <span class="citation" data-cites="cepal2022">(<a href="#ref-cepal2022" role="doc-biblioref">Comisión Económica para América Latina y el Caribe, 2022</a>)</span>. Esta caracterización deriva de las cumbres mundiales de bioeconomía <span class="citation" data-cites="iacgb2020">(<a href="#ref-iacgb2020" role="doc-biblioref">International Advisory Council on Global Bioeconomy, 2020</a>)</span> y es la misma que adoptó Costa Rica en su estrategia nacional <span class="citation" data-cites="costarica2020">(<a href="#ref-costarica2020" role="doc-biblioref">Gobierno de Costa Rica, 2020</a>)</span>.</p>
+<p>Una estrategia necesita una medida. Las cuentas nacionales no muestran la bioeconomía como un sector, porque sus clasificaciones se organizaron con otros fines. Sus elementos aparecen repartidos en agricultura, alimentos, químicos, textiles, comercio y muchos servicios. Una cuenta satélite reordena esa información sin alterar los saldos contables, de manera que el resultado sigue siendo comparable con el PIB y con el resto de las estadísticas macroeconómicas.</p>
+<p>Esta nota se dirige a personas que analizan o diseñan políticas públicas. Resume el método con poco detalle técnico, presenta los resultados de Argentina y propone preguntas de política. El método completo y la comparación regional están en <span class="citation" data-cites="vargas2022">Vargas et&nbsp;al. (<a href="#ref-vargas2022" role="doc-biblioref">2022</a>)</span> y <span class="citation" data-cites="vargas2023">Vargas et&nbsp;al. (<a href="#ref-vargas2023" role="doc-biblioref">2023</a>)</span>.</p>
+</section>
+<section id="cómo-se-construye-la-cuenta" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Cómo se construye la cuenta</h1>
+<section id="tres-categorías-para-productos-y-actividades" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="tres-categorías-para-productos-y-actividades"><span class="header-section-number">2.1</span> Tres categorías para productos y actividades</h2>
+<p>La cuenta parte de los cuadros de oferta y utilización (COU), que muestran para cada producto cuánto se dispone y en qué se usa, y para cada actividad qué produce y qué insumos consume <span class="citation" data-cites="sna2008">(<a href="#ref-sna2008" role="doc-biblioref">Comisión Europea et&nbsp;al., 2008</a>)</span>. Clasifica productos y actividades en tres categorías <span class="citation" data-cites="vargas2023">(<a href="#ref-vargas2023" role="doc-biblioref">Vargas et&nbsp;al., 2023</a>)</span>:</p>
+<ul>
+<li><strong>Bioeconomía.</strong> Productos cuyo origen está en recursos biológicos, y actividades cuya producción principal son esos productos.</li>
+<li><strong>Bioeconomía extendida.</strong> Productos y actividades con características extendidas, cuyo vínculo con los recursos biológicos es menos directo.</li>
+<li><strong>No bioeconomía.</strong> Todos los demás.</li>
+</ul>
+<p>Como un producto puede salir de varias actividades y una actividad puede producir varios productos, la cuenta clasifica ambas dimensiones por separado. Ese es el aporte principal del método: permite ver los productos bioeconómicos que fabrica una actividad no bioeconómica y los insumos biológicos que esta compra.</p>
+</section>
+<section id="del-cuadro-a-la-base-de-datos" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="del-cuadro-a-la-base-de-datos"><span class="header-section-number">2.2</span> Del cuadro a la base de datos</h2>
+<p>Los COU se publican como matrices. Para analizarlos, cada celda distinta de cero se convierte en una fila de una tabla con sus atributos: cuadro, producto, actividad, condición bioeconómica y valor. Después, cualquier cuadro se reconstruye con una tabla dinámica, y los totales siguen coincidiendo con los oficiales.</p>
+<p>Para Argentina se usaron los COU de INDEC de 2018 a 2021 <span class="citation" data-cites="indec2021">(<a href="#ref-indec2021" role="doc-biblioref">Instituto Nacional de Estadística y Censos, s.f.</a>)</span>, con la clasificación de productos y actividades elaborada para <span class="citation" data-cites="vargas2023">Vargas et&nbsp;al. (<a href="#ref-vargas2023" role="doc-biblioref">2023</a>)</span>. La rutina asigna filas y columnas por su código, porque la nomenclatura de INDEC cambió entre años. Controlamos dos cosas: que la oferta y la utilización sean iguales para cada producto y año, y que para 2018 se reproduzcan los valores publicados: 46,7 % de las exportaciones, 17,8 % de tasa implícita y 12,3 % de valor agregado por consumo intermedio.</p>
+</section>
+<section id="dos-maneras-de-medir-el-valor-agregado" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="dos-maneras-de-medir-el-valor-agregado"><span class="header-section-number">2.3</span> Dos maneras de medir el valor agregado</h2>
+<p>El valor agregado existe por actividad y no por producto. El cálculo tradicional clasifica de antemano las actividades y suma el valor agregado de las bioeconómicas. El problema es que trata la condición bioeconómica como un atributo fijo, cuando en realidad cada actividad usa una mezcla de insumos. Por eso <span class="citation" data-cites="vargas2023">Vargas et&nbsp;al. (<a href="#ref-vargas2023" role="doc-biblioref">2023</a>)</span> proponen una segunda medida, que asigna a cada sección de actividad el valor agregado en proporción a sus insumos bioeconómicos.</p>
+</section>
+<section id="multiplicadores-de-uso" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="multiplicadores-de-uso"><span class="header-section-number">2.4</span> Multiplicadores de uso</h2>
+<p>Para captar los encadenamientos, estimamos cuántos insumos bioeconómicos y bioeconómicos extendidos usa directa e indirectamente cada actividad por cada peso que entrega a la demanda final. El cálculo parte de los mismos COU, con el supuesto de tecnología de la industria, y agrupa las actividades según su distancia a la mediana, medida en desviaciones absolutas medianas (DAM). Es un ejercicio didáctico: los cuadros están a precios de comprador y no separan los insumos nacionales de los importados, de modo que los niveles están sobrestimados. Sirve para ordenar actividades; predecir impactos requiere otro modelo.</p>
+</section>
+</section>
+<section id="resultados-para-argentina" class="level1 page-columns page-full" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Resultados para Argentina</h1>
+<section id="el-panorama-general" class="level2 page-columns page-full" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="el-panorama-general"><span class="header-section-number">3.1</span> El panorama general</h2>
+<p>En 2021, los productos bioeconómicos representaron 19,1 % de la producción, 19,2 % del consumo intermedio, 25,4 % del consumo final y 58,6 % de las exportaciones (<a href="#fig-participacion" class="quarto-xref">Gráfico&nbsp;1</a>). En importaciones (7,0 %) y en formación bruta de capital (4,1 %) su participación es mucho menor. En comparación con el promedio de los trece países en <span class="citation" data-cites="vargas2023">Vargas et&nbsp;al. (<a href="#ref-vargas2023" role="doc-biblioref">2023</a>)</span>, Argentina destaca sobre todo en exportaciones y en impuestos.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-participacion" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-participacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-participacion-1.png" class="img-fluid figure-img" width="1600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-participacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Gráfico&nbsp;1: Argentina: participación de cada condición del producto en los principales agregados, 2021
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>El <a href="#tbl-oferta" class="quarto-xref">Cuadro&nbsp;1</a> y el <a href="#tbl-utilizacion" class="quarto-xref">Cuadro&nbsp;2</a> presentan los cuadros completos. Permiten ver, por ejemplo, cuántos productos bioeconómicos producen las actividades no bioeconómicas y cuántos insumos bioeconómicos compran.</p>
+<div id="tbl-oferta" class="column-page quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-oferta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Cuadro&nbsp;1: Argentina: oferta bioeconómica, 2021 (miles de millones de pesos corrientes)
+</figcaption>
+<div aria-describedby="tbl-oferta-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="tabla-scroll">
+<div class="cell">
+<div class="cell-output-display">
+<table class="cou bio caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th rowspan="2" class="izq" data-quarto-table-cell-role="th"></th>
+<th colspan="2" class="h-bio" data-quarto-table-cell-role="th">Bioeconomía</th>
+<th colspan="2" class="h-ext" data-quarto-table-cell-role="th">Bioeconomía extendida</th>
+<th colspan="3" class="h-nob" data-quarto-table-cell-role="th">No bioeconomía</th>
+<th rowspan="2" class="vert" data-quarto-table-cell-role="th">Importaciones</th>
+<th rowspan="2" class="vert" data-quarto-table-cell-role="th">Ajuste CIF/FOB</th>
+<th rowspan="2" class="vert" data-quarto-table-cell-role="th">Impuestos menos subvenciones</th>
+<th rowspan="2" class="vert" data-quarto-table-cell-role="th">Márgenes de distribución</th>
+<th rowspan="2" data-quarto-table-cell-role="th">Total</th>
+</tr>
+<tr class="even">
+<th class="h-bio sub" data-quarto-table-cell-role="th">Sector<br>
+primario</th>
+<th class="h-bio sub" data-quarto-table-cell-role="th">Manu-<br>
+facturas</th>
+<th class="h-ext sub" data-quarto-table-cell-role="th">Manu-<br>
+facturas</th>
+<th class="h-ext sub" data-quarto-table-cell-role="th">Servicios</th>
+<th class="h-nob sub" data-quarto-table-cell-role="th">Sector<br>
+primario</th>
+<th class="h-nob sub" data-quarto-table-cell-role="th">Manu-<br>
+facturas</th>
+<th class="h-nob sub" data-quarto-table-cell-role="th">Servicios</th>
+</tr>
+</thead>
+<tbody>
+<tr class="subtotal s-1 odd">
+<td class="izq">Bioeconomía</td>
+<td>6.266</td>
+<td>8.185</td>
+<td>79</td>
+<td>1</td>
+<td>230</td>
+<td>7</td>
+<td>23</td>
+<td>508</td>
+<td></td>
+<td>2.492</td>
+<td>4.118</td>
+<td>21.909</td>
+</tr>
+<tr class="even">
+<td class="izq"> Productos agrícolas</td>
+<td>5.941</td>
+<td>180</td>
+<td>9</td>
+<td></td>
+<td>230</td>
+<td></td>
+<td>8</td>
+<td>337</td>
+<td></td>
+<td>478</td>
+<td>939</td>
+<td>8.122</td>
+</tr>
+<tr class="odd">
+<td class="izq"> Manufacturas</td>
+<td></td>
+<td>8.005</td>
+<td>68</td>
+<td>1</td>
+<td></td>
+<td>7</td>
+<td>16</td>
+<td>171</td>
+<td></td>
+<td>2.012</td>
+<td>3.179</td>
+<td>13.458</td>
+</tr>
+<tr class="even">
+<td class="izq"> Otros servicios</td>
+<td>325</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>329</td>
+</tr>
+<tr class="subtotal s-2 odd">
+<td class="izq">Bioeconomía extendida</td>
+<td></td>
+<td>56</td>
+<td>2.895</td>
+<td>176</td>
+<td></td>
+<td>1.208</td>
+<td></td>
+<td>1.427</td>
+<td></td>
+<td>668</td>
+<td>2.133</td>
+<td>8.563</td>
+</tr>
+<tr class="even">
+<td class="izq"> Manufacturas</td>
+<td></td>
+<td>56</td>
+<td>2.882</td>
+<td></td>
+<td></td>
+<td>1.208</td>
+<td></td>
+<td>1.423</td>
+<td></td>
+<td>666</td>
+<td>2.133</td>
+<td>8.368</td>
+</tr>
+<tr class="odd">
+<td class="izq"> Otros servicios</td>
+<td></td>
+<td></td>
+<td>13</td>
+<td>176</td>
+<td></td>
+<td></td>
+<td></td>
+<td>4</td>
+<td></td>
+<td>2</td>
+<td></td>
+<td>196</td>
+</tr>
+<tr class="subtotal s-3 even">
+<td class="izq">No bioeconomía</td>
+<td>108</td>
+<td>365</td>
+<td>423</td>
+<td>1.923</td>
+<td>2.865</td>
+<td>10.082</td>
+<td>42.426</td>
+<td>5.352</td>
+<td>-373</td>
+<td>4.408</td>
+<td>-6.251</td>
+<td>61.327</td>
+</tr>
+<tr class="odd">
+<td class="izq"> Productos mineros</td>
+<td></td>
+<td>15</td>
+<td></td>
+<td></td>
+<td>2.083</td>
+<td>13</td>
+<td></td>
+<td>355</td>
+<td></td>
+<td>-103</td>
+<td>234</td>
+<td>2.596</td>
+</tr>
+<tr class="even">
+<td class="izq"> Manufacturas</td>
+<td></td>
+<td>51</td>
+<td>181</td>
+<td></td>
+<td></td>
+<td>9.192</td>
+<td>123</td>
+<td>3.724</td>
+<td></td>
+<td>1.536</td>
+<td>3.682</td>
+<td>18.488</td>
+</tr>
+<tr class="odd">
+<td class="izq"> Servicios básicos</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>549</td>
+<td>30</td>
+<td></td>
+<td>9</td>
+<td></td>
+<td>589</td>
+</tr>
+<tr class="even">
+<td class="izq"> Construcción</td>
+<td>108</td>
+<td>2</td>
+<td>12</td>
+<td></td>
+<td>312</td>
+<td>98</td>
+<td>3.903</td>
+<td>5</td>
+<td></td>
+<td>366</td>
+<td></td>
+<td>4.806</td>
+</tr>
+<tr class="odd">
+<td class="izq"> Comercio</td>
+<td></td>
+<td>147</td>
+<td>68</td>
+<td>20</td>
+<td>4</td>
+<td>306</td>
+<td>9.009</td>
+<td></td>
+<td></td>
+<td></td>
+<td>-8.898</td>
+<td>657</td>
+</tr>
+<tr class="even">
+<td class="izq"> Otros servicios</td>
+<td></td>
+<td>151</td>
+<td>162</td>
+<td>1.902</td>
+<td>466</td>
+<td>472</td>
+<td>28.841</td>
+<td>1.239</td>
+<td>-373</td>
+<td>2.600</td>
+<td>-1.269</td>
+<td>34.191</td>
+</tr>
+<tr class="odd">
+<td class="izq">Ajuste CIF/FOB</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>-373</td>
+<td>373</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td class="izq">Compras directas</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>25</td>
+<td></td>
+<td></td>
+<td></td>
+<td>25</td>
+</tr>
+<tr class="total odd">
+<td class="izq">Oferta total</td>
+<td>6.374</td>
+<td>8.606</td>
+<td>3.397</td>
+<td>2.100</td>
+<td>3.095</td>
+<td>11.297</td>
+<td>42.449</td>
+<td>6.938</td>
+<td></td>
+<td>7.568</td>
+<td></td>
+<td>91.825</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</figure>
+</div>
+<div id="tbl-utilizacion" class="column-page quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-utilizacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Cuadro&nbsp;2: Argentina: utilización bioeconómica, 2021 (miles de millones de pesos corrientes)
+</figcaption>
+<div aria-describedby="tbl-utilizacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="tabla-scroll">
+<div class="cell">
+<div class="cell-output-display">
+<table class="cou bio caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+<col style="width: 8%">
+</colgroup>
+<thead>
+<tr class="header">
+<th rowspan="2" class="izq" data-quarto-table-cell-role="th"></th>
+<th colspan="2" class="h-bio" data-quarto-table-cell-role="th">Bioeconomía</th>
+<th colspan="2" class="h-ext" data-quarto-table-cell-role="th">Bioeconomía extendida</th>
+<th colspan="3" class="h-nob" data-quarto-table-cell-role="th">No bioeconomía</th>
+<th rowspan="2" class="vert" data-quarto-table-cell-role="th">Exportaciones</th>
+<th rowspan="2" class="vert" data-quarto-table-cell-role="th">Consumo final</th>
+<th rowspan="2" class="vert" data-quarto-table-cell-role="th">Formación bruta de capital</th>
+<th rowspan="2" data-quarto-table-cell-role="th">Total</th>
+</tr>
+<tr class="even">
+<th class="h-bio sub" data-quarto-table-cell-role="th">Sector<br>
+primario</th>
+<th class="h-bio sub" data-quarto-table-cell-role="th">Manu-<br>
+facturas</th>
+<th class="h-ext sub" data-quarto-table-cell-role="th">Manu-<br>
+facturas</th>
+<th class="h-ext sub" data-quarto-table-cell-role="th">Servicios</th>
+<th class="h-nob sub" data-quarto-table-cell-role="th">Sector<br>
+primario</th>
+<th class="h-nob sub" data-quarto-table-cell-role="th">Manu-<br>
+facturas</th>
+<th class="h-nob sub" data-quarto-table-cell-role="th">Servicios</th>
+</tr>
+</thead>
+<tbody>
+<tr class="subtotal s-1 odd">
+<td class="izq">Bioeconomía</td>
+<td>1.351</td>
+<td>4.720</td>
+<td>179</td>
+<td>699</td>
+<td>5</td>
+<td>62</td>
+<td>421</td>
+<td>4.882</td>
+<td>9.246</td>
+<td>344</td>
+<td>21.909</td>
+</tr>
+<tr class="even">
+<td class="izq"> Productos agrícolas</td>
+<td>827</td>
+<td>3.547</td>
+<td>72</td>
+<td>174</td>
+<td></td>
+<td>7</td>
+<td>42</td>
+<td>1.966</td>
+<td>1.159</td>
+<td>328</td>
+<td>8.122</td>
+</tr>
+<tr class="odd">
+<td class="izq"> Manufacturas</td>
+<td>201</td>
+<td>1.172</td>
+<td>107</td>
+<td>525</td>
+<td>3</td>
+<td>55</td>
+<td>379</td>
+<td>2.914</td>
+<td>8.086</td>
+<td>16</td>
+<td>13.458</td>
+</tr>
+<tr class="even">
+<td class="izq"> Otros servicios</td>
+<td>323</td>
+<td>1</td>
+<td></td>
+<td></td>
+<td>3</td>
+<td></td>
+<td></td>
+<td>2</td>
+<td></td>
+<td></td>
+<td>329</td>
+</tr>
+<tr class="subtotal s-2 odd">
+<td class="izq">Bioeconomía extendida</td>
+<td>661</td>
+<td>200</td>
+<td>771</td>
+<td>47</td>
+<td>33</td>
+<td>702</td>
+<td>948</td>
+<td>609</td>
+<td>3.651</td>
+<td>942</td>
+<td>8.563</td>
+</tr>
+<tr class="even">
+<td class="izq"> Manufacturas</td>
+<td>661</td>
+<td>198</td>
+<td>769</td>
+<td>47</td>
+<td>30</td>
+<td>699</td>
+<td>921</td>
+<td>552</td>
+<td>3.570</td>
+<td>921</td>
+<td>8.368</td>
+</tr>
+<tr class="odd">
+<td class="izq"> Otros servicios</td>
+<td></td>
+<td>2</td>
+<td>2</td>
+<td></td>
+<td>4</td>
+<td>2</td>
+<td>27</td>
+<td>57</td>
+<td>81</td>
+<td>20</td>
+<td>196</td>
+</tr>
+<tr class="subtotal s-3 even">
+<td class="izq">No bioeconomía</td>
+<td>1.145</td>
+<td>1.345</td>
+<td>1.134</td>
+<td>447</td>
+<td>1.329</td>
+<td>6.996</td>
+<td>15.471</td>
+<td>2.840</td>
+<td>23.550</td>
+<td>7.069</td>
+<td>61.327</td>
+</tr>
+<tr class="odd">
+<td class="izq"> Productos mineros</td>
+<td></td>
+<td>35</td>
+<td>36</td>
+<td>2</td>
+<td>31</td>
+<td>1.360</td>
+<td>577</td>
+<td>479</td>
+<td>80</td>
+<td>-4</td>
+<td>2.596</td>
+</tr>
+<tr class="even">
+<td class="izq"> Manufacturas</td>
+<td>271</td>
+<td>484</td>
+<td>575</td>
+<td>152</td>
+<td>408</td>
+<td>4.319</td>
+<td>4.278</td>
+<td>1.434</td>
+<td>3.890</td>
+<td>2.678</td>
+<td>18.488</td>
+</tr>
+<tr class="odd">
+<td class="izq"> Servicios básicos</td>
+<td>5</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td>29</td>
+<td>13</td>
+<td>455</td>
+<td>84</td>
+<td></td>
+<td></td>
+<td>589</td>
+</tr>
+<tr class="even">
+<td class="izq"> Construcción</td>
+<td>7</td>
+<td></td>
+<td></td>
+<td>12</td>
+<td>5</td>
+<td>1</td>
+<td>398</td>
+<td>2</td>
+<td></td>
+<td>4.382</td>
+<td>4.806</td>
+</tr>
+<tr class="odd">
+<td class="izq"> Comercio</td>
+<td>281</td>
+<td>29</td>
+<td>20</td>
+<td></td>
+<td></td>
+<td>122</td>
+<td>204</td>
+<td></td>
+<td></td>
+<td></td>
+<td>657</td>
+</tr>
+<tr class="even">
+<td class="izq"> Otros servicios</td>
+<td>582</td>
+<td>796</td>
+<td>501</td>
+<td>281</td>
+<td>856</td>
+<td>1.181</td>
+<td>9.560</td>
+<td>841</td>
+<td>19.580</td>
+<td>14</td>
+<td>34.191</td>
+</tr>
+<tr class="odd">
+<td class="izq">Compras directas</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>20</td>
+<td>6</td>
+<td></td>
+<td>25</td>
+</tr>
+<tr class="total even">
+<td class="izq">Utilización total</td>
+<td>3.158</td>
+<td>6.266</td>
+<td>2.083</td>
+<td>1.193</td>
+<td>1.368</td>
+<td>7.760</td>
+<td>16.840</td>
+<td>8.350</td>
+<td>36.453</td>
+<td>8.355</td>
+<td>91.825</td>
+</tr>
+<tr class="total odd">
+<td class="izq">Valor agregado bruto</td>
+<td>3.216</td>
+<td>2.340</td>
+<td>1.314</td>
+<td>906</td>
+<td>1.728</td>
+<td>3.537</td>
+<td>25.609</td>
+<td></td>
+<td></td>
+<td></td>
+<td>38.651</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</figure>
+</div>
+</section>
+<section id="valor-agregado" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="valor-agregado"><span class="header-section-number">3.2</span> Valor agregado</h2>
+<p>Las actividades bioeconómicas generaron 14,4 % del valor agregado bruto de 38.651 miles de millones de pesos, y las extendidas 5,7 %. Por el método del consumo intermedio, la bioeconomía aporta 13,8 %. La diferencia entre métodos se invirtió en 2021: de 2018 a 2020 el segundo daba más que el primero (<a href="#fig-medidas" class="quarto-xref">Gráfico&nbsp;2</a>). Una explicación posible es que los precios agrícolas elevaron el valor agregado primario en 2021, pero el COU a precios corrientes no permite separar ese efecto.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-medidas" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-medidas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-medidas-1.png" class="img-fluid figure-img" width="1600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-medidas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Gráfico&nbsp;2: Argentina: contribución de la bioeconomía al valor agregado, según el método, 2018 a 2021
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="comercio-exterior-superávit-y-concentración" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="comercio-exterior-superávit-y-concentración"><span class="header-section-number">3.3</span> Comercio exterior: superávit y concentración</h2>
+<p>Los productos bioeconómicos generaron un saldo comercial de 4.374 miles de millones de pesos en 2021. Los extendidos registraron un déficit de 818 y los no bioeconómicos, uno de 2.512. Cinco productos concentran 81,1 % de las exportaciones bioeconómicas (<a href="#tbl-exportaciones" class="quarto-xref">Cuadro&nbsp;3</a>). La participación en exportaciones pasó de 46,7 % en 2018 a 58,6 % en 2021, un cambio en el que también influyen los precios internacionales.</p>
+<div id="tbl-exportaciones" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-exportaciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Cuadro&nbsp;3: Argentina: principales exportaciones bioeconómicas, 2021 (miles de millones de pesos corrientes)
+</figcaption>
+<div aria-describedby="tbl-exportaciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<table class="cou caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th class="izq" data-quarto-table-cell-role="th">Producto</th>
+<th data-quarto-table-cell-role="th">Exportaciones</th>
+<th data-quarto-table-cell-role="th">% de exportaciones bioeconómicas</th>
+<th data-quarto-table-cell-role="th">Producción</th>
+<th data-quarto-table-cell-role="th">Tasa implícita</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td class="izq">Cereales</td>
+<td>1.290</td>
+<td>26,4 %</td>
+<td>1.789</td>
+<td>11,9 %</td>
+</tr>
+<tr class="even">
+<td class="izq">Tortas oleaginosas y borras de algodón</td>
+<td>1.138</td>
+<td>23,3 %</td>
+<td>1.011</td>
+<td>29,7 %</td>
+</tr>
+<tr class="odd">
+<td class="izq">Aceites y grasas animales y vegetales</td>
+<td>827</td>
+<td>16,9 %</td>
+<td>1.306</td>
+<td>23,3 %</td>
+</tr>
+<tr class="even">
+<td class="izq">Semillas y frutos oleaginosos</td>
+<td>366</td>
+<td>7,5 %</td>
+<td>1.703</td>
+<td>5,8 %</td>
+</tr>
+<tr class="odd">
+<td class="izq">Carne y productos de carne</td>
+<td>337</td>
+<td>6,9 %</td>
+<td>1.314</td>
+<td>16,1 %</td>
+</tr>
+<tr class="even">
+<td class="izq">Pescado, vivo, fresco o refrigerado</td>
+<td>131</td>
+<td>2,7 %</td>
+<td>230</td>
+<td>4,0 %</td>
+</tr>
+<tr class="odd">
+<td class="izq">Otros productos lácteos</td>
+<td>116</td>
+<td>2,4 %</td>
+<td>475</td>
+<td>24,9 %</td>
+</tr>
+<tr class="even">
+<td class="izq">Vinos</td>
+<td>84</td>
+<td>1,7 %</td>
+<td>200</td>
+<td>15,5 %</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</figure>
+</div>
+</section>
+<section id="impuestos-sobre-los-productos" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="impuestos-sobre-los-productos"><span class="header-section-number">3.4</span> Impuestos sobre los productos</h2>
+<p>La tasa implícita sobre los productos bioeconómicos fue de 16,9 % en 2021, frente a 7,6 % en los no bioeconómicos (<a href="#fig-tasas" class="quarto-xref">Gráfico&nbsp;3</a>). <span class="citation" data-cites="vargas2023">Vargas et&nbsp;al. (<a href="#ref-vargas2023" role="doc-biblioref">2023</a>)</span> ya habían señalado que Argentina tenía la tasa más alta de los trece países. Esta tasa es el resultado neto de todos los instrumentos, creados con fines distintos y en épocas distintas, al margen de una política deliberada hacia la bioeconomía.</p>
+<p>Conviene abrirla. Tabaco, bebidas alcohólicas, cerveza y bebidas no alcohólicas aportan 21,0 % de lo recaudado en productos bioeconómicos, y responden a objetivos propios. Sin ellos, la tasa baja a 14,1 %, que sigue siendo mayor que la del resto. También se observan tasas altas en productos muy exportados, como aceites y tortas oleaginosas. Una hipótesis razonable es que ahí pesan los derechos de exportación, pero el COU no separa instrumentos y esto debe verificarse con datos fiscales.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-tasas" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tasas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="index_files/figure-html/fig-tasas-1.png" class="img-fluid figure-img" width="1600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tasas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Gráfico&nbsp;3: Argentina: tasa impositiva implícita sobre los productos, 2018 a 2021
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="encadenamientos" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="encadenamientos"><span class="header-section-number">3.5</span> Encadenamientos</h2>
+<p>La dependencia de insumos bioeconómicos es muy alta en 30 actividades, y no todas son del sector primario. Destacan carne, alimentos para animales, lácteos, cueros, aceites y restaurantes. Las actividades por encima de la mediana más una DAM generan 23,2 % del valor agregado (<a href="#tbl-mult" class="quarto-xref">Cuadro&nbsp;4</a>). El multiplicador de demanda promedio de las actividades bioeconómicas (2,46) supera al de las no bioeconómicas (2,05), un resultado que coincide en dirección con el de Costa Rica <span class="citation" data-cites="vargas2022">(<a href="#ref-vargas2022" role="doc-biblioref">Vargas et&nbsp;al., 2022</a>)</span>, aunque aquí los niveles están sobrestimados por no separar las importaciones.</p>
+<div id="tbl-mult" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mult-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Cuadro&nbsp;4: Argentina: actividades con mayor uso directo e indirecto de insumos bioeconómicos y extendidos, 2021 (pesos por peso de demanda final)
+</figcaption>
+<div aria-describedby="tbl-mult-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell">
+<div class="cell-output-display">
+<table class="cou caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th class="izq" data-quarto-table-cell-role="th">Actividad</th>
+<th data-quarto-table-cell-role="th">Sección</th>
+<th data-quarto-table-cell-role="th">Multiplicador</th>
+<th data-quarto-table-cell-role="th">VA (miles de millones)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td class="izq">Producción, procesamiento y conservación de carne y product...</td>
+<td>C</td>
+<td>1,39</td>
+<td>263</td>
+</tr>
+<tr class="even">
+<td class="izq">Elaboración de alimentos preparados para animales</td>
+<td>C</td>
+<td>1,23</td>
+<td>119</td>
+</tr>
+<tr class="odd">
+<td class="izq">Elaboración de productos lácteos</td>
+<td>C</td>
+<td>1,15</td>
+<td>167</td>
+</tr>
+<tr class="even">
+<td class="izq">Curtido y terminación de cueros</td>
+<td>C</td>
+<td>1,13</td>
+<td>11</td>
+</tr>
+<tr class="odd">
+<td class="izq">Elaboración de aceites y grasas de origen vegetal</td>
+<td>C</td>
+<td>1,13</td>
+<td>489</td>
+</tr>
+<tr class="even">
+<td class="izq">Fabricación de plásticos en formas primarias y de caucho si...</td>
+<td>C</td>
+<td>0,92</td>
+<td>143</td>
+</tr>
+<tr class="odd">
+<td class="izq">Restaurantes, bares y cantinas</td>
+<td>H - S</td>
+<td>0,91</td>
+<td>516</td>
+</tr>
+<tr class="even">
+<td class="izq">Hilatura, tejedura y acabado de productos textiles</td>
+<td>C</td>
+<td>0,90</td>
+<td>145</td>
+</tr>
+<tr class="odd">
+<td class="izq">Elaboración de productos de molinería</td>
+<td>C</td>
+<td>0,84</td>
+<td>126</td>
+</tr>
+<tr class="even">
+<td class="izq">Tostado, torrado y molienda de café</td>
+<td>C</td>
+<td>0,81</td>
+<td>159</td>
+</tr>
+<tr class="odd">
+<td class="izq">Preparación de frutas, hortalizas y legumbres</td>
+<td>C</td>
+<td>0,80</td>
+<td>49</td>
+</tr>
+<tr class="even">
+<td class="izq">Cría de animales</td>
+<td>A</td>
+<td>0,77</td>
+<td>931</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</figure>
+</div>
+</section>
+<section id="insumos-clave" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="insumos-clave"><span class="header-section-number">3.6</span> Insumos clave</h2>
+<p>Algunos insumos clasificados como bioeconómicos dependen de forma importante del exterior. En abonos y plaguicidas, las importaciones equivalen a 48,2 % de la oferta a precios básicos. Este resultado merece una lectura cuidadosa, porque la categoría agrupa productos de distinto origen. Aun así, señala una exposición relevante para el sector agrícola, cuyo consumo intermedio contiene 42,8 % de productos bioeconómicos.</p>
+</section>
+</section>
+<section id="implicaciones-para-la-política-pública" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Implicaciones para la política pública</h1>
+<p>Los datos describen una estructura; las decisiones dependen además de objetivos y de evidencia sectorial. Las siguientes líneas son preguntas de política que los resultados vuelven más precisas. Cada una debe contrastarse con la normativa vigente y con evidencia sectorial que excede a esta nota.</p>
+<section id="coherencia-fiscal" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="coherencia-fiscal"><span class="header-section-number">4.1</span> Coherencia fiscal</h2>
+<p>La bioeconomía aporta 32,9 % de los impuestos netos sobre los productos. <span class="citation" data-cites="vargas2023">Vargas et&nbsp;al. (<a href="#ref-vargas2023" role="doc-biblioref">2023</a>)</span> concluyen que hace falta profundizar en este tema para crear incentivos que equilibren el desarrollo de la bioeconomía con los objetivos de finanzas públicas. El primer paso es desagregar la tasa por instrumento y por producto, y distinguir los objetivos: los de salud pública en tabaco y bebidas, los de recaudación en otros productos. Solo entonces tiene sentido simular cambios.</p>
+</section>
+<section id="diversificación-y-valor-agregado" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="diversificación-y-valor-agregado"><span class="header-section-number">4.2</span> Diversificación y valor agregado</h2>
+<p>Un superávit concentrado en cinco productos es una fortaleza para las divisas y una exposición a los precios internacionales. Las opciones incluyen apoyar cadenas con exportaciones todavía pequeñas, cumplir estándares y trazabilidad, y aprovechar residuos agroindustriales. Procesar más localmente exige energía, logística y escala, de modo que cada cadena requiere su propia evaluación.</p>
+</section>
+<section id="insumos-y-bioinsumos" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="insumos-y-bioinsumos"><span class="header-section-number">4.3</span> Insumos y bioinsumos</h2>
+<p>La dependencia de abonos y plaguicidas importados abre una discusión sobre investigación y adopción de bioinsumos, marcos regulatorios y monitoreo de la exposición cambiaria. Ninguna sustitución es deseable si no conserva rendimientos, y esa evidencia viene del campo.</p>
+</section>
+<section id="encadenamientos-1" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="encadenamientos-1"><span class="header-section-number">4.4</span> Encadenamientos</h2>
+<p>Las actividades de dependencia muy alta son candidatas para programas de desarrollo de proveedores, compras públicas de alimentos o instrumentos con foco regional. Un multiplicador alto no garantiza eficiencia ni sostenibilidad. Antes de priorizar, conviene tener empleo y emisiones por actividad.</p>
+</section>
+<section id="inversión-e-innovación" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="inversión-e-innovación"><span class="header-section-number">4.5</span> Inversión e innovación</h2>
+<p>Solo 4,1 % de la formación bruta de capital corresponde a productos bioeconómicos. Esta cifra se mide por tipo de bien de capital y por eso subestima lo que invierten las actividades bioeconómicas. Según <span class="citation" data-cites="vargas2023">Vargas et&nbsp;al. (<a href="#ref-vargas2023" role="doc-biblioref">2023</a>)</span>, buena parte de la innovación está en propiedad intelectual, un activo que las empresas de la región registran con dificultad. Medirla mejor es un requisito para financiarla bien.</p>
+</section>
+<section id="un-sistema-de-información-permanente" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="un-sistema-de-información-permanente"><span class="header-section-number">4.6</span> Un sistema de información permanente</h2>
+<p>Argentina publica los COU necesarios para actualizar esta cuenta cada año. Institucionalizarla exige acordar la clasificación con los sectores, publicarla y añadir progresivamente empleo, precios constantes, una matriz de insumo-producto y cuentas físicas y ambientales, entre ellas una de biomasa residual.</p>
+</section>
+</section>
+<section id="limitaciones" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Limitaciones</h1>
+<ul>
+<li><strong>Precios corrientes.</strong> El periodo incluye alta inflación, cambios en el tipo de cambio y la pandemia. Las participaciones mezclan volúmenes y precios.</li>
+<li><strong>Sin empleo ni ambiente.</strong> Una bioeconomía grande no es necesariamente una bioeconomía sostenible. El COU no mide esa diferencia.</li>
+<li><strong>Clasificación.</strong> Es una decisión técnica discutible, sobre todo en químicos, farmacéuticos, textiles y plásticos. Los productos del COU agrupan bienes con y sin base biológica, y la cuenta asigna cada grupo completo a una categoría.</li>
+<li><strong>Multiplicadores.</strong> Son de uso total, a precios de comprador, con tecnología de la industria. Los umbrales de DAM son un criterio de ordenamiento.</li>
+<li><strong>Inversión.</strong> Se mide por tipo de bien; la actividad que invierte queda fuera de la medida.</li>
+</ul>
+<p>Las cifras son elaboración propia a partir de datos oficiales y no constituyen estadísticas oficiales de INDEC.</p>
+</section>
+<section id="glosario" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Glosario</h1>
+<p><strong>COU.</strong> Cuadros de oferta y utilización.</p>
+<p><strong>DAM.</strong> Desviación absoluta mediana: mediana de las distancias de cada valor a la mediana.</p>
+<p><strong>Multiplicador de demanda.</strong> Producción total, directa e indirecta, que requiere un peso de demanda final de una actividad.</p>
+<p><strong>Tasa impositiva implícita.</strong> Impuestos menos subvenciones sobre un grupo de productos, dividido entre el valor bruto de producción de esos productos.</p>
+<p><strong>Valor agregado bruto.</strong> Valor bruto de producción menos consumo intermedio.</p>
+</section>
+<section id="referencias" class="level1 unnumbered">
+<h1 class="unnumbered">Referencias</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-cepal2022" class="csl-entry" role="listitem">
+Comisión Económica para América Latina y el Caribe. (2022). <em>Hacia la transformación del modelo de desarrollo en <span>América</span> <span>Latina</span> y el <span>Caribe</span>: producción, inclusión y sostenibilidad</em> (LC/SES.39/3-P). CEPAL. <a href="https://repositorio.cepal.org/server/api/core/bitstreams/cfdfbffc-660a-4b8c-86e8-532bcf884af5/content">https://repositorio.cepal.org/server/api/core/bitstreams/cfdfbffc-660a-4b8c-86e8-532bcf884af5/content</a>
+</div>
+<div id="ref-sna2008" class="csl-entry" role="listitem">
+Comisión Europea, Fondo Monetario Internacional, Organización para la Cooperación y el Desarrollo Económico, Naciones Unidas y Banco Mundial. (2008). <em>Sistema de Cuentas Nacionales 2008</em>. Naciones Unidas. <a href="https://unstats.un.org/unsd/nationalaccount/docs/sna2008spanish.pdf">https://unstats.un.org/unsd/nationalaccount/docs/sna2008spanish.pdf</a>
+</div>
+<div id="ref-costarica2020" class="csl-entry" role="listitem">
+Gobierno de Costa Rica. (2020). <em>Estrategia Nacional de Bioeconomía <span>Costa</span> <span>Rica</span> 2020-2030: hacia una economía con descarbonización fósil, competitividad, sostenibilidad e inclusión</em>. Ministerio de Ciencia, Tecnología y Telecomunicaciones. <a href="https://www.micit.go.cr/sites/default/files/estrategia_nacional_bioeconomia_cr_corregido.pdf">https://www.micit.go.cr/sites/default/files/estrategia_nacional_bioeconomia_cr_corregido.pdf</a>
+</div>
+<div id="ref-indec2021" class="csl-entry" role="listitem">
+Instituto Nacional de Estadística y Censos. (s.f.). <em>Matrices de oferta y de utilización a precios de comprador (CIIU Rev. 3/CPC 1.1), 2018 a 2021</em>. Archivos de Excel; INDEC.
+</div>
+<div id="ref-iacgb2020" class="csl-entry" role="listitem">
+International Advisory Council on Global Bioeconomy. (2020). <em>Expanding the Sustainable Bioeconomy: Vision and Way Forward. Communiqué of the Global Bioeconomy Summit 2020</em>. IACGB. <a href="https://gbs2020.net/wp-content/uploads/2020/11/GBS2020_IACGB-Communique.pdf">https://gbs2020.net/wp-content/uploads/2020/11/GBS2020_IACGB-Communique.pdf</a>
+</div>
+<div id="ref-vargas2022" class="csl-entry" role="listitem">
+Vargas, R., Alvarado, I., Rodríguez, M., Rodríguez, A. y Wander, P. (2022). <em>Cuenta satélite de bioeconomía para <span>Costa</span> <span>Rica</span>: propuesta metodológica y aplicación práctica</em> (Serie Recursos Naturales y Desarrollo 214 (LC/TS.2022/223)). Comisión Económica para América Latina y el Caribe (CEPAL). <a href="https://www.cepal.org/es/publicaciones/48641-cuenta-satelite-bioeconomia-costa-rica-propuesta-metodologica-aplicacion">https://www.cepal.org/es/publicaciones/48641-cuenta-satelite-bioeconomia-costa-rica-propuesta-metodologica-aplicacion</a>
+</div>
+<div id="ref-vargas2023" class="csl-entry" role="listitem">
+Vargas, R., Mondaini, A. y Rodríguez, A. G. (2023). <em>Cuentas satélite de bioeconomía para 13 países de <span>América</span> <span>Latina</span> y el <span>Caribe</span>: metodología y resultados</em> (Serie Recursos Naturales y Desarrollo 219 (LC/TS.2023/138)). Comisión Económica para América Latina y el Caribe (CEPAL). <a href="https://www.cepal.org/es/publicaciones/68683-cuentas-satelite-bioeconomia-13-paises-america-latina-caribe-metodologia">https://www.cepal.org/es/publicaciones/68683-cuentas-satelite-bioeconomia-13-paises-america-latina-caribe-metodologia</a>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

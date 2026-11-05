@@ -1,0 +1,19 @@
+---
+title: "De los hallazgos a la política pública"
+subtitle: "Resultados de Argentina y cursos de acción para discutir"
+---
+
+::::{.slide-embed}
+<iframe class="slide-deck" src="../../slides/03-hallazgos-politica-publica/index.html" title="De los hallazgos a la política pública" loading="lazy"></iframe>
+::::
+
+::::{.slide-links}
+[⛶ Pantalla completa](../../slides/03-hallazgos-politica-publica/index.html){target="_blank"}
+::::
+
+## Objetivos
+
+- Repasar los principales resultados de la cuenta de Argentina
+- Pasar de los datos a preguntas de política pública
+- Comparar seis cursos de acción y sus tensiones
+- Reconocer lo que estos datos no permiten afirmar

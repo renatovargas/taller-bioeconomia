@@ -1,0 +1,423 @@
+---
+title: "Los cuadros de oferta y utilización"
+subtitle: "Sus componentes y particularidades, con el COU 2021 de Argentina"
+author:
+  - name: "Renato Vargas"
+    affiliations:
+      - name: Economista / Analista de datos
+lang: es
+bibliography: ../refs.bib
+csl: ../../assets/apa-es.csl
+format:
+  revealjs:
+    theme: [simple, ../pstyles.scss]
+    width: 1280
+    height: 720
+    margin: 0.05
+    slide-number: true
+    hash: true
+    footer: "Los cuadros de oferta y utilización"
+    title-slide-attributes:
+      data-background-gradient: "linear-gradient(125deg, #0B4A3A 0%, #0F7B5F 65%, #C27C0E 135%)"
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+source("scripts/funciones-presentacion.R")
+r <- readRDS("data/salidas/resultados.rds")
+scn <- readRDS("data/bd/arg_scn_2018_2021.rds") |> filter(Año == 2021)
+
+prod <- function(cod) scn |> filter(`Código Nomenclatura Local de Productos` == cod)
+mM <- function(x, d = 1) num(x / 1e6, d)
+miles <- function(x) num(x, 0)
+
+# Respuestas leídas de la base, que coincide con el archivo de INDEC
+vinos <- scn |>
+  filter(Componente == "Producción", `Código Clasificación Actividades` == "1552") |>
+  summarise(v = sum(Valor)) |> pull(v)
+margen_carne <- prod("211") |> filter(Columnas == "ARGoc113") |> pull(Valor)
+margen_620 <- prod("620") |> filter(Columnas == "ARGoc113") |> pull(Valor)
+ui_oleag <- prod("014") |> filter(Componente == "Consumo intermedio") |> summarise(v = sum(Valor)) |> pull(v)
+x_cereal <- prod("011") |> filter(Componente == "Exportaciones") |> pull(Valor)
+
+ce <- prod("011") |>
+  group_by(Componente) |>
+  summarise(v = sum(Valor) / 1e6, .groups = "drop")
+ce_v <- function(k) {
+  x <- ce$v[ce$Componente == k]
+  if (length(x)) x else 0
+}
+
+# Preguntas con la tabla dinámica
+s21 <- r$series |> filter(Año == 2021)
+p_x <- s21 |> filter(Componente == "Exportaciones", Bio == "Bioeconomía") |> pull(pct)
+t21 <- r$tasas |> filter(Año == 2021)
+vaci <- r$va_ci
+ci_manu <- vaci |> filter(Seccion == "C")
+saldo <- r$productos |>
+  group_by(Bio) |>
+  summarise(s = sum(Exportaciones) - sum(Importaciones), .groups = "drop")
+```
+
+## La cuenta de producción
+
+::: incremental
+- "La cuenta de producción es la primera de la sucesión de cuentas elaboradas para las unidades y los sectores institucionales que muestra cómo el ingreso se genera, distribuye y utiliza en la economía.
+- Las actividades definidas como producción determinan la magnitud del PIB y el nivel de ingreso de la economía.
+- En sentido estricto, la cuenta de producción para el total de la economía es la agregación de las cuentas de producción de cada unidad de producción." [@sna2008, p. 109]
+:::
+
+## ¿Qué es la producción?
+
+> "La producción es una actividad realizada bajo la responsabilidad, el control y la gestión de una unidad institucional, en la que se utilizan insumos de mano de obra, capital y bienes y servicios para obtener otros bienes y servicios." [@sna2008, p. 109]
+
+. . .
+
+::: {.caja .ambar}
+El saldo contable de la cuenta de la producción es el **valor agregado**.
+:::
+
+## De precios básicos a precios de comprador
+
+::: flujo
+::: {.paso .clave}
+Precios básicos
+:::
+::: op
++
+:::
+::: paso
+Impuestos sobre los productos, excluido el IVA facturado
+:::
+::: op
+−
+:::
+::: paso
+Subvenciones a los productos
+:::
+::: op
+=
+:::
+::: {.paso .clave}
+Precios de productor
+:::
+:::
+
+. . .
+
+::: flujo
+::: {.paso .clave}
+Precios de productor
+:::
+::: op
++
+:::
+::: paso
+IVA no deducible por el comprador
+:::
+::: op
++
+:::
+::: paso
+Transporte facturado por separado
+:::
+::: op
++
+:::
+::: paso
+Márgenes de comercio mayorista y minorista
+:::
+::: op
+=
+:::
+::: {.paso .clave}
+Precios de comprador
+:::
+:::
+
+. . .
+
+::: {.caja .azul}
+En el COU de INDEC, la **hoja de oferta** recorre este camino por producto: de la producción a precios básicos (`OPB`) a la oferta total a precios de comprador (`OPC`). Los márgenes de comercio suman cero en el total de la economía: se restan de la fila de los servicios comerciales y se suman a los bienes que los llevan.
+:::
+
+## El equilibrio de los productos
+
+:::: {.columns}
+::: {.column width="46%"}
+Para cada bien o servicio, lo que está disponible es igual a lo que se usa:
+
+::: {.caja}
+**Oferta** = producción + importaciones + impuestos netos + márgenes
+:::
+
+::: {.caja .ambar}
+**Utilización** = consumo intermedio + consumo final + formación de capital + exportaciones
+:::
+:::
+
+::: {.column width="54%"}
+**Ejemplo: cereales en Argentina, 2021**
+
+```{r}
+f <- function(et, v, cl = "") paste0("<tr class='", cl, "'><td class='izq'>", et, "</td><td>", num(v, 1), "</td></tr>")
+html_salida(paste0(
+  "<table class='cou grande'><thead><tr><th class='izq'>Miles de millones de pesos</th><th>Valor</th></tr></thead><tbody>",
+  f("Producción a precios básicos", ce_v("Producción")),
+  f("(+) Importaciones", ce_v("Importaciones")),
+  f("(+) Impuestos menos subvenciones", ce_v("Impuestos menos subvenciones")),
+  f("(+) Márgenes", ce_v("Márgenes de distribución")),
+  f("(=) Oferta total", sum(ce_v("Producción"), ce_v("Importaciones"), ce_v("Impuestos menos subvenciones"), ce_v("Márgenes de distribución")), "total"),
+  f("Consumo intermedio", ce_v("Consumo intermedio")),
+  f("(+) Consumo final", ce_v("Consumo final")),
+  f("(+) Formación de capital y existencias", ce_v("Formación bruta de capital")),
+  f("(+) Exportaciones", ce_v("Exportaciones")),
+  f("(=) Utilización total", sum(ce_v("Consumo intermedio"), ce_v("Consumo final"), ce_v("Formación bruta de capital"), ce_v("Exportaciones")), "total"),
+  "</tbody></table>"
+))
+```
+:::
+::::
+
+## ¿Qué papel desempeñan los cuadros de oferta y utilización?
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.caja}
+**Cuenta de producción.** Muestran la cuenta de producción de todos los sectores de la economía en un solo instrumento (o dos).
+:::
+:::
+::: {.column width="50%"}
+::: {.caja .ambar}
+**Equilibrio de productos.** Muestran el equilibrio de todos los bienes y servicios que reconoce la institución encargada de prepararlos.
+:::
+:::
+::::
+
+. . .
+
+```{r}
+#| fig-width: 11.5
+#| fig-height: 3.4
+d <- r$basicos$oferta
+sec <- c("A-B Sector primario", "C Manufacturas", "D-S Servicios")
+va <- r$basicos$va$v
+tibble(
+  Medida = factor(c("Valor bruto de producción", "Consumo intermedio", "Valor agregado bruto"),
+                  levels = rev(c("Valor bruto de producción", "Consumo intermedio", "Valor agregado bruto"))),
+  v = c(sum(d[, sec]), sum(r$basicos$utilizacion[, sec]), sum(va))
+) |>
+  ggplot(aes(v, Medida)) +
+  geom_col(fill = "#0F7B5F", width = 0.65) +
+  geom_text(aes(label = num(v)), hjust = -0.1, size = 5.6, color = TINTA) +
+  scale_x_continuous(labels = NULL, expand = expansion(mult = c(0, 0.15))) +
+  labs(x = "Miles de millones de pesos, 2021", y = NULL) +
+  tema_bio(17) +
+  theme(panel.grid = element_blank(), axis.text.y = element_text(color = TINTA))
+```
+
+## Los cuadros de oferta y utilización de Argentina
+
+::: {.cifras style="--col:4;"}
+::: {.cifra}
+[107]{.n}
+[actividades económicas (CIIU Rev. 3)]{.t}
+:::
+::: {.cifra .ambar}
+[222]{.n}
+[bienes y servicios en equilibrio (CPC 1.1)]{.t}
+:::
+::: {.cifra .azul}
+[2]{.n}
+[hojas: oferta y utilización; el valor agregado está al pie de la segunda]{.t}
+:::
+::: {.cifra}
+[2021]{.n}
+[último año disponible, a precios corrientes, en miles de pesos]{.t}
+:::
+:::
+
+. . .
+
+::: {.caja .azul}
+**La hoja `Mat_Of_pc_2021`** va de la producción por actividad (columnas C a DE) a la oferta total a precios de comprador (`OPC`): `OPB`, `IMPO`, `DI`, `IP`, `Mg D`, `IVA`, `CSCD`.
+:::
+
+::: {.caja .ambar}
+**La hoja `Mat_Ut_pc_2021`** contiene el consumo intermedio por actividad y las columnas de utilización final: `CH`, `CP`, `EX`, `Fbc Fijo`, `OV`, variación de existencias y `DEMANDA`.
+:::
+
+::: {.caja .neutra}
+**Cuidado con la comparación entre años.** Las clasificaciones cambian: 651 y 652 aparecen juntas desde 2020, "715 CSCD" aparece desde 2019 y "841 L" ya no figura en 2021.
+:::
+
+## Descargar los archivos {.center}
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.caja}
+**COU oficial de INDEC, 2021**
+
+[Descargar COU-2021.xls](../../data/cou/COU-2021.xls)
+
+Para responder a mano, como lo haría un analista frente al cuadro original.
+:::
+:::
+::: {.column width="50%"}
+::: {.caja .ambar}
+**Base de datos en Excel, 2021**
+
+[Descargar ARG_SCN_BD_2021.xlsx](../../data/bd/ARG_SCN_BD_2021.xlsx)
+
+El mismo cuadro en formato plano, con clasificación bioeconómica y una tabla dinámica lista.
+:::
+:::
+::::
+
+## Primera ronda: a mano con el Excel oficial
+
+Abrimos **COU-2021.xls** y respondemos. Las respuestas están en miles de pesos, como en el archivo.
+
+```{r}
+qa(
+  c(
+    "En la matriz de oferta, ¿cuál es el valor de toda la producción de la actividad <strong class='destacar'>Elaboración de vinos y otras bebidas fermentadas</strong>?",
+    "En la matriz de oferta, ¿cuánto es el margen de distribución del producto <strong class='destacar'>Carne y productos de carne</strong>?",
+    "¿Lo mismo para el producto <strong class='destacar'>620 Servicios comerciales al por menor</strong>? ¿Hay algo peculiar?",
+    "En la matriz de utilización, ¿cuál es la utilización intermedia total de <strong class='destacar'>Semillas y frutos oleaginosos</strong>?",
+    "En la matriz de utilización, ¿cuánto suman las exportaciones de <strong class='destacar'>Cereales</strong>?"
+  ),
+  c(miles(vinos), miles(margen_carne), miles(margen_620), miles(ui_oleag), miles(x_cereal)),
+  negativas = 3
+)
+```
+
+. . .
+
+::: {.caja .neutra}
+**La peculiaridad de la pregunta 3.** El margen del comercio es negativo porque se traslada: su valor sale de la fila de los servicios comerciales y se reparte entre los bienes que lo llevan. Por eso la columna de márgenes suma cero.
+:::
+
+## De la matriz a la base de datos
+
+:::: {.columns}
+::: {.column width="42%"}
+Cada celda distinta de cero del COU se vuelve una fila. Ya no buscamos coordenadas: filtramos por nombre.
+
+::: {.caja}
+**Una fila por celda.** Producto, actividad, cuadro, componente y valor.
+:::
+
+::: {.caja .ambar}
+**Con condición bioeconómica.** Para productos y para actividades.
+:::
+:::
+
+::: {.column width="58%"}
+**Hoja `BD` de ARG_SCN_BD_2021.xlsx**
+
+```{r}
+scn |>
+  filter(`Código Nomenclatura Local de Productos` == "011", Componente %in% c("Producción", "Exportaciones", "Importaciones")) |>
+  arrange(desc(Valor)) |>
+  slice(1:6) |>
+  transmute(
+    Componente,
+    Producto = "Cereales",
+    `Bio. producto` = `Bioeconomía Productos`,
+    Actividad = if_else(Componente == "Producción", nombre_actividad(`Descripción Actividades`, 28), ""),
+    Valor = num(Valor)
+  ) |>
+  tabla_simple("cou mediano", izq = 4)
+```
+:::
+::::
+
+## Crear una tabla dinámica
+
+::: {.cifras style="--col:4;"}
+::: {.cifra}
+[1]{.n}
+[Clic dentro de la tabla de la hoja `BD`.]{.t}
+:::
+::: {.cifra}
+[2]{.n}
+[Insertar > Tabla dinámica > Nueva hoja.]{.t}
+:::
+::: {.cifra .ambar}
+[3]{.n}
+[Filas: `Bioeconomía Productos`. Columnas: `Componente`. Valores: `Valor`.]{.t}
+:::
+::: {.cifra .azul}
+[4]{.n}
+[Filtros: `Cuadro`. Formato de miles. Agregue `CPC Grupos` para abrir el detalle.]{.t}
+:::
+:::
+
+. . .
+
+```{r}
+d <- r$series |>
+  filter(Año == 2021) |>
+  select(Componente, Bio, v) |>
+  pivot_wider(names_from = Componente, values_from = v) |>
+  mutate(Bio = factor(Bio, levels = names(COL_BIO))) |>
+  arrange(Bio) |>
+  transmute(
+    `Bioeconomía Productos` = as.character(Bio),
+    Producción = num(Producción),
+    Importaciones = num(Importaciones),
+    `Consumo intermedio` = num(`Consumo intermedio`),
+    Exportaciones = num(Exportaciones),
+    `Consumo final` = num(`Consumo final`)
+  )
+tabla_simple(d, "cou grande")
+```
+
+[En miles de millones de pesos, 2021. La hoja `TD` del archivo trae una tabla parecida ya armada.]{.pequeno}
+
+## Segunda ronda: con tablas dinámicas
+
+Lo que antes eran sumas de filas enteras, ahora son unos cuantos clics.
+
+```{r}
+qa(
+  c(
+    "¿Qué porcentaje de las exportaciones corresponde a <strong class='destacar'>productos bioeconómicos</strong>?",
+    "¿Cuál es la tasa implícita (impuestos menos subvenciones entre producción) de los productos <strong class='destacar'>bioeconómicos</strong> y de los <strong class='azul-t'>no bioeconómicos</strong>?",
+    "¿Qué parte del consumo intermedio de las <strong class='destacar'>manufacturas</strong> son insumos bioeconómicos?",
+    "¿Cuál es el saldo comercial de cada categoría? (bioeconomía; extendida; no bioeconomía, en miles de millones)",
+    "¿Cuál es el producto bioeconómico que más se exporta?"
+  ),
+  c(
+    pct(p_x),
+    paste(pct(t21$tasa[t21$Bio == "Bioeconomía"]), "y", pct(t21$tasa[t21$Bio == "No bioeconomía"])),
+    pct(ci_manu$pct_bio),
+    paste(num(saldo$s[saldo$Bio == "Bioeconomía"]), num(saldo$s[saldo$Bio == "Bioeconomía extendida"]), num(saldo$s[saldo$Bio == "No bioeconomía"]), sep = "; "),
+    "Cereales"
+  )
+)
+```
+
+. . .
+
+::: {.caja}
+**Para discutir.** ¿Cuál de estas respuestas cambiaría más si se reclasificara un producto? Revisen en la hoja `BD` qué productos quedaron en cada categoría.
+:::
+
+## Referencias
+
+::: {#refs}
+:::
+
+##  {.center background-gradient="linear-gradient(125deg, #0B4A3A 0%, #0F7B5F 65%, #C27C0E 135%)"}
+
+::: {style="text-align:center;color:#fff;"}
+[Gracias]{style="font-size:2.4em;font-family:Roboto,sans-serif;font-weight:700;"}
+
+[renatovargas.com](https://renatovargas.com/){style="color:#fff;"}
+:::

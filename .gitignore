@@ -1,0 +1,10 @@
+refs/
+/.quarto/
+**/*.quarto_ipynb
+*_files/
+.Rhistory
+.RData
+.DS_Store
+Thumbs.db
+~$*
+.~lock.*#

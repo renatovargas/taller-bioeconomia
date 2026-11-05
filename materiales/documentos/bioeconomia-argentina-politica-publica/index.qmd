@@ -1,0 +1,262 @@
+---
+title: "La bioeconomía en las cuentas nacionales de Argentina"
+subtitle: "Una lectura para la política pública a partir del cuadro de oferta y utilización de 2021"
+author:
+  - name: "Renato Vargas"
+    affiliations:
+      - name: Economista / Analista de datos
+lang: es
+abstract: |
+  Esta nota retoma la metodología de las cuentas satélite de bioeconomía desarrollada para Costa Rica y trece países de América Latina y el Caribe, y la aplica a los cuadros de oferta y utilización de Argentina de 2018 a 2021. Los productos bioeconómicos representan alrededor de una quinta parte de la producción, pero más de la mitad de las exportaciones y cerca de un tercio de los impuestos netos sobre los productos. Generan un superávit comercial amplio y concentrado en pocos productos, y tributan a una tasa implícita que duplica a la del resto de la economía. La nota revisa estos resultados, sus límites y seis cursos de política pública que se pueden discutir a partir de ellos.
+bibliography: ../../../slides/refs.bib
+csl: ../../../assets/apa-es.csl
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    css: ../estilos.css
+crossref:
+  fig-title: "Gráfico"
+  fig-prefix: "Gráfico"
+  tbl-title: "Cuadro"
+  tbl-prefix: "Cuadro"
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+source("scripts/funciones-presentacion.R")
+opts_chunk$set(dev = "ragg_png", dpi = 200, fig.width = 8, fig.height = 4.2)
+r <- readRDS("data/salidas/resultados.rds")
+s <- r$series
+sh <- function(k, b = "Bioeconomía", a = 2021) s$pct[s$Componente == k & s$Bio == b & s$Año == a]
+ta <- function(b, a = 2021) r$tasas$tasa[r$tasas$Bio == b & r$tasas$Año == a]
+md <- function(k, a = 2021) r$medidas[[k]][r$medidas$Año == a]
+p <- r$productos |>
+  rename(VBP = Producción, X = Exportaciones, M = Importaciones, CI = `Consumo intermedio`, Imp = `Impuestos menos subvenciones`)
+bio <- p |> filter(Bio == "Bioeconomía")
+top5 <- bio |> arrange(desc(X)) |> slice(1:5)
+conc <- sum(top5$X) / sum(bio$X)
+saldo <- p |> group_by(Bio) |> summarise(s = sum(X) - sum(M), .groups = "drop")
+sal <- function(b) saldo$s[saldo$Bio == b]
+exc <- c("250", "241", "243", "244")
+tasa_sin <- with(filter(bio, !Código %in% exc), sum(Imp) / sum(VBP))
+peso_exc <- with(filter(bio, Código %in% exc), sum(Imp) / sum(bio$Imp))
+abono <- p |> filter(Código == "346")
+abono_m <- abono$M / (abono$VBP + abono$M)
+m <- r$mult
+gr <- m |> group_by(Grupo) |> summarise(va = sum(va), n = n(), .groups = "drop") |> mutate(pv = va / sum(va))
+por_encima <- 1 - gr$pv[gr$Grupo == "4. Mediana o abajo"]
+md_bio <- with(filter(m, `Bioeconomía Actividades` == "Bioeconomía"), weighted.mean(m_demanda, vbp))
+md_nob <- with(filter(m, `Bioeconomía Actividades` == "No bioeconomía"), weighted.mean(m_demanda, vbp))
+etiqueta <- function(x, n = 40) str_trunc(str_split_fixed(x, "\\. |; ", 2)[, 1], n)
+va_tot <- sum(r$va_ci$va)
+pib <- va_tot + sum(r$basicos$oferta$`Impuestos menos subvenciones`)
+```
+
+# Por qué medir la bioeconomía
+
+La bioeconomía abarca "la producción, utilización, conservación y regeneración de recursos biológicos, incluyendo los conocimientos, la ciencia, la tecnología y la innovación relacionados con dichos recursos", para proporcionar productos y servicios a todos los sectores, con el propósito de avanzar hacia una economía sostenible e inclusiva [@cepal2022]. Esta caracterización deriva de las cumbres mundiales de bioeconomía [@iacgb2020] y es la misma que adoptó Costa Rica en su estrategia nacional [@costarica2020].
+
+Una estrategia necesita una medida. Las cuentas nacionales no muestran la bioeconomía como un sector, porque sus clasificaciones se organizaron con otros fines. Sus elementos aparecen repartidos en agricultura, alimentos, químicos, textiles, comercio y muchos servicios. Una cuenta satélite reordena esa información sin alterar los saldos contables, de manera que el resultado sigue siendo comparable con el PIB y con el resto de las estadísticas macroeconómicas.
+
+Esta nota se dirige a personas que analizan o diseñan políticas públicas. Resume el método con poco detalle técnico, presenta los resultados de Argentina y propone preguntas de política. El método completo y la comparación regional están en @vargas2022 y @vargas2023.
+
+# Cómo se construye la cuenta
+
+## Tres categorías para productos y actividades
+
+La cuenta parte de los cuadros de oferta y utilización (COU), que muestran para cada producto cuánto se dispone y en qué se usa, y para cada actividad qué produce y qué insumos consume [@sna2008]. Clasifica productos y actividades en tres categorías [@vargas2023]:
+
+- **Bioeconomía.** Productos cuyo origen está en recursos biológicos, y actividades cuya producción principal son esos productos.
+- **Bioeconomía extendida.** Productos y actividades con características extendidas, cuyo vínculo con los recursos biológicos es menos directo.
+- **No bioeconomía.** Todos los demás.
+
+Como un producto puede salir de varias actividades y una actividad puede producir varios productos, la cuenta clasifica ambas dimensiones por separado. Ese es el aporte principal del método: permite ver los productos bioeconómicos que fabrica una actividad no bioeconómica y los insumos biológicos que esta compra.
+
+## Del cuadro a la base de datos
+
+Los COU se publican como matrices. Para analizarlos, cada celda distinta de cero se convierte en una fila de una tabla con sus atributos: cuadro, producto, actividad, condición bioeconómica y valor. Después, cualquier cuadro se reconstruye con una tabla dinámica, y los totales siguen coincidiendo con los oficiales.
+
+Para Argentina se usaron los COU de INDEC de 2018 a 2021 [@indec2021], con la clasificación de productos y actividades elaborada para @vargas2023. La rutina asigna filas y columnas por su código, porque la nomenclatura de INDEC cambió entre años. Controlamos dos cosas: que la oferta y la utilización sean iguales para cada producto y año, y que para 2018 se reproduzcan los valores publicados: `r pct(sh("Exportaciones", a = 2018))` de las exportaciones, `r pct(ta("Bioeconomía", 2018))` de tasa implícita y `r pct(md("via_ci", 2018))` de valor agregado por consumo intermedio.
+
+## Dos maneras de medir el valor agregado
+
+El valor agregado existe por actividad y no por producto. El cálculo tradicional clasifica de antemano las actividades y suma el valor agregado de las bioeconómicas. El problema es que trata la condición bioeconómica como un atributo fijo, cuando en realidad cada actividad usa una mezcla de insumos. Por eso @vargas2023 proponen una segunda medida, que asigna a cada sección de actividad el valor agregado en proporción a sus insumos bioeconómicos.
+
+## Multiplicadores de uso
+
+Para captar los encadenamientos, estimamos cuántos insumos bioeconómicos y bioeconómicos extendidos usa directa e indirectamente cada actividad por cada peso que entrega a la demanda final. El cálculo parte de los mismos COU, con el supuesto de tecnología de la industria, y agrupa las actividades según su distancia a la mediana, medida en desviaciones absolutas medianas (DAM). Es un ejercicio didáctico: los cuadros están a precios de comprador y no separan los insumos nacionales de los importados, de modo que los niveles están sobrestimados. Sirve para ordenar actividades; predecir impactos requiere otro modelo.
+
+# Resultados para Argentina
+
+## El panorama general
+
+En 2021, los productos bioeconómicos representaron `r pct(sh("Producción"))` de la producción, `r pct(sh("Consumo intermedio"))` del consumo intermedio, `r pct(sh("Consumo final"))` del consumo final y `r pct(sh("Exportaciones"))` de las exportaciones (@fig-participacion). En importaciones (`r pct(sh("Importaciones"))`) y en formación bruta de capital (`r pct(sh("Formación bruta de capital"))`) su participación es mucho menor. En comparación con el promedio de los trece países en @vargas2023, Argentina destaca sobre todo en exportaciones y en impuestos.
+
+```{r}
+#| label: fig-participacion
+#| fig-cap: "Argentina: participación de cada condición del producto en los principales agregados, 2021"
+g_participacion(r$series, base = 12)
+```
+
+El @tbl-oferta y el @tbl-utilizacion presentan los cuadros completos. Permiten ver, por ejemplo, cuántos productos bioeconómicos producen las actividades no bioeconómicas y cuántos insumos bioeconómicos compran.
+
+::: {#tbl-oferta .column-page}
+::: tabla-scroll
+```{r}
+cuadro_bio_html(r$bio$oferta)
+```
+:::
+
+Argentina: oferta bioeconómica, 2021 (miles de millones de pesos corrientes)
+:::
+
+::: {#tbl-utilizacion .column-page}
+::: tabla-scroll
+```{r}
+cuadro_bio_html(r$bio$utilizacion, va = r$bio$va)
+```
+:::
+
+Argentina: utilización bioeconómica, 2021 (miles de millones de pesos corrientes)
+:::
+
+## Valor agregado
+
+Las actividades bioeconómicas generaron `r pct(md("apriori_bio"))` del valor agregado bruto de `r num(va_tot)` miles de millones de pesos, y las extendidas `r pct(md("apriori_ext"))`. Por el método del consumo intermedio, la bioeconomía aporta `r pct(md("via_ci"))`. La diferencia entre métodos se invirtió en 2021: de 2018 a 2020 el segundo daba más que el primero (@fig-medidas). Una explicación posible es que los precios agrícolas elevaron el valor agregado primario en 2021, pero el COU a precios corrientes no permite separar ese efecto.
+
+```{r}
+#| label: fig-medidas
+#| fig-cap: "Argentina: contribución de la bioeconomía al valor agregado, según el método, 2018 a 2021"
+r$medidas |>
+  select(Año, `Método de actividades` = apriori_bio, `Método del consumo intermedio` = via_ci) |>
+  pivot_longer(-Año, names_to = "Medida", values_to = "v") |>
+  ggplot(aes(Año, v, color = Medida)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2.6) +
+  geom_text(aes(label = pct(v)), vjust = -1, size = 3.3, show.legend = FALSE, color = TINTA) +
+  scale_color_manual(values = c("Método de actividades" = "#0F7B5F", "Método del consumo intermedio" = "#C27C0E")) +
+  scale_x_continuous(breaks = 2018:2021, expand = expansion(mult = 0.08)) +
+  scale_y_continuous(labels = \(x) paste0(round(100 * x), " %"), limits = c(0, 0.18)) +
+  labs(x = NULL, y = "% del valor agregado") +
+  tema_bio(12)
+```
+
+## Comercio exterior: superávit y concentración
+
+Los productos bioeconómicos generaron un saldo comercial de `r num(sal("Bioeconomía"))` miles de millones de pesos en 2021. Los extendidos registraron un déficit de `r num(abs(sal("Bioeconomía extendida")))` y los no bioeconómicos, uno de `r num(abs(sal("No bioeconomía")))`. Cinco productos concentran `r pct(conc)` de las exportaciones bioeconómicas (@tbl-exportaciones). La participación en exportaciones pasó de `r pct(sh("Exportaciones", a = 2018))` en 2018 a `r pct(sh("Exportaciones"))` en 2021, un cambio en el que también influyen los precios internacionales.
+
+::: {#tbl-exportaciones}
+```{r}
+bio |>
+  arrange(desc(X)) |>
+  slice(1:8) |>
+  transmute(
+    Producto = etiqueta(Producto, 60),
+    Exportaciones = num(X),
+    `% de exportaciones bioeconómicas` = pct(X / sum(bio$X)),
+    Producción = num(VBP),
+    `Tasa implícita` = pct(Imp / VBP)
+  ) |>
+  tabla_simple("cou")
+```
+
+Argentina: principales exportaciones bioeconómicas, 2021 (miles de millones de pesos corrientes)
+:::
+
+## Impuestos sobre los productos
+
+La tasa implícita sobre los productos bioeconómicos fue de `r pct(ta("Bioeconomía"))` en 2021, frente a `r pct(ta("No bioeconomía"))` en los no bioeconómicos (@fig-tasas). @vargas2023 ya habían señalado que Argentina tenía la tasa más alta de los trece países. Esta tasa es el resultado neto de todos los instrumentos, creados con fines distintos y en épocas distintas, al margen de una política deliberada hacia la bioeconomía.
+
+Conviene abrirla. Tabaco, bebidas alcohólicas, cerveza y bebidas no alcohólicas aportan `r pct(peso_exc)` de lo recaudado en productos bioeconómicos, y responden a objetivos propios. Sin ellos, la tasa baja a `r pct(tasa_sin)`, que sigue siendo mayor que la del resto. También se observan tasas altas en productos muy exportados, como aceites y tortas oleaginosas. Una hipótesis razonable es que ahí pesan los derechos de exportación, pero el COU no separa instrumentos y esto debe verificarse con datos fiscales.
+
+```{r}
+#| label: fig-tasas
+#| fig-cap: "Argentina: tasa impositiva implícita sobre los productos, 2018 a 2021"
+g_tasas(r$tasas, base = 12)
+```
+
+## Encadenamientos
+
+La dependencia de insumos bioeconómicos es muy alta en `r gr$n[1]` actividades, y no todas son del sector primario. Destacan carne, alimentos para animales, lácteos, cueros, aceites y restaurantes. Las actividades por encima de la mediana más una DAM generan `r pct(por_encima)` del valor agregado (@tbl-mult). El multiplicador de demanda promedio de las actividades bioeconómicas (`r num(md_bio, 2)`) supera al de las no bioeconómicas (`r num(md_nob, 2)`), un resultado que coincide en dirección con el de Costa Rica [@vargas2022], aunque aquí los niveles están sobrestimados por no separar las importaciones.
+
+::: {#tbl-mult}
+```{r}
+m |>
+  arrange(desc(m_total)) |>
+  slice(1:12) |>
+  transmute(
+    Actividad = str_trunc(nombre_actividad(Actividad), 62),
+    `Sección` = Seccion,
+    Multiplicador = num(m_total, 2),
+    `VA (miles de millones)` = num(va)
+  ) |>
+  tabla_simple("cou")
+```
+
+Argentina: actividades con mayor uso directo e indirecto de insumos bioeconómicos y extendidos, 2021 (pesos por peso de demanda final)
+:::
+
+## Insumos clave
+
+Algunos insumos clasificados como bioeconómicos dependen de forma importante del exterior. En abonos y plaguicidas, las importaciones equivalen a `r pct(abono_m)` de la oferta a precios básicos. Este resultado merece una lectura cuidadosa, porque la categoría agrupa productos de distinto origen. Aun así, señala una exposición relevante para el sector agrícola, cuyo consumo intermedio contiene `r pct(r$va_ci$pct_bio[r$va_ci$Seccion == "A"])` de productos bioeconómicos.
+
+# Implicaciones para la política pública
+
+Los datos describen una estructura; las decisiones dependen además de objetivos y de evidencia sectorial. Las siguientes líneas son preguntas de política que los resultados vuelven más precisas. Cada una debe contrastarse con la normativa vigente y con evidencia sectorial que excede a esta nota.
+
+## Coherencia fiscal
+
+La bioeconomía aporta `r pct(sh("Impuestos menos subvenciones"))` de los impuestos netos sobre los productos. @vargas2023 concluyen que hace falta profundizar en este tema para crear incentivos que equilibren el desarrollo de la bioeconomía con los objetivos de finanzas públicas. El primer paso es desagregar la tasa por instrumento y por producto, y distinguir los objetivos: los de salud pública en tabaco y bebidas, los de recaudación en otros productos. Solo entonces tiene sentido simular cambios.
+
+## Diversificación y valor agregado
+
+Un superávit concentrado en cinco productos es una fortaleza para las divisas y una exposición a los precios internacionales. Las opciones incluyen apoyar cadenas con exportaciones todavía pequeñas, cumplir estándares y trazabilidad, y aprovechar residuos agroindustriales. Procesar más localmente exige energía, logística y escala, de modo que cada cadena requiere su propia evaluación.
+
+## Insumos y bioinsumos
+
+La dependencia de abonos y plaguicidas importados abre una discusión sobre investigación y adopción de bioinsumos, marcos regulatorios y monitoreo de la exposición cambiaria. Ninguna sustitución es deseable si no conserva rendimientos, y esa evidencia viene del campo.
+
+## Encadenamientos
+
+Las actividades de dependencia muy alta son candidatas para programas de desarrollo de proveedores, compras públicas de alimentos o instrumentos con foco regional. Un multiplicador alto no garantiza eficiencia ni sostenibilidad. Antes de priorizar, conviene tener empleo y emisiones por actividad.
+
+## Inversión e innovación
+
+Solo `r pct(sh("Formación bruta de capital"))` de la formación bruta de capital corresponde a productos bioeconómicos. Esta cifra se mide por tipo de bien de capital y por eso subestima lo que invierten las actividades bioeconómicas. Según @vargas2023, buena parte de la innovación está en propiedad intelectual, un activo que las empresas de la región registran con dificultad. Medirla mejor es un requisito para financiarla bien.
+
+## Un sistema de información permanente
+
+Argentina publica los COU necesarios para actualizar esta cuenta cada año. Institucionalizarla exige acordar la clasificación con los sectores, publicarla y añadir progresivamente empleo, precios constantes, una matriz de insumo-producto y cuentas físicas y ambientales, entre ellas una de biomasa residual.
+
+# Limitaciones
+
+- **Precios corrientes.** El periodo incluye alta inflación, cambios en el tipo de cambio y la pandemia. Las participaciones mezclan volúmenes y precios.
+- **Sin empleo ni ambiente.** Una bioeconomía grande no es necesariamente una bioeconomía sostenible. El COU no mide esa diferencia.
+- **Clasificación.** Es una decisión técnica discutible, sobre todo en químicos, farmacéuticos, textiles y plásticos. Los productos del COU agrupan bienes con y sin base biológica, y la cuenta asigna cada grupo completo a una categoría.
+- **Multiplicadores.** Son de uso total, a precios de comprador, con tecnología de la industria. Los umbrales de DAM son un criterio de ordenamiento.
+- **Inversión.** Se mide por tipo de bien; la actividad que invierte queda fuera de la medida.
+
+Las cifras son elaboración propia a partir de datos oficiales y no constituyen estadísticas oficiales de INDEC.
+
+# Glosario
+
+**COU.** Cuadros de oferta y utilización.
+
+**DAM.** Desviación absoluta mediana: mediana de las distancias de cada valor a la mediana.
+
+**Multiplicador de demanda.** Producción total, directa e indirecta, que requiere un peso de demanda final de una actividad.
+
+**Tasa impositiva implícita.** Impuestos menos subvenciones sobre un grupo de productos, dividido entre el valor bruto de producción de esos productos.
+
+**Valor agregado bruto.** Valor bruto de producción menos consumo intermedio.
+
+# Referencias {.unnumbered}
+
+::: {#refs}
+:::

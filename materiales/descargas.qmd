@@ -1,0 +1,29 @@
+---
+title: "Descargas y scripts"
+subtitle: "Archivos para practicar y para reproducir los resultados"
+toc: false
+---
+
+## Para el taller
+
+| Archivo | Qué contiene | Para qué sirve |
+|---|---|---|
+| [COU-2021.xls](../data/cou/COU-2021.xls) | Cuadro oficial de oferta y utilización de INDEC, 2021 | Primera ronda de preguntas, a mano |
+| [ARG_SCN_BD_2021.xlsx](../data/bd/ARG_SCN_BD_2021.xlsx) | El mismo cuadro en formato plano, con clasificación bioeconómica y tabla dinámica | Segunda ronda de preguntas, con tablas dinámicas |
+| [ARG_cuadros_bioeconomia_2021.xlsx](../data/salidas/ARG_cuadros_bioeconomia_2021.xlsx) | Cuadros de oferta y utilización, cuadros bioeconómicos, valor agregado y multiplicadores | Consulta y gráficos propios |
+
+: {tbl-colwidths="[34,40,26]"}
+
+## Años anteriores y clasificaciones
+
+- COU de INDEC: [2018](../data/cou/COU-2018.xls), [2019](../data/cou/COU-2019.xls), [2020](../data/cou/COU-2020.xls)
+- [ARG_Clasificaciones.xlsx](../data/clasificaciones/ARG_Clasificaciones.xlsx): clasificación de filas y columnas, con su condición bioeconómica
+- Equivalencias de [columnas](../data/clasificaciones/ARG_equivalencias_columnas.csv) y [filas](../data/clasificaciones/ARG_equivalencias_filas.csv) con los grupos CIIU y CPC
+
+## Scripts de procesamiento
+
+Son opcionales: el taller no requiere programar. Están escritos en R y reproducen todos los resultados desde el cuadro original.
+
+- [01-procesar-cou-argentina.R](../scripts/01-procesar-cou-argentina.R): convierte los COU a formato plano y aplica la clasificación
+- [02-cuadros-y-resultados.R](../scripts/02-cuadros-y-resultados.R): calcula cuadros, valor agregado, multiplicadores y tasas, y genera los Excel
+- [funciones-presentacion.R](../scripts/funciones-presentacion.R): da formato a los cuadros y gráficos del sitio

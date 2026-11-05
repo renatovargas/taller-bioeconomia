@@ -1,0 +1,60 @@
+project:
+  type: website
+  output-dir: docs
+  execute-dir: project
+  render:
+    - "*.qmd"
+    - "materiales/**/*.qmd"
+    - "slides/**/*.qmd"
+    - "!refs/"
+  resources:
+    - data/cou/
+    - data/bd/ARG_SCN_BD_2021.xlsx
+    - data/clasificaciones/
+    - data/salidas/ARG_cuadros_bioeconomia_2021.xlsx
+    - scripts/01-procesar-cou-argentina.R
+    - scripts/02-cuadros-y-resultados.R
+    - scripts/funciones-presentacion.R
+    - assets/
+    - .nojekyll
+
+website:
+  title: "Taller de bioeconomía"
+  description: "Cuentas satélite de bioeconomía: método y aplicación al cuadro de oferta y utilización de Argentina"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Inicio
+      - href: materiales/index.qmd
+        text: Materiales
+      - href: materiales/descargas.qmd
+        text: Descargas
+      - href: about.qmd
+        text: Acerca de
+  sidebar:
+    - title: Materiales
+      style: docked
+      search: false
+      contents:
+        - text: "Materiales"
+          href: materiales/index.qmd
+        - section: Presentaciones
+          contents:
+            - materiales/presentaciones/01-bioeconomia-cuentas-nacionales.qmd
+            - materiales/presentaciones/02-cuadros-oferta-utilizacion.qmd
+            - materiales/presentaciones/03-hallazgos-politica-publica.qmd
+        - section: Documentos
+          contents:
+            - text: "Bioeconomía y política pública en Argentina"
+              href: materiales/documentos/bioeconomia-argentina-politica-publica/index.qmd
+        - text: "Descargas y scripts"
+          href: materiales/descargas.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - styles.scss
+    css: styles.css
+    toc: true
+    lang: es

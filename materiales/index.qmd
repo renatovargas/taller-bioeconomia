@@ -1,0 +1,45 @@
+---
+title: "Materiales"
+subtitle: "Presentaciones, documento y archivos del taller"
+toc: false
+---
+
+:::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100 .shadow-sm}
+::: {.card-body}
+### Presentaciones
+
+El método, el ejercicio práctico y la discusión de política pública.
+
+[Ver presentaciones](presentaciones/01-bioeconomia-cuentas-nacionales.qmd){.btn .btn-primary}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100 .shadow-sm}
+::: {.card-body}
+### Documento
+
+Una nota para leer con calma: método resumido y resultados de Argentina con orientación de política.
+
+[Ver documento](documentos/bioeconomia-argentina-politica-publica/index.qmd){.btn .btn-primary}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100 .shadow-sm}
+::: {.card-body}
+### Descargas
+
+El COU oficial, la base de datos en Excel, los cuadros y los scripts.
+
+[Ver descargas](descargas.qmd){.btn .btn-primary}
+:::
+:::
+:::
+
+::::

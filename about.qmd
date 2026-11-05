@@ -1,0 +1,29 @@
+---
+title: "Acerca de"
+---
+
+# Sobre este sitio
+
+Este sitio reúne los materiales de un taller sobre bioeconomía y cuentas nacionales. Parte de dos publicaciones de la serie Recursos Naturales y Desarrollo de la CEPAL y aplica su método a los cuadros de oferta y utilización de Argentina.
+
+# Autoría
+
+El contenido fue preparado por Renato Vargas, economista y analista de datos. La primera presentación se elaboró con Andrés Mondaini y Adrián Rodríguez, de la CEPAL.
+
+# Cómo citar
+
+Para citar el método:
+
+> Vargas, R., Mondaini, A. y Rodríguez, A. G. (2023). *Cuentas satélite de bioeconomía para 13 países de América Latina y el Caribe: metodología y resultados*. Serie Recursos Naturales y Desarrollo, N.° 219 (LC/TS.2023/138). Comisión Económica para América Latina y el Caribe (CEPAL).
+
+> Vargas, R., Alvarado, I., Rodríguez, M., Rodríguez, A. y Wander, P. (2022). *Cuenta satélite de bioeconomía para Costa Rica: propuesta metodológica y aplicación práctica*. Serie Recursos Naturales y Desarrollo, N.° 214 (LC/TS.2022/223). Comisión Económica para América Latina y el Caribe (CEPAL).
+
+Para citar los resultados de Argentina de 2021:
+
+> Vargas, R. (2026). *La bioeconomía en las cuentas nacionales de Argentina: una lectura para la política pública a partir del cuadro de oferta y utilización de 2021*. Materiales del taller de bioeconomía.
+
+# Fuentes y descargo de responsabilidad
+
+Los cuadros de oferta y utilización son de INDEC. Las cifras de bioeconomía de Argentina para 2019 a 2021 son elaboración propia, no son estadísticas oficiales y no han sido revisadas por INDEC ni por la CEPAL. Los resultados de 2018 reproducen los publicados por la CEPAL.
+
+Las opiniones y los cursos de política pública que aparecen en estos materiales se presentan para la discusión. Son responsabilidad del autor y no representan necesariamente la opinión de ninguna institución. Cualquier error u omisión es responsabilidad del autor.

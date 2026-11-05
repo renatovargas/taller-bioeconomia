@@ -1,0 +1,6 @@
+/* Permite cortar URL largas en la bibliografía */
+#refs a,
+.csl-entry a,
+.references a {
+  overflow-wrap: anywhere;
+}

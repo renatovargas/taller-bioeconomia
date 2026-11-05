@@ -1,0 +1,20 @@
+---
+title: "La contabilidad nacional y la bioeconomía"
+subtitle: "El método, con los cuadros de Argentina"
+---
+
+::::{.slide-embed}
+<iframe class="slide-deck" src="../../slides/01-bioeconomia-cuentas-nacionales/index.html" title="La contabilidad nacional y la bioeconomía" loading="lazy"></iframe>
+::::
+
+::::{.slide-links}
+[⛶ Pantalla completa](../../slides/01-bioeconomia-cuentas-nacionales/index.html){target="_blank"}
+::::
+
+## Objetivos
+
+- Entender qué es la bioeconomía y qué recursos abarca
+- Ver cómo se reordena un cuadro de oferta y utilización para hacerla visible
+- Comparar dos formas de medir su valor agregado
+- Identificar las actividades que más dependen de insumos bioeconómicos
+- Ubicar a Argentina en el contexto latinoamericano

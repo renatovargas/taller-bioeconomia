@@ -1,0 +1,31 @@
+---
+title: "Taller de bioeconomía"
+subtitle: "Cómo medirla con las cuentas nacionales y qué decisiones puede informar"
+toc: false
+---
+
+::: portada
+## Bioeconomía en cifras, con datos de Argentina
+
+Materiales para entender cómo se construye una cuenta satélite de bioeconomía, practicar con el cuadro de oferta y utilización de 2021 y discutir cursos de política pública.
+:::
+
+Este sitio reúne los materiales del taller, basados en las cuentas satélite de bioeconomía publicadas por la CEPAL para Costa Rica y para trece países de América Latina y el Caribe. Todos los ejemplos se actualizaron con los cuadros de oferta y utilización de Argentina que publica INDEC.
+
+# Contenido
+
+Todo el material está en la sección [Materiales](materiales/index.qmd).
+
+**Presentaciones.** Tres presentaciones que se pueden ver dentro de cada página o en pantalla completa: el método, un ejercicio práctico con el cuadro oficial y una discusión de política pública.
+
+**Documento.** Una nota de lectura que resume el método y analiza los resultados de Argentina con una orientación de política pública.
+
+**[Descargas](materiales/descargas.qmd).** El cuadro oficial, la base de datos en Excel con tabla dinámica, los cuadros bioeconómicos y los scripts de procesamiento.
+
+# Objetivos
+
+* Entender qué es la bioeconomía y cómo se mide con el Sistema de Cuentas Nacionales.
+* Leer un cuadro de oferta y utilización real.
+* Pasar de buscar celdas en un cuadro a hacer preguntas con tablas dinámicas.
+* Interpretar los resultados de Argentina y sus límites.
+* Plantear cursos de política pública basados en datos.

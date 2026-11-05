@@ -1,0 +1,19 @@
+---
+title: "Los cuadros de oferta y utilización"
+subtitle: "Ejercicio práctico con el COU 2021 de Argentina"
+---
+
+::::{.slide-embed}
+<iframe class="slide-deck" src="../../slides/02-cuadros-oferta-utilizacion/index.html" title="Los cuadros de oferta y utilización" loading="lazy"></iframe>
+::::
+
+::::{.slide-links}
+[⛶ Pantalla completa](../../slides/02-cuadros-oferta-utilizacion/index.html){target="_blank"}
+::::
+
+## Objetivos
+
+- Reconocer los componentes de la oferta y la utilización
+- Entender la valoración a precios básicos y de comprador
+- Encontrar datos en el cuadro oficial de INDEC
+- Responder las mismas preguntas, más rápido, con tablas dinámicas

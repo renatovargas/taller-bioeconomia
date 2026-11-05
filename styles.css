@@ -1,0 +1,44 @@
+/* Presentaciones embebidas */
+.slide-embed {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 0.5rem;
+}
+
+.slide-embed .slide-deck {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccd6d2;
+  border-radius: 6px;
+}
+
+.slide-links {
+  text-align: right;
+  margin-bottom: 1.5rem;
+}
+
+/* Cuadros de los documentos */
+table.cou {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  margin: 0.5rem 0 1rem;
+}
+table.cou th, table.cou td {
+  padding: 0.25rem 0.4rem;
+  text-align: right;
+  border-bottom: 1px solid #e3e8e6;
+}
+table.cou th { background: #0B4A3A; color: #fff; vertical-align: bottom; }
+table.cou .izq { text-align: left; }
+table.cou tr.total td { background: #DCEFE8; font-weight: 700; }
+table.cou tr.subtotal td { background: #F1F6F4; font-weight: 600; }
+table.cou th.h-bio { background: #0F7B5F; }
+table.cou th.h-ext { background: #C27C0E; }
+table.cou th.h-nob { background: #2F6DB5; }
+.tabla-scroll { overflow-x: auto; }
+table.cou td.izq { white-space: nowrap; }
+table.cou th { font-weight: 600; font-size: 0.95em; }
+table.cou.bio { font-size: 0.74rem; }
+table.cou tr.total td { color: inherit; }
