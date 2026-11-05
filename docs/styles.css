@@ -42,3 +42,9 @@ table.cou td.izq { white-space: nowrap; }
 table.cou th { font-weight: 600; font-size: 0.95em; }
 table.cou.bio { font-size: 0.74rem; }
 table.cou tr.total td { color: inherit; }
+
+/* Listados del anexo: los nombres de INDEC pueden ser largos */
+table.cou.anexo td, table.cou.anexo th { text-align: left; vertical-align: top; }
+table.cou.anexo td.izq { white-space: normal; }
+table.cou.anexo td:first-child { white-space: nowrap; }
+table.cou.anexo td:last-child { white-space: nowrap; }

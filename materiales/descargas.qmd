@@ -9,7 +9,7 @@ toc: false
 | Archivo | Qué contiene | Para qué sirve |
 |---|---|---|
 | [COU-2021.xls](../data/cou/COU-2021.xls) | Cuadro oficial de oferta y utilización de INDEC, 2021 | Primera ronda de preguntas, a mano |
-| [ARG_SCN_BD_2021.xlsx](../data/bd/ARG_SCN_BD_2021.xlsx) | El mismo cuadro en formato plano, con clasificación bioeconómica y tabla dinámica | Segunda ronda de preguntas, con tablas dinámicas |
+| [ARG_SCN_BD_2021.xlsx](../data/bd/ARG_SCN_BD_2021.xlsx) | El mismo cuadro en formato plano, con clasificación bioeconómica, tabla dinámica y hoja para reclasificar productos | Segunda ronda de preguntas y ejercicio de reclasificación |
 | [ARG_cuadros_bioeconomia_2021.xlsx](../data/salidas/ARG_cuadros_bioeconomia_2021.xlsx) | Cuadros de oferta y utilización, cuadros bioeconómicos, valor agregado y multiplicadores | Consulta y gráficos propios |
 
 : {tbl-colwidths="[34,40,26]"}

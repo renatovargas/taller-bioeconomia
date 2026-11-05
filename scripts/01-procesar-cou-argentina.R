@@ -236,6 +236,21 @@ scn <- bind_rows(lapply(anios, leer_anio)) |>
     `Transacciones`
   )
 
+# Desde 2020, INDEC publica juntos los productos 651 y 652
+scn <- scn |>
+  mutate(
+    fusion = Año >= 2020 & `Código Nomenclatura Local de Productos` %in% "651",
+    `Nomenclatura Local de Productos` = if_else(
+      fusion,
+      "651 - Servicios de transporte de cabotaje y transoceánico por vía acuática / 652 - Servicios de transporte por vías de navegación interior",
+      `Nomenclatura Local de Productos`
+    ),
+    `Código Nomenclatura Local de Productos` = if_else(
+      fusion, "651/652", `Código Nomenclatura Local de Productos`
+    )
+  ) |>
+  select(-fusion)
+
 saveRDS(scn, "data/bd/arg_scn_2018_2021.rds", compress = "xz")
 
 # 4. Controles contables

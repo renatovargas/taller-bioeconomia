@@ -61,6 +61,27 @@ ci_manu <- vaci |> filter(Seccion == "C")
 saldo <- r$productos |>
   group_by(Bio) |>
   summarise(s = sum(Exportaciones) - sum(Importaciones), .groups = "drop")
+
+# Ejercicio de reclasificación
+candidatos <- r$productos |>
+  filter(Código %in% c("346", "352", "341", "861")) |>
+  mutate(Producto = str_trunc(str_split_fixed(Producto, "\\. |; ", 2)[, 1], 44)) |>
+  arrange(desc(Importaciones))
+comp_esc <- c("Producción", "Consumo intermedio", "Importaciones", "Exportaciones", "Impuestos menos subvenciones", "Consumo final")
+part_bio <- function(d, k, b = "Bioeconomía extendida") sum(d[[k]][d$Bio == b]) / sum(d[[k]])
+tasa_bio <- function(d, b = "Bioeconomía extendida") sum(d$`Impuestos menos subvenciones`[d$Bio == b]) / sum(d$Producción[d$Bio == b])
+original <- r$productos |> filter(Bio %in% names(COL_BIO))
+cambiado <- original |> mutate(Bio = if_else(Código == "346", "No bioeconomía", Bio))
+escenario <- tibble(
+  Indicador = c(comp_esc, "Tasa impositiva implícita"),
+  Original = c(vapply(comp_esc, \(k) part_bio(original, k), 0), tasa_bio(original)),
+  Escenario = c(vapply(comp_esc, \(k) part_bio(cambiado, k), 0), tasa_bio(cambiado))
+) |>
+  mutate(
+    `Cambio (p. p.)` = num(100 * (Escenario - Original), 1),
+    Original = pct(Original),
+    Escenario = pct(Escenario)
+  )
 ```
 
 ## La cuenta de producción
@@ -408,6 +429,70 @@ qa(
 ::: {.caja}
 **Para discutir.** ¿Cuál de estas respuestas cambiaría más si se reclasificara un producto? Revisen en la hoja `BD` qué productos quedaron en cada categoría.
 :::
+
+## Ejercicio: ¿y si clasificamos distinto?
+
+La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba con la hoja `Ejercicio` de la [base de datos](../../data/bd/ARG_SCN_BD_2021.xlsx).
+
+::: {.cifras style="--col:4;"}
+::: {.cifra}
+[1]{.n}
+[Elijan un producto dudoso en la [lista del anexo](../../materiales/documentos/bioeconomia-argentina-politica-publica/index.qmd#anexo).]{.t}
+:::
+::: {.cifra .ambar}
+[2]{.n}
+[Anoten qué esperan que cambie, antes de tocar nada.]{.t}
+:::
+::: {.cifra .azul}
+[3]{.n}
+[Cambien su condición en la celda amarilla de la columna E.]{.t}
+:::
+::: {.cifra}
+[4]{.n}
+[Comparen el panel de la derecha y defiendan su decisión.]{.t}
+:::
+:::
+
+. . .
+
+```{r}
+candidatos |>
+  transmute(
+    `Candidato` = Producto,
+    `Condición actual` = Bio,
+    `Exportaciones` = num(Exportaciones),
+    `Importaciones` = num(Importaciones),
+    `Impuestos netos` = num(`Impuestos menos subvenciones`)
+  ) |>
+  tabla_simple("cou mediano", izq = 2)
+```
+
+[Miles de millones de pesos, 2021. Para verlo en una tabla dinámica: use el campo `Condición ejercicio` y seleccione Datos > Actualizar todo.]{.pequeno}
+
+## Ejemplo: sacar abonos y plaguicidas de la bioeconomía extendida
+
+:::: {.columns}
+::: {.column width="62%"}
+```{r}
+tabla_simple(escenario, "cou grande")
+```
+:::
+::: {.column width="38%"}
+::: {.caja}
+**Lo que no cambia.** La bioeconomía en sentido estricto: sigue con `r pct(part_bio(original, "Exportaciones", "Bioeconomía"))` de las exportaciones.
+:::
+
+::: {.caja .ambar}
+**Lo que más cambia.** Las importaciones de la bioeconomía extendida, porque el producto se importa mucho.
+:::
+
+::: {.caja .neutra}
+**Para discutir.** ¿Un plaguicida de síntesis debería contar? ¿Y uno biológico? El COU los agrupa en una sola fila.
+:::
+:::
+::::
+
+[Valores de la bioeconomía extendida, Argentina, 2021, al trasladar el producto 346 a "No bioeconomía".]{.pequeno}
 
 ## Referencias
 

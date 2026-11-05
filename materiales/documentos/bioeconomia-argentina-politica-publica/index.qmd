@@ -76,6 +76,8 @@ La cuenta parte de los cuadros de oferta y utilización (COU), que muestran para
 - **Bioeconomía extendida.** Productos y actividades con características extendidas, cuyo vínculo con los recursos biológicos es menos directo.
 - **No bioeconomía.** Todos los demás.
 
+El [anexo](#anexo) lista la condición de cada producto y actividad.
+
 Como un producto puede salir de varias actividades y una actividad puede producir varios productos, la cuenta clasifica ambas dimensiones por separado. Ese es el aporte principal del método: permite ver los productos bioeconómicos que fabrica una actividad no bioeconómica y los insumos biológicos que esta compra.
 
 ## Del cuadro a la base de datos
@@ -204,7 +206,7 @@ Argentina: actividades con mayor uso directo e indirecto de insumos bioeconómic
 
 ## Insumos clave
 
-Algunos insumos clasificados como bioeconómicos dependen de forma importante del exterior. En abonos y plaguicidas, las importaciones equivalen a `r pct(abono_m)` de la oferta a precios básicos. Este resultado merece una lectura cuidadosa, porque la categoría agrupa productos de distinto origen. Aun así, señala una exposición relevante para el sector agrícola, cuyo consumo intermedio contiene `r pct(r$va_ci$pct_bio[r$va_ci$Seccion == "A"])` de productos bioeconómicos.
+Las importaciones de la bioeconomía extendida superan a sus exportaciones, y algunos de sus insumos dependen de forma importante del exterior. En abonos y plaguicidas, las importaciones equivalen a `r pct(abono_m)` de la oferta a precios básicos. Este resultado merece una lectura cuidadosa, porque la categoría agrupa productos de distinto origen. Aun así, señala una exposición relevante para el sector agrícola, cuyo consumo intermedio contiene `r pct(r$va_ci$pct_bio[r$va_ci$Seccion == "A"])` de productos bioeconómicos.
 
 # Implicaciones para la política pública
 
@@ -259,4 +261,95 @@ Las cifras son elaboración propia a partir de datos oficiales y no constituyen 
 # Referencias {.unnumbered}
 
 ::: {#refs}
+:::
+
+# Anexo: clasificación de productos y actividades {.unnumbered #anexo}
+
+```{r}
+#| include: false
+scn21 <- readRDS("data/bd/arg_scn_2018_2021.rds") |> filter(Año == 2021)
+
+an_prod <- scn21 |>
+  filter(Cuadro != "Valor Agregado", !str_detect(Filas, "f22[456]$")) |>
+  distinct(
+    Código = `Código Nomenclatura Local de Productos`,
+    Nombre = `Nomenclatura Local de Productos`,
+    Grupo = `CPC Grupos`,
+    Bio = `Bioeconomía Productos`
+  )
+
+an_act <- scn21 |>
+  filter(Cuadro == "Valor Agregado") |>
+  distinct(
+    Código = `Código Clasificación Actividades`,
+    Nombre = `Descripción Actividades`,
+    Grupo = `CIIU Compacto Descripción`,
+    Bio = `Bioeconomía Actividades`
+  )
+
+n_cat <- function(d, b) sum(d$Bio == b)
+
+lista_anexo <- function(d, b, grupo) {
+  d |>
+    filter(Bio == b) |>
+    select(Código, Nombre, Grupo) |>
+    rename(!!grupo := Grupo) |>
+    tabla_simple("cou anexo", izq = 3)
+}
+```
+
+Este anexo lista la condición asignada a cada producto y actividad del COU de 2021. La clasificación es la que usa toda la nota, y los nombres son los de INDEC. Los mismos datos están en [ARG_Clasificaciones.xlsx](../../../data/clasificaciones/ARG_Clasificaciones.xlsx) y en la [base de datos](../../../data/bd/ARG_SCN_BD_2021.xlsx), donde se pueden filtrar.
+
+Cada producto o actividad recibe una sola condición, aunque su nombre agrupe bienes con y sin base biológica. Por eso conviene revisar estos listados al interpretar los resultados, en particular los de químicos, farmacéuticos, textiles y plásticos.
+
+## Productos {.unnumbered}
+
+Son `r nrow(an_prod)` productos: `r n_cat(an_prod, "Bioeconomía")` bioeconómicos, `r n_cat(an_prod, "Bioeconomía extendida")` de bioeconomía extendida y `r n_cat(an_prod, "No bioeconomía")` no bioeconómicos.
+
+::: {.panel-tabset}
+
+### Bioeconomía
+
+```{r}
+lista_anexo(an_prod, "Bioeconomía", "Grupo CPC")
+```
+
+### Bioeconomía extendida
+
+```{r}
+lista_anexo(an_prod, "Bioeconomía extendida", "Grupo CPC")
+```
+
+### No bioeconomía
+
+```{r}
+lista_anexo(an_prod, "No bioeconomía", "Grupo CPC")
+```
+
+:::
+
+## Actividades {.unnumbered}
+
+Son `r nrow(an_act)` actividades: `r n_cat(an_act, "Bioeconomía")` bioeconómicas, `r n_cat(an_act, "Bioeconomía extendida")` de bioeconomía extendida y `r n_cat(an_act, "No bioeconomía")` no bioeconómicas.
+
+::: {.panel-tabset}
+
+### Bioeconomía
+
+```{r}
+lista_anexo(an_act, "Bioeconomía", "Sección CIIU")
+```
+
+### Bioeconomía extendida
+
+```{r}
+lista_anexo(an_act, "Bioeconomía extendida", "Sección CIIU")
+```
+
+### No bioeconomía
+
+```{r}
+lista_anexo(an_act, "No bioeconomía", "Sección CIIU")
+```
+
 :::
