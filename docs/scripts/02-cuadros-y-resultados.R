@@ -3,7 +3,7 @@
 # Lee la base plana de 01-procesar-cou-argentina.R y produce:
 #   data/salidas/resultados.rds                     insumo de presentaciones y documento
 #   data/salidas/ARG_cuadros_bioeconomia_<año>.xlsx cuadros para descargar
-#   data/bd/ARG_SCN_BD_<año>.xlsx                   base con tabla dinámica
+#   data/bd/ARG_SCN_BD_<año>.xlsx                   base plana clasificada
 # El año de análisis es el más reciente de la base; las series cubren todos.
 #
 # Ejecutar desde la raíz del proyecto:
@@ -406,13 +406,12 @@ wb$add_data_table(
 wb$set_col_widths(sheet = "Multiplicadores", cols = 1:12, widths = 16)
 wb$save(sprintf("data/salidas/ARG_cuadros_bioeconomia_%d.xlsx", ANIO))
 
-# 8. Base de datos en Excel con tabla dinámica y hoja de ejercicio
-# ----------------------------------------------------------------
+# 8. Base de datos en Excel
+# -------------------------
 bd <- scn |>
   filter(Año == ANIO) |>
   mutate(across(where(is.character), \(x) replace_na(x, "No aplica"))) |>
   select(-Precios, -Transacciones) |>
-  mutate(`Condición ejercicio` = `Bioeconomía Productos`) |>
   as.data.frame()
 
 lee <- data.frame(
@@ -420,12 +419,12 @@ lee <- data.frame(
     "Cuadro", "Componente", "Valor", "Bioeconomía Productos", "CPC Grupos",
     "Nomenclatura Local de Productos", "Bioeconomía Actividades",
     "Sector agregado", "CIIU Compacto Descripción", "Descripción Actividades",
-    "Código fila / Código columna", "Condición ejercicio"
+    "Código fila / Código columna"
   ),
   Descripción = c(
     "Oferta, Utilización o Valor Agregado.",
     "Columna del COU con nombre uniforme: Producción, Importaciones, Impuestos menos subvenciones, Márgenes de distribución, Consumo intermedio, Exportaciones, Consumo final, Formación bruta de capital, Valor agregado.",
-    "Valor en millones de pesos corrientes, igual que en el archivo de INDEC de 2023. Solo se incluyen celdas distintas de cero.",
+    sprintf("Valor en millones de pesos corrientes, igual que en el archivo de INDEC de %d. Solo se incluyen celdas distintas de cero.", ANIO),
     "Condición del producto (la fila del COU).",
     "Grupo de productos.",
     sprintf("Producto (%d en %d).", n_distinct(scn$`Código fila`[scn$Año == ANIO & scn$`Tipo fila` == "Producto"]), ANIO),
@@ -433,8 +432,7 @@ lee <- data.frame(
     "Sector primario, manufacturas o servicios.",
     "Sección de la CIIU compacta.",
     "Actividad económica (107).",
-    "Código de INDEC de la fila (producto o ajuste) y de la columna (actividad o transacción).",
-    "Condición del producto en su escenario: la fórmula la toma de la hoja Ejercicio."
+    "Código de INDEC de la fila (producto o ajuste) y de la columna (actividad o transacción)."
   )
 )
 
@@ -445,158 +443,18 @@ wbb$add_font(sheet = "Léeme", dims = "A1", bold = TRUE, size = 14)
 wbb$add_data(
   sheet = "Léeme",
   x = c(
-    "Si Excel abre el archivo en Vista protegida, seleccione Habilitar edición para que se calculen las fórmulas.",
-    "La hoja BD contiene el COU de INDEC en formato plano: cada fila es una celda del cuadro original.",
-    "La hoja TD contiene una tabla dinámica lista para usar. Si aparece vacía, seleccione Datos > Actualizar todo.",
-    "Para crear otra: seleccione una celda de la tabla en BD, luego Insertar > Tabla dinámica.",
-    "Pruebe filtrar por Cuadro y Componente; coloque Bioeconomía Productos en filas y Bioeconomía Actividades en columnas.",
-    "La hoja Ejercicio permite reclasificar productos: cambie la celda amarilla y el panel se actualiza solo.",
-    "Para ver el escenario en una tabla dinámica, use el campo Condición ejercicio y seleccione Datos > Actualizar todo."
+    "La hoja BD contiene el COU de INDEC en formato plano: cada fila es una celda del cuadro original, con su clasificación bioeconómica.",
+    "Use los filtros de la tabla para buscar por cuadro, componente, producto o actividad.",
+    "Para explorar los cuadros y reclasificar productos y actividades, use la herramienta de bioeconomía:",
+    "https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/"
   ),
   dims = "A3"
 )
-wbb$add_data_table(sheet = "Léeme", x = lee, dims = "A11", table_style = "TableStyleLight9")
+wbb$add_data_table(sheet = "Léeme", x = lee, dims = "A9", table_style = "TableStyleLight9")
 wbb$set_col_widths(sheet = "Léeme", cols = 1:2, widths = c(34, 120))
 wbb$add_worksheet("BD")
 wbb$add_data_table(sheet = "BD", x = bd, table_name = "BD_ARG", table_style = "TableStyleLight9")
 wbb$set_col_widths(sheet = "BD", cols = seq_len(ncol(bd)), widths = 18)
-wbb$add_worksheet("TD")
-# La tabla dinámica se define antes de convertir la última columna en fórmula,
-# para que el campo Condición ejercicio quede disponible en ella.
-wbb$add_pivot_table(
-  wb_data(wbb, sheet = "BD"),
-  sheet = "TD",
-  dims = "A5",
-  filter = c("Cuadro"),
-  rows = c("Bioeconomía Productos", "CPC Grupos"),
-  cols = "Componente",
-  data = "Valor",
-  fun = "sum",
-  pivot_table = "Tabla_Bioeconomia"
-)
-
-# Hoja de ejercicio: una fila por producto, con su condición editable
-ej <- bd |>
-  filter(`Bioeconomía Productos` %in% niveles_bio, Cuadro != "Valor Agregado") |>
-  distinct(
-    Código = `Código Nomenclatura Local de Productos`,
-    Producto = `Nomenclatura Local de Productos`,
-    `Grupo CPC` = `CPC Grupos`,
-    `Condición original` = `Bioeconomía Productos`
-  ) |>
-  mutate(`Condición ejercicio` = `Condición original`) |>
-  arrange(match(`Condición original`, niveles_bio), Código) |>
-  as.data.frame()
-
-fila_ini <- 5L
-fila_fin <- fila_ini + nrow(ej) - 1L
-n_bd <- nrow(bd) + 1L
-col_bd <- function(nombre) int2col(match(nombre, names(bd)))
-rango_bd <- function(nombre) {
-  sprintf("BD!$%s$2:$%s$%d", col_bd(nombre), col_bd(nombre), n_bd)
-}
-VAL <- rango_bd("Valor")
-COM <- rango_bd("Componente")
-ORI <- rango_bd("Bioeconomía Productos")
-ESC <- rango_bd("Condición ejercicio")
-
-wbb$add_worksheet("Ejercicio")
-wbb$add_data(sheet = "Ejercicio", x = "¿Y si clasificamos distinto?", dims = "A1")
-wbb$add_font(sheet = "Ejercicio", dims = "A1", bold = TRUE, size = 14)
-wbb$add_data(
-  sheet = "Ejercicio",
-  x = "Cambie la condición en las celdas amarillas de la columna E. El panel de la derecha se actualiza solo y compara el resultado con la clasificación original.",
-  dims = "A2"
-)
-wbb$add_data(sheet = "Ejercicio", x = ej, dims = "A4")
-wbb$add_fill(sheet = "Ejercicio", dims = sprintf("E%d:E%d", fila_ini, fila_fin), color = wb_color("FFF2CC"))
-wbb$add_data_validation(
-  sheet = "Ejercicio",
-  dims = sprintf("E%d:E%d", fila_ini, fila_fin),
-  type = "list",
-  value = sprintf('"%s"', paste(niveles_bio, collapse = ","))
-)
-wbb$set_col_widths(sheet = "Ejercicio", cols = 1:5, widths = c(12, 60, 20, 22, 22))
-wbb$set_col_widths(sheet = "Ejercicio", cols = 7:13, widths = c(32, 13, 13, 13, 13, 13, 13))
-wbb$freeze_pane(sheet = "Ejercicio", first_active_row = fila_ini)
-
-# Panel de resultados
-comp_panel <- c(
-  "Producción", "Consumo intermedio", "Importaciones", "Exportaciones",
-  "Impuestos menos subvenciones", "Consumo final", "Formación bruta de capital"
-)
-wbb$add_data(sheet = "Ejercicio", x = "Clasificación original", dims = "H3")
-wbb$add_data(sheet = "Ejercicio", x = "Su escenario", dims = "K3")
-wbb$add_font(sheet = "Ejercicio", dims = "H3:M3", bold = TRUE)
-wbb$add_data(sheet = "Ejercicio", x = "Participación en cada agregado", dims = "G4")
-wbb$add_data(
-  sheet = "Ejercicio",
-  x = as.data.frame(t(rep(niveles_bio, 2))),
-  dims = "H4",
-  col_names = FALSE
-)
-wbb$add_font(sheet = "Ejercicio", dims = "G4:M4", bold = TRUE)
-wbb$add_cell_style(sheet = "Ejercicio", dims = "H4:M4", wrap_text = TRUE)
-wbb$add_data(sheet = "Ejercicio", x = comp_panel, dims = "G5")
-
-cel_suma <- function(rango, comp, cat) {
-  sprintf("SUMIFS(%s,%s,%s,%s,%s)", VAL, COM, comp, rango, cat)
-}
-for (i in seq_along(comp_panel)) {
-  fila <- fila_ini + i - 1L
-  for (j in 1:6) {
-    col <- int2col(7L + j)
-    rango <- if (j <= 3) ORI else ESC
-    cat_cel <- sprintf("%s$4", col)
-    comp_cel <- sprintf("$G%d", fila)
-    denom <- paste(
-      vapply(int2col(if (j <= 3) 8:10 else 11:13), \(k) {
-        cel_suma(rango, comp_cel, sprintf("%s$4", k))
-      }, ""),
-      collapse = "+"
-    )
-    wbb$add_formula(
-      sheet = "Ejercicio",
-      x = sprintf("=%s/(%s)", cel_suma(rango, comp_cel, cat_cel), denom),
-      dims = sprintf("%s%d", col, fila)
-    )
-  }
-}
-fila_tasa <- fila_ini + length(comp_panel)
-wbb$add_data(sheet = "Ejercicio", x = "Tasa impositiva implícita", dims = sprintf("G%d", fila_tasa))
-wbb$add_font(sheet = "Ejercicio", dims = sprintf("G%d", fila_tasa), bold = TRUE)
-for (j in 1:6) {
-  col <- int2col(7L + j)
-  rango <- if (j <= 3) ORI else ESC
-  cat_cel <- sprintf("%s$4", col)
-  wbb$add_formula(
-    sheet = "Ejercicio",
-    x = sprintf(
-      '=%s/%s',
-      cel_suma(rango, '"Impuestos menos subvenciones"', cat_cel),
-      cel_suma(rango, '"Producción"', cat_cel)
-    ),
-    dims = sprintf("%s%d", col, fila_tasa)
-  )
-}
-wbb$add_numfmt(sheet = "Ejercicio", dims = sprintf("H%d:M%d", fila_ini, fila_tasa), numfmt = "0.0%")
-wbb$add_data(sheet = "Ejercicio", x = "Productos reclasificados", dims = sprintf("G%d", fila_tasa + 2L))
-wbb$add_formula(
-  sheet = "Ejercicio",
-  x = sprintf('=SUMPRODUCT(--(D%d:D%d<>E%d:E%d))', fila_ini, fila_fin, fila_ini, fila_fin),
-  dims = sprintf("H%d", fila_tasa + 2L)
-)
-
-# La columna de escenario de BD busca la condición en la hoja de ejercicio
-col_cod <- col_bd("Código Nomenclatura Local de Productos")
-wbb$add_formula(
-  sheet = "BD",
-  x = sprintf(
-    '=IFERROR(VLOOKUP(%s%d,Ejercicio!$A$%d:$E$%d,5,FALSE),"No aplica")',
-    col_cod, 2:n_bd, fila_ini, fila_fin
-  ),
-  dims = sprintf("%s2:%s%d", col_bd("Condición ejercicio"), col_bd("Condición ejercicio"), n_bd)
-)
 
 wbb$set_active_sheet("Léeme")
 wbb$save(sprintf("data/bd/ARG_SCN_BD_%d.xlsx", ANIO))
