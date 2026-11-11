@@ -109,7 +109,7 @@ Para captar los encadenamientos, estimamos cuántos insumos de bioeconomía y de
 
 ## El panorama general
 
-En `r A`, los productos bioeconómicos representaron `r pct(sh("Producción"))` de la producción, `r pct(sh("Consumo intermedio"))` del consumo intermedio, `r pct(sh("Consumo final"))` del consumo final y `r pct(sh("Exportaciones"))` de las exportaciones (@fig-participacion). En importaciones (`r pct(sh("Importaciones"))`) y en formación bruta de capital (`r pct(sh("Formación bruta de capital"))`) su participación es mucho menor. En comparación con el promedio de los trece países en @vargas2023, Argentina destaca sobre todo en exportaciones y en impuestos.
+En `r A`, los productos bioeconómicos representaron `r pct(sh("Producción"))` de la producción, `r pct(sh("Consumo intermedio"))` del consumo intermedio, `r pct(sh("Consumo final"))` del consumo final y `r pct(sh("Exportaciones"))` de las exportaciones (@fig-participacion). En importaciones (`r pct(sh("Importaciones"))`) y en formación bruta de capital (`r pct(sh("Formación bruta de capital"))`) su participación es mucho menor. En comparación con el promedio de los trece países en @vargas2023, Argentina destaca sobre todo en exportaciones (`r pct(sh("Exportaciones"))` frente a 28,6 %). En impuestos estuvo muy por encima del promedio regional (24,5 %) hasta 2021, con `r pct(sh("Impuestos menos subvenciones", a = 2021))`, y en `r A` quedó en `r pct(sh("Impuestos menos subvenciones"))`.
 
 ```{r}
 #| label: fig-participacion
@@ -248,13 +248,13 @@ Cada pregunta de esta sección se puede poner a prueba en la [herramienta de bio
 
 ## Coherencia fiscal
 
-La bioeconomía aporta `r pct(sh("Impuestos menos subvenciones"))` de los impuestos netos sobre los productos, con una tasa implícita de `r pct(ta("Bioeconomía"))`, frente a `r pct(ta(B_FUE))` en el resto. @vargas2023 concluyen que hace falta profundizar en este tema para crear incentivos que equilibren el desarrollo de la bioeconomía con los objetivos de finanzas públicas.
+La bioeconomía aporta `r pct(sh("Impuestos menos subvenciones"))` de los impuestos netos sobre los productos, frente a `r pct(sh("Impuestos menos subvenciones", a = 2021))` en 2021, con una tasa implícita de `r pct(ta("Bioeconomía"))`, frente a `r pct(ta(B_FUE))` en el resto. @vargas2023 concluyen que hace falta profundizar en este tema para crear incentivos que equilibren el desarrollo de la bioeconomía con los objetivos de finanzas públicas.
 
 En el SCN, los derechos de exportación son impuestos sobre los productos, de modo que la tasa implícita los incluye. Argentina fijó en 2026 un cronograma de reducción gradual de los derechos de exportación de la soja: 24 % durante 2026, 21 % hacia fines de 2027 y 15 % desde fines de 2028 [@retenciones2026]. Eso ofrece una prueba natural para la cuenta. Si la hipótesis es correcta, la tasa implícita de aceites y tortas oleaginosas debería bajar en los COU de esos años, y con ella la de toda la bioeconomía. El seguimiento requiere desagregar la tasa por instrumento: derechos de exportación, IVA, impuestos internos y subvenciones.
 
 El principio 7 del G20 pide coherencia. Aquí la pregunta concreta es si la carga sobre los productos bioeconómicos responde a una decisión de política o a la suma de instrumentos con fines distintos: recaudación, estabilización de precios internos y salud pública en tabaco y bebidas. Solo con la tasa desagregada tiene sentido simular cambios.
 
-## Diversificación, valor agregado y economía circular
+## Diversificación y circularidad
 
 Un superávit concentrado en cinco productos es una fortaleza para las divisas y una exposición a los precios internacionales y al clima: en 2023, con la sequía, el superávit bioeconómico cayó a `r pct(sp("Bioeconomía", 2023))` del PIB. Las opciones incluyen apoyar cadenas con exportaciones todavía pequeñas, cumplir estándares y trazabilidad, y aprovechar residuos agroindustriales.
 
@@ -271,7 +271,7 @@ Se importa `r pct(abono_m)` de la oferta de abonos y plaguicidas, a precios bás
 - **2023:** el procedimiento del SENASA para registrarlos en los Registros Nacionales de Terapéutica Vegetal [@senasa2023].
 - **2026:** la adopción de una definición común de bioinsumos en el Mercosur.
 
-La cuenta aporta una forma de seguir ese proceso: si la adopción avanza, debería verse en la composición de la fila de abonos y plaguicidas y en sus importaciones.
+Es una agenda que toca los principios 5 y 6 del G20: uso circular de los recursos biológicos y evaluación científica de las nuevas tecnologías. La cuenta aporta una forma de seguir ese proceso: si la adopción avanza, debería verse en la composición de la fila de abonos y plaguicidas y en sus importaciones.
 
 Hay un problema de medición que conviene discutir con los estudiantes. El COU agrupa plaguicidas de síntesis y biológicos en una sola fila, clasificada como bioeconomía parcial. Mientras no exista una apertura de la fila, el éxito de una política de bioinsumos será invisible en la cuenta. Ninguna sustitución es deseable, además, si no conserva rendimientos, y esa evidencia viene del campo.
 

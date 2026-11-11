@@ -346,3 +346,12 @@ $code-block-font-size: 0.75em;
 
 // Tabla del escenario de la regla del producto principal: una línea por fila
 .reveal table.cou.regla { font-size: 0.54em; td { white-space: nowrap; padding: 0.38em 0.5em; } .pill { font-size: 0.92em; } }
+
+// Principios del G20: cuadrícula de diez
+.reveal .principios {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.35em; margin: 0.2em 0 0.5em;
+  font-family: "Roboto", sans-serif; font-size: 0.5em; line-height: 1.25;
+  .pr { background: #fff; border-radius: 8px; padding: 0.55em 0.65em; box-shadow: 0 2px 8px rgba(11, 74, 58, 0.08); border-top: 4px solid #C9D6D1; }
+  .pr.clave { background: $theme-menta; border-top-color: $theme-verde; }
+  .k { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%; background: $theme-bosque; color: #fff; font-weight: 700; margin-right: 0.35em; font-size: 0.95em; }
+}

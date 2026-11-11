@@ -215,7 +215,7 @@ bio |>
   g_barras("t", "Producto", etq = "Lab", base = 16, leyenda = FALSE)
 ```
 
-[Productos con más de 1 % de las exportaciones bioeconómicas, más tabaco y bebidas. Impuestos netos entre valor bruto de producción. Hipótesis por verificar: que en los productos de exportación pesen los derechos de exportación.]{.pequeno}
+[Productos con más de 1 % de las exportaciones bioeconómicas, más tabaco y bebidas. Impuestos netos entre valor bruto de producción. Hipótesis por verificar: que en los productos de exportación pesen los derechos de exportación (ver curso 1).]{.pequeno}
 
 ## 4. Los encadenamientos llegan más allá del campo
 
@@ -312,6 +312,49 @@ En 2023, con la sequía, cae el método de actividades (`r pct(md("apriori_bio",
 
 Opciones para discutir, a partir de los datos. Todas requieren contrastarse con la normativa y la evidencia sectorial vigentes.
 
+## Un marco común: los principios del G20 sobre bioeconomía
+
+[Diez principios voluntarios acordados en 2024 [@g20gib2024]. La bioeconomía debe:]{.pequeno}
+
+::: {.principios}
+::: {.pr}
+[1]{.k} Contribuir al desarrollo sostenible y a erradicar el hambre y la pobreza
+:::
+::: {.pr}
+[2]{.k} Ser inclusiva y equitativa, con pueblos indígenas y comunidades locales
+:::
+::: {.pr}
+[3]{.k} Impulsar la mitigación y la adaptación al cambio climático
+:::
+::: {.pr}
+[4]{.k} Conservar la biodiversidad y repartir sus beneficios con justicia
+:::
+::: {.pr .clave}
+[5]{.k} Usar los recursos biológicos de forma eficiente y **circular**
+:::
+::: {.pr}
+[6]{.k} Basarse en ciencia, tecnología e innovación, con riesgos evaluados
+:::
+::: {.pr .clave}
+[7]{.k} Apoyarse en **marcos de política robustos y coherentes**
+:::
+::: {.pr .clave}
+[8]{.k} Medirse con **metodologías transparentes, comparables y medibles**
+:::
+::: {.pr}
+[9]{.k} Contar con cooperación internacional y financiamiento
+:::
+::: {.pr}
+[10]{.k} Responder a las prioridades y circunstancias de cada país
+:::
+:::
+
+. . .
+
+::: {.caja .ambar}
+**Una advertencia.** "La bioeconomía no es intrínsecamente sostenible": puede competir con los alimentos y presionar los suelos si no se acompaña de incentivos a prácticas sostenibles [@oecd2019].
+:::
+
 ## Seis cursos de acción posibles
 
 ::: {.cifras style="--col:3;"}
@@ -321,9 +364,9 @@ Opciones para discutir, a partir de los datos. Todas requieren contrastarse con 
 Revisar cómo tributan los productos bioeconómicos y qué objetivo cumple cada instrumento.
 :::
 ::: {.curso style="--c:#0F7B5F;"}
-[2. Diversificación y valor]{.curso-t}
+[2. Diversificación y circularidad]{.curso-t}
 
-Reducir la concentración y exportar más valor agregado por unidad de biomasa.
+Reducir la concentración, exportar más valor por unidad de biomasa y aprovechar residuos.
 :::
 ::: {.curso style="--c:#C27C0E;"}
 [3. Insumos y bioinsumos]{.curso-t}
@@ -352,42 +395,42 @@ Convertir este ejercicio en una cuenta regular, con empleo y datos físicos.
 :::: {.columns}
 ::: {.column width="48%"}
 ::: {.caja .azul}
-**El dato.** Tasa implícita de `r pct(ta("Bioeconomía"))` frente a `r pct(ta(B_FUE))`. Los productos bioeconómicos aportan `r pct(sh("Impuestos menos subvenciones"))` de los impuestos netos sobre los productos.
+**El dato.** Tasa implícita de `r pct(ta("Bioeconomía"))` frente a `r pct(ta(B_FUE))`. Los productos bioeconómicos aportan `r pct(sh("Impuestos menos subvenciones"))` de los impuestos netos sobre los productos, frente a `r pct(sh("Impuestos menos subvenciones", a = 2021))` en 2021.
 :::
 
-::: {.caja .neutra}
-**La pregunta.** ¿Esta carga responde a una decisión de política o a la suma de instrumentos creados con otros fines?
+::: {.caja .ambar}
+**Una prueba natural.** Los derechos de exportación son impuestos sobre los productos en el SCN. El cronograma para la soja los baja de 24 % en 2026 a 21 % a fines de 2027 y 15 % desde fines de 2028 [@retenciones2026]. Si pesan en la tasa, debería verse en los COU de esos años.
 :::
 :::
 ::: {.column width="52%"}
 ::: {.curso style="--c:#2F6DB5;"}
 [Opciones]{.curso-t}
 
-- Desagregar la tasa por instrumento: IVA, impuestos internos, derechos y subvenciones.
+- Desagregar la tasa por instrumento: derechos de exportación, IVA, impuestos internos y subvenciones.
 - Simular el costo fiscal de cada ajuste antes de proponerlo.
 - Distinguir objetivos: salud pública (tabaco y bebidas), recaudación, incentivo productivo.
 
 [Tensión]{.curso-t}
 
-Una reducción general afecta la recaudación. La pregunta útil es dónde rinde más cada peso que se deja de cobrar.
+Una reducción general afecta la recaudación. La pregunta útil es dónde rinde más cada peso que se deja de cobrar. El principio 7 del G20 pide coherencia entre esos objetivos.
 
 [Indicador]{.curso-t}
 
-Tasa implícita por producto y por instrumento.
+Tasa implícita por producto y por instrumento, año a año.
 :::
 :::
 ::::
 
-## Curso 2: diversificación y valor
+## Curso 2: diversificación y circularidad
 
 :::: {.columns}
 ::: {.column width="48%"}
 ::: {.caja}
-**El dato.** Cinco productos concentran `r pct(conc)` de las exportaciones bioeconómicas, que aportan `r pct(sh("Exportaciones"))` de las exportaciones del país.
+**El dato.** Cinco productos concentran `r pct(conc)` de las exportaciones bioeconómicas, que aportan `r pct(sh("Exportaciones"))` de las exportaciones del país. Con la sequía, el superávit bioeconómico cayó a `r pct(sp("Bioeconomía", 2023))` del PIB en 2023.
 :::
 
 ::: {.caja .neutra}
-**La pregunta.** ¿Cómo reducir la exposición a precios internacionales y aprovechar mejor la misma biomasa?
+**La pregunta.** ¿Cómo reducir la exposición a precios y clima, y aprovechar mejor la misma biomasa, incluidos sus residuos?
 :::
 :::
 ::: {.column width="52%"}
@@ -395,16 +438,16 @@ Tasa implícita por producto y por instrumento.
 [Opciones]{.curso-t}
 
 - Priorizar cadenas con ventas externas pequeñas y alto valor agregado.
-- Apoyar estándares, trazabilidad y acceso a mercados.
-- Aprovechar residuos agroindustriales para nuevos productos.
+- Etiquetas, estándares, certificación y compras públicas verdes para productos de base biológica [@oecd2019].
+- Valorizar residuos agroindustriales en biorrefinerías (principio 5 del G20).
 
 [Tensión]{.curso-t}
 
-Procesar más localmente exige energía, logística y escala. Cada cadena necesita su propio análisis.
+Procesar más localmente exige energía, logística y escala. Cada cadena necesita su propio análisis, según las condiciones de cada país [@rodriguez2019].
 
 [Indicador]{.curso-t}
 
-Concentración de exportaciones y valor agregado por peso producido.
+Concentración de exportaciones, valor agregado por peso producido y una cuenta de biomasa residual.
 :::
 :::
 ::::
@@ -414,11 +457,11 @@ Concentración de exportaciones y valor agregado por peso producido.
 :::: {.columns}
 ::: {.column width="48%"}
 ::: {.caja .ambar}
-**El dato.** Se importa `r pct(abono_m)` de la oferta de abonos y plaguicidas, a precios básicos, un producto de bioeconomía parcial. La agricultura destina `r pct(r$va_ci$pct_bio[r$va_ci$Seccion == "A"])` de su consumo intermedio a productos bioeconómicos.
+**El dato.** Se importa `r pct(abono_m)` de la oferta de abonos y plaguicidas, a precios básicos. La agricultura destina `r pct(r$va_ci$pct_bio[r$va_ci$Seccion == "A"])` de su consumo intermedio a productos bioeconómicos.
 :::
 
-::: {.caja .neutra}
-**La pregunta.** ¿Qué parte de esa dependencia se puede sustituir, a qué costo y con qué efecto ambiental?
+::: {.caja .azul}
+**Lo que ya existe.** Plan de acción para los bioinsumos (2020), PROBIAAR (2021) [@probiaar2021], registro en el SENASA (2023) [@senasa2023] y una definición común en el Mercosur (2026).
 :::
 :::
 ::: {.column width="52%"}
@@ -426,16 +469,16 @@ Concentración de exportaciones y valor agregado por peso producido.
 [Opciones]{.curso-t}
 
 - Investigación y adopción de bioinsumos con evaluación agronómica.
-- Marcos regulatorios ágiles para registrar nuevos productos.
+- Registro ágil, con los estándares que ya existen.
 - Monitorear la exposición cambiaria de los insumos agrícolas.
 
 [Tensión]{.curso-t}
 
-La sustitución solo vale si mantiene los rendimientos. La evidencia debe venir del campo, y el COU no la aporta.
+El COU agrupa plaguicidas biológicos y de síntesis en una sola fila: hoy el éxito de esta política sería invisible en la cuenta. Y la sustitución solo vale si mantiene los rendimientos.
 
 [Indicador]{.curso-t}
 
-Porcentaje importado por insumo y uso físico por hectárea.
+Porcentaje importado por insumo, con una fila separada para los bioinsumos.
 :::
 :::
 ::::
@@ -462,11 +505,11 @@ Porcentaje importado por insumo y uso físico por hectárea.
 
 [Tensión]{.curso-t}
 
-Un multiplicador alto no implica eficiencia ni sostenibilidad ambiental. Debe verse junto con empleo y emisiones.
+Un multiplicador alto no implica eficiencia ni sostenibilidad ambiental. Los principios 1 y 3 del G20 piden mirar también empleo y clima.
 
 [Indicador]{.curso-t}
 
-Multiplicador de uso nacional y empleo generado, cuando se disponga de esos datos.
+Multiplicador de uso nacional, empleo y emisiones por actividad, cuando se disponga de esos datos.
 :::
 :::
 ::::
@@ -493,7 +536,7 @@ Multiplicador de uso nacional y empleo generado, cuando se disponga de esos dato
 
 [Tensión]{.curso-t}
 
-Los plazos de maduración son largos y los resultados, inciertos. Requieren continuidad institucional.
+Los plazos de maduración son largos y los resultados, inciertos. El principio 6 del G20 pide evaluar con ciencia beneficios y riesgos.
 
 [Indicador]{.curso-t}
 
@@ -507,24 +550,24 @@ Inversión e I+D de las actividades bioeconómicas.
 :::: {.columns}
 ::: {.column width="48%"}
 ::: {.caja .azul}
-**El dato.** Argentina ya publica los COU que permiten esta cuenta. Con una rutina reproducible se procesaron `r length(anios)` años en una sola base.
+**El dato.** Argentina ya publica los COU que permiten esta cuenta. Con una rutina reproducible se procesaron `r length(anios)` años en una sola base, y la [herramienta](`r URL_HERRAMIENTA`){target="_blank"} deja que cualquiera ponga a prueba la clasificación.
 :::
 
 ::: {.caja .neutra}
-**La pregunta.** ¿Quién la mantiene, con qué frecuencia y con qué datos adicionales?
+**La pregunta.** ¿Quién la mantiene, con qué frecuencia y con qué datos adicionales? La OCDE advierte que sin una definición acordada es difícil fijar objetivos y evaluar políticas [@oecd2019].
 :::
 :::
 ::: {.column width="52%"}
 ::: {.curso style="--c:#2F6DB5;"}
 [Opciones]{.curso-t}
 
-- Consensuar la clasificación bioeconómica con los sectores y publicarla.
+- Consensuar la clasificación con los sectores y publicarla, con su vigencia por año.
 - Añadir empleo, precios constantes y una matriz de insumo-producto.
-- Incorporar cuentas físicas, ambientales y de biomasa residual.
+- Incorporar cuentas físicas, ambientales y de biomasa residual, en el marco de las cuentas temáticas del SCN 2025 [@sna2025].
 
 [Tensión]{.curso-t}
 
-Más detalle exige más recursos. Conviene empezar por lo que ya existe.
+Más detalle exige más recursos. Conviene empezar por lo que ya existe. El principio 8 del G20 pide metodologías transparentes y comparables.
 
 [Indicador]{.curso-t}
 
@@ -537,16 +580,17 @@ Una cuenta anual publicada y citada en decisiones de política.
 
 ```{r}
 tibble(
-  Curso = c("1. Coherencia fiscal", "2. Diversificación y valor", "3. Insumos y bioinsumos", "4. Encadenamientos", "5. Inversión e innovación", "6. Sistema de información"),
+  Curso = c("1. Coherencia fiscal", "2. Diversificación y circularidad", "3. Insumos y bioinsumos", "4. Encadenamientos", "5. Inversión e innovación", "6. Sistema de información"),
   `Dato de la cuenta` = c(pct(ta("Bioeconomía")), pct(conc), pct(abono_m), paste(ar_grupos$n[1], "actividades"), pct(sh("Formación bruta de capital")), paste(length(anios), "años")),
+  `Principio G20` = c("7", "5 y 10", "5 y 6", "1 y 3", "6", "8"),
   Horizonte = c("Corto a mediano", "Mediano a largo", "Mediano", "Mediano", "Largo", "Corto"),
   `Costo fiscal` = c("Alto", "Medio", "Medio", "Medio", "Medio a alto", "Bajo"),
-  `Actores clave` = c("Hacienda, sectores", "Producción, cancillería", "Agricultura, ciencia", "Producción, provincias", "Ciencia, banca pública", "INDEC, ministerios")
+  `Actores clave` = c("Hacienda, sectores", "Producción, cancillería", "Agricultura, SENASA, ciencia", "Producción, provincias", "Ciencia, banca pública", "INDEC, ministerios")
 ) |>
   tabla_simple("cou grande")
 ```
 
-[Valoración cualitativa, propuesta como punto de partida para la discusión.]{.pequeno}
+[Valoración cualitativa, propuesta como punto de partida para la discusión. Principios del G20 sobre bioeconomía [@g20gib2024].]{.pequeno}
 
 ## Ejercicio en grupos
 
@@ -562,7 +606,7 @@ tibble(
 :::
 ::: {.column width="50%"}
 ::: {.caja .azul}
-**3. Decidan qué falta.** ¿Qué dato fuera del COU necesitarían antes de recomendarlo?
+**3. Decidan qué falta.** ¿Qué dato fuera del COU necesitarían antes de recomendarlo? ¿Qué principio del G20 queda sin cubrir?
 :::
 
 ::: {.caja .neutra}
@@ -572,6 +616,15 @@ tibble(
 ::::
 
 [Abrir la herramienta de bioeconomía](`r URL_HERRAMIENTA`){target="_blank"} · [Descargar la base de datos](../../data/bd/ARG_SCN_BD_2023.xlsx) · [Descargar los cuadros](../../data/salidas/ARG_cuadros_bioeconomia_2023.xlsx)
+
+## Preguntas para la discusión
+
+::: incremental
+1. Con la [herramienta](`r enlace_herramienta(p = c("346" = B_FUE), anio = A)`){target="_blank"}, saquen abonos y plaguicidas de la bioeconomía parcial. ¿Qué indicador cambia más? ¿Cambiaría su lectura de la política de bioinsumos?
+2. Si los derechos de exportación de la soja bajan a 15 %, ¿qué esperan que pase con la tasa implícita de la bioeconomía? ¿Y con su participación en los impuestos?
+3. ¿Qué principio del G20 está peor cubierto por la información disponible en Argentina? ¿Qué dato haría falta?
+4. La OCDE advierte que la bioeconomía no es intrínsecamente sostenible. ¿Qué indicador agregarían a esta cuenta para saber si lo es?
+:::
 
 ## Lo que estos datos no permiten afirmar
 
@@ -583,7 +636,7 @@ tibble(
 **Volúmenes.** Están a precios corrientes, en un periodo de alta inflación y cambios de precios relativos.
 :::
 ::: {.caja .neutra}
-**Empleo y ambiente.** El COU no los incluye. Una bioeconomía grande no es por sí misma una bioeconomía sostenible.
+**Empleo y ambiente.** El COU no los incluye. Una bioeconomía grande no es por sí misma una bioeconomía sostenible [@oecd2019].
 :::
 ::: {.caja .neutra}
 **Clasificación.** Los resultados dependen de qué se considera bioeconómico, sobre todo en químicos, farmacéuticos y textiles.
