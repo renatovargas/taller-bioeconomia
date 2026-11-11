@@ -581,7 +581,7 @@
     "href": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#del-cuadro-a-la-base-de-datos",
     "title": "La bioeconomía en las cuentas nacionales de Argentina",
     "section": "2.2 Del cuadro a la base de datos",
-    "text": "2.2 Del cuadro a la base de datos\nLos COU se publican como matrices. Para analizarlos, cada celda distinta de cero se convierte en una fila de una tabla con sus atributos: cuadro, producto, actividad, condición bioeconómica y valor. Después, cualquier cuadro se reconstruye con una tabla dinámica, y los totales siguen coincidiendo con los oficiales.\nPara Argentina se usaron los COU de INDEC de 2018 a 2023 (Instituto Nacional de Estadística y Censos, s.f.), con la clasificación de productos y actividades elaborada para Vargas et al. (2023). Todos los años quedan en una sola base, en millones de pesos corrientes. La rutina asigna filas y columnas por su código, porque la nomenclatura de INDEC cambió entre años, y cada código tiene una sola clasificación válida para todo el periodo. Controlamos tres cosas: que la oferta y la utilización sean iguales para cada producto y año, que cada fila sume el total publicado por INDEC, y que, con la clasificación original, la base de 2018 coincida celda por celda con la de Vargas et al. (2023), que da 46,7 % de las exportaciones y 17,8 % de tasa implícita.\nEsta actualización corrige un error de esa clasificación. La actividad 050 Pesca estaba en la sección B y clasificada como no bioeconómica. Esa letra corresponde a la pesca en la CIIU Rev. 3 que usa INDEC, pero a minas y canteras en la Rev. 4 que usa la cuenta. Ahora Pesca está en la sección A y es bioeconómica, como el pescado que produce. La corrección eleva el valor agregado bioeconómico de 2018 de 10,9 % a 11,3 % por el método de actividades, y de 12,3 % a 12,4 % por el del consumo intermedio.",
+    "text": "2.2 Del cuadro a la base de datos\nLos COU se publican como matrices. Para analizarlos, cada celda distinta de cero se convierte en una fila de una tabla con sus atributos: cuadro, producto, actividad, condición bioeconómica y valor. Después, cualquier cuadro se reconstruye con una tabla dinámica, y los totales siguen coincidiendo con los oficiales.\nPara Argentina se usaron los COU de INDEC de 2018 a 2023 (Instituto Nacional de Estadística y Censos, s.f.), con la clasificación de productos y actividades elaborada para Vargas et al. (2023). Todos los años quedan en una sola base, en millones de pesos corrientes. La rutina asigna filas y columnas por su código, porque la nomenclatura de INDEC cambió entre años, y cada código tiene una sola clasificación válida para todo el periodo. Controlamos tres cosas: que la oferta y la utilización sean iguales para cada producto y año, que cada fila sume el total publicado por INDEC, y que, con la clasificación original, la base de 2018 coincida celda por celda con la de Vargas et al. (2023), que da 46,7 % de las exportaciones y 17,8 % de tasa implícita.\nEsta actualización corrige un error de esa clasificación. La actividad 050 Pesca estaba en la sección B y clasificada como no bioeconómica. Esa letra corresponde a la pesca en la CIIU Rev. 3 que usa INDEC, pero a minas y canteras en la Rev. 4 que usa la cuenta. Ahora Pesca está en la sección A y es bioeconómica, como el pescado que produce. La corrección eleva el valor agregado bioeconómico de 2018 de 10,9 % a 11,3 % por el método de actividades, y de 12,3 % a 12,4 % por el del consumo intermedio.\nLa base, la clasificación y todos los indicadores de esta nota se pueden explorar en la herramienta de bioeconomía, que también permite reclasificar productos y actividades y comparar el resultado con la clasificación original.",
     "crumbs": [
       "Materiales",
       "Documentos",
@@ -689,7 +689,7 @@
     "href": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#coherencia-fiscal",
     "title": "La bioeconomía en las cuentas nacionales de Argentina",
     "section": "4.1 Coherencia fiscal",
-    "text": "4.1 Coherencia fiscal\nLa bioeconomía aporta 23,8 % de los impuestos netos sobre los productos. Vargas et al. (2023) concluyen que hace falta profundizar en este tema para crear incentivos que equilibren el desarrollo de la bioeconomía con los objetivos de finanzas públicas. El primer paso es desagregar la tasa por instrumento y por producto, y distinguir los objetivos: los de salud pública en tabaco y bebidas, los de recaudación en otros productos. Solo entonces tiene sentido simular cambios.",
+    "text": "4.1 Coherencia fiscal\nLa bioeconomía aporta 23,8 % de los impuestos netos sobre los productos, con una tasa implícita de 13,1 %, frente a 8,1 % en el resto. Vargas et al. (2023) concluyen que hace falta profundizar en este tema para crear incentivos que equilibren el desarrollo de la bioeconomía con los objetivos de finanzas públicas.\nEn el SCN, los derechos de exportación son impuestos sobre los productos, de modo que la tasa implícita los incluye. Argentina fijó en 2026 un cronograma de reducción gradual de los derechos de exportación de la soja: 24 % durante 2026, 21 % hacia fines de 2027 y 15 % desde fines de 2028 (Hoy Día, 2026). Eso ofrece una prueba natural para la cuenta. Si la hipótesis es correcta, la tasa implícita de aceites y tortas oleaginosas debería bajar en los COU de esos años, y con ella la de toda la bioeconomía. El seguimiento requiere desagregar la tasa por instrumento: derechos de exportación, IVA, impuestos internos y subvenciones.\nEl principio 7 del G20 pide coherencia. Aquí la pregunta concreta es si la carga sobre los productos bioeconómicos responde a una decisión de política o a la suma de instrumentos con fines distintos: recaudación, estabilización de precios internos y salud pública en tabaco y bebidas. Solo con la tasa desagregada tiene sentido simular cambios.",
     "crumbs": [
       "Materiales",
       "Documentos",
@@ -697,11 +697,11 @@
     ]
   },
   {
-    "objectID": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#diversificación-y-valor-agregado",
-    "href": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#diversificación-y-valor-agregado",
+    "objectID": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#diversificación-valor-agregado-y-economía-circular",
+    "href": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#diversificación-valor-agregado-y-economía-circular",
     "title": "La bioeconomía en las cuentas nacionales de Argentina",
-    "section": "4.2 Diversificación y valor agregado",
-    "text": "4.2 Diversificación y valor agregado\nUn superávit concentrado en cinco productos es una fortaleza para las divisas y una exposición a los precios internacionales. Las opciones incluyen apoyar cadenas con exportaciones todavía pequeñas, cumplir estándares y trazabilidad, y aprovechar residuos agroindustriales. Procesar más localmente exige energía, logística y escala, de modo que cada cadena requiere su propia evaluación.",
+    "section": "4.2 Diversificación, valor agregado y economía circular",
+    "text": "4.2 Diversificación, valor agregado y economía circular\nUn superávit concentrado en cinco productos es una fortaleza para las divisas y una exposición a los precios internacionales y al clima: en 2023, con la sequía, el superávit bioeconómico cayó a 4,3 % del PIB. Las opciones incluyen apoyar cadenas con exportaciones todavía pequeñas, cumplir estándares y trazabilidad, y aprovechar residuos agroindustriales.\nLa OCDE identifica como instrumentos más usados para los productos de base biológica las etiquetas, los estándares y certificaciones, y las compras públicas verdes (Diakosavvas y Frezal, 2019). La visión regional de la CEPAL subraya que las estrategias deben partir de las condiciones estructurales de cada país (Rodríguez et al., 2019), en línea con el principio 10 del G20.\nLa economía circular entra por el principio 5: valorizar residuos agrícolas, agroindustriales y forestales. El COU no registra esos flujos físicos, así que una cuenta de biomasa residual, compatible con el SCN y el SEEA, es el complemento natural de esta cuenta. Procesar más localmente exige además energía, logística y escala, de modo que cada cadena requiere su propia evaluación.",
     "crumbs": [
       "Materiales",
       "Documentos",
@@ -713,7 +713,7 @@
     "href": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#insumos-y-bioinsumos",
     "title": "La bioeconomía en las cuentas nacionales de Argentina",
     "section": "4.3 Insumos y bioinsumos",
-    "text": "4.3 Insumos y bioinsumos\nLa dependencia de abonos y plaguicidas importados abre una discusión sobre investigación y adopción de bioinsumos, marcos regulatorios y monitoreo de la exposición cambiaria. Ninguna sustitución es deseable si no conserva rendimientos, y esa evidencia viene del campo.",
+    "text": "4.3 Insumos y bioinsumos\nSe importa 28,4 % de la oferta de abonos y plaguicidas, a precios básicos. Argentina ya tiene una trayectoria institucional en bioinsumos:\n\n2020: el plan de acción para el sector de los bioinsumos de uso agropecuario.\n2021: el Programa de Bioinsumos Agropecuarios Argentinos (PROBIAAR) (Ministerio de Agricultura, Ganadería y Pesca, 2021).\n2023: el procedimiento del SENASA para registrarlos en los Registros Nacionales de Terapéutica Vegetal (Servicio Nacional de Sanidad y Calidad Agroalimentaria, 2023).\n2026: la adopción de una definición común de bioinsumos en el Mercosur.\n\nLa cuenta aporta una forma de seguir ese proceso: si la adopción avanza, debería verse en la composición de la fila de abonos y plaguicidas y en sus importaciones.\nHay un problema de medición que conviene discutir con los estudiantes. El COU agrupa plaguicidas de síntesis y biológicos en una sola fila, clasificada como bioeconomía parcial. Mientras no exista una apertura de la fila, el éxito de una política de bioinsumos será invisible en la cuenta. Ninguna sustitución es deseable, además, si no conserva rendimientos, y esa evidencia viene del campo.",
     "crumbs": [
       "Materiales",
       "Documentos",
@@ -725,7 +725,7 @@
     "href": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#encadenamientos-1",
     "title": "La bioeconomía en las cuentas nacionales de Argentina",
     "section": "4.4 Encadenamientos",
-    "text": "4.4 Encadenamientos\nLas actividades de dependencia muy alta son candidatas para programas de desarrollo de proveedores, compras públicas de alimentos o instrumentos con foco regional. Un multiplicador alto no garantiza eficiencia ni sostenibilidad. Antes de priorizar, conviene tener empleo y emisiones por actividad.",
+    "text": "4.4 Encadenamientos\nLas actividades de dependencia muy alta son candidatas para programas de desarrollo de proveedores, compras públicas de alimentos o instrumentos con foco regional. Un multiplicador alto no garantiza eficiencia ni sostenibilidad. Antes de priorizar, conviene tener empleo y emisiones por actividad, como piden los principios 1 y 3 del G20 sobre desarrollo sostenible y clima.",
     "crumbs": [
       "Materiales",
       "Documentos",
@@ -737,7 +737,7 @@
     "href": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#inversión-e-innovación",
     "title": "La bioeconomía en las cuentas nacionales de Argentina",
     "section": "4.5 Inversión e innovación",
-    "text": "4.5 Inversión e innovación\nSolo 6,2 % de la formación bruta de capital corresponde a productos bioeconómicos. Esta cifra se mide por tipo de bien de capital y por eso subestima lo que invierten las actividades bioeconómicas. Según Vargas et al. (2023), buena parte de la innovación está en propiedad intelectual, un activo que las empresas de la región registran con dificultad. Medirla mejor es un requisito para financiarla bien.",
+    "text": "4.5 Inversión e innovación\nSolo 6,2 % de la formación bruta de capital corresponde a productos bioeconómicos. Esta cifra se mide por tipo de bien de capital y por eso subestima lo que invierten las actividades bioeconómicas. Según Vargas et al. (2023), buena parte de la innovación está en propiedad intelectual, un activo que las empresas de la región registran con dificultad. El principio 6 del G20 pide además que los beneficios y riesgos de las nuevas tecnologías se evalúen científicamente. Medirlas mejor es un requisito para financiarlas bien.",
     "crumbs": [
       "Materiales",
       "Documentos",
@@ -749,7 +749,19 @@
     "href": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#un-sistema-de-información-permanente",
     "title": "La bioeconomía en las cuentas nacionales de Argentina",
     "section": "4.6 Un sistema de información permanente",
-    "text": "4.6 Un sistema de información permanente\nArgentina publica los COU necesarios para actualizar esta cuenta cada año. Institucionalizarla exige acordar la clasificación con los sectores, publicarla y añadir progresivamente empleo, precios constantes, una matriz de insumo-producto y cuentas físicas y ambientales, entre ellas una de biomasa residual.",
+    "text": "4.6 Un sistema de información permanente\nLa OCDE señala que la falta de una definición consensuada dificulta fijar objetivos y evaluar políticas, y recomienda acordar una definición que permita comparar países (Diakosavvas y Frezal, 2019). El principio 8 del G20 pide metodologías transparentes y comparables. Argentina publica los COU necesarios para actualizar esta cuenta cada año, y el SCN 2025 ofrece el marco de las cuentas temáticas para hacerlo (Comisión Europea et al., 2025).\nInstitucionalizarla exige tres pasos:\n\nClasificación: acordarla con los sectores y publicarla, como hace el lookup de esta nota, con su vigencia por año.\nDatos: añadir progresivamente empleo, precios constantes, una matriz de insumo-producto y cuentas físicas y ambientales, entre ellas la de biomasa residual.\nDebate abierto: permitir que cualquiera ponga a prueba la clasificación. La herramienta que acompaña esta nota es un ejemplo pequeño de esa transparencia.",
+    "crumbs": [
+      "Materiales",
+      "Documentos",
+      "Bioeconomía y política pública en Argentina"
+    ]
+  },
+  {
+    "objectID": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#preguntas-para-la-discusión",
+    "href": "materiales/documentos/bioeconomia-argentina-politica-publica/index.html#preguntas-para-la-discusión",
+    "title": "La bioeconomía en las cuentas nacionales de Argentina",
+    "section": "4.7 Preguntas para la discusión",
+    "text": "4.7 Preguntas para la discusión\n\nCon la herramienta, saquen abonos y plaguicidas de la bioeconomía parcial. ¿Qué indicador cambia más? ¿Cambiaría su lectura de la política de bioinsumos?\nSi los derechos de exportación de la soja bajan a 15 %, ¿qué esperan que pase con la tasa implícita de la bioeconomía? ¿Y con su participación en los impuestos?\n¿Qué principio del G20 está peor cubierto por la información disponible en Argentina? ¿Qué dato haría falta?\nLa OCDE advierte que la bioeconomía no es intrínsecamente sostenible. ¿Qué indicador agregarían a esta cuenta para saber si lo es?",
     "crumbs": [
       "Materiales",
       "Documentos",

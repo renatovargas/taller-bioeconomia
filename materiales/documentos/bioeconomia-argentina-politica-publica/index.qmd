@@ -95,6 +95,8 @@ Para Argentina se usaron los COU de INDEC de `r periodo` [@indec2023], con la cl
 
 Esta actualización corrige un error de esa clasificación. La actividad 050 Pesca estaba en la sección B y clasificada como no bioeconómica. Esa letra corresponde a la pesca en la CIIU Rev. 3 que usa INDEC, pero a minas y canteras en la Rev. 4 que usa la cuenta. Ahora Pesca está en la sección A y es bioeconómica, como el pescado que produce. La corrección eleva el valor agregado bioeconómico de 2018 de 10,9 % a `r pct(md("apriori_bio", 2018))` por el método de actividades, y de 12,3 % a `r pct(md("via_ci", 2018))` por el del consumo intermedio.
 
+La base, la clasificación y todos los indicadores de esta nota se pueden explorar en la [herramienta de bioeconomía](https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/){target="_blank"}, que también permite reclasificar productos y actividades y comparar el resultado con la clasificación original.
+
 ## Dos maneras de medir el valor agregado
 
 El valor agregado existe por actividad y no por producto. El cálculo tradicional clasifica de antemano las actividades y suma el valor agregado de las bioeconómicas. El problema es que trata la condición bioeconómica como un atributo fijo, cuando en realidad cada actividad usa una mezcla de insumos. Por eso @vargas2023 proponen una segunda medida, que asigna a cada sección de actividad el valor agregado en proporción a sus insumos bioeconómicos.
@@ -229,31 +231,74 @@ Las importaciones de la bioeconomía parcial superan a sus exportaciones, y algu
 
 # Implicaciones para la política pública
 
-Los datos describen una estructura; las decisiones dependen además de objetivos y de evidencia sectorial. Las siguientes líneas son preguntas de política que los resultados vuelven más precisas. Cada una debe contrastarse con la normativa vigente y con evidencia sectorial que excede a esta nota.
+Los datos describen una estructura; las decisiones dependen además de objetivos y de evidencia sectorial. Las siguientes líneas son preguntas de política que los resultados vuelven más precisas. Cada una debe contrastarse con la normativa vigente y con evidencia que excede a esta nota.
+
+Un marco útil para ordenarlas son los diez principios de alto nivel sobre bioeconomía que acordó el G20 en 2024 [@g20gib2024]. Son voluntarios, y tres de ellos dialogan directamente con esta cuenta:
+
+- **Principio 7:** la bioeconomía debe apoyarse en marcos de política robustos y coherentes.
+- **Principio 8:** debe evaluarse con metodologías transparentes, comparables y medibles.
+- **Principio 5:** debe promover el uso eficiente y circular de los recursos biológicos.
+
+La OCDE agrega una advertencia que conviene tener presente en todas las secciones: la bioeconomía "no es intrínsecamente sostenible", y su expansión puede competir con la producción de alimentos o presionar los suelos si no se acompaña de incentivos a prácticas sostenibles [@oecd2019].
+
+::: {.callout-tip}
+## Para explorar
+Cada pregunta de esta sección se puede poner a prueba en la [herramienta de bioeconomía](https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/){target="_blank"}: reclasificar un producto o una actividad y ver al instante qué pasa con las participaciones, la tasa implícita, el valor agregado y los multiplicadores.
+:::
 
 ## Coherencia fiscal
 
-La bioeconomía aporta `r pct(sh("Impuestos menos subvenciones"))` de los impuestos netos sobre los productos. @vargas2023 concluyen que hace falta profundizar en este tema para crear incentivos que equilibren el desarrollo de la bioeconomía con los objetivos de finanzas públicas. El primer paso es desagregar la tasa por instrumento y por producto, y distinguir los objetivos: los de salud pública en tabaco y bebidas, los de recaudación en otros productos. Solo entonces tiene sentido simular cambios.
+La bioeconomía aporta `r pct(sh("Impuestos menos subvenciones"))` de los impuestos netos sobre los productos, con una tasa implícita de `r pct(ta("Bioeconomía"))`, frente a `r pct(ta(B_FUE))` en el resto. @vargas2023 concluyen que hace falta profundizar en este tema para crear incentivos que equilibren el desarrollo de la bioeconomía con los objetivos de finanzas públicas.
 
-## Diversificación y valor agregado
+En el SCN, los derechos de exportación son impuestos sobre los productos, de modo que la tasa implícita los incluye. Argentina fijó en 2026 un cronograma de reducción gradual de los derechos de exportación de la soja: 24 % durante 2026, 21 % hacia fines de 2027 y 15 % desde fines de 2028 [@retenciones2026]. Eso ofrece una prueba natural para la cuenta. Si la hipótesis es correcta, la tasa implícita de aceites y tortas oleaginosas debería bajar en los COU de esos años, y con ella la de toda la bioeconomía. El seguimiento requiere desagregar la tasa por instrumento: derechos de exportación, IVA, impuestos internos y subvenciones.
 
-Un superávit concentrado en cinco productos es una fortaleza para las divisas y una exposición a los precios internacionales. Las opciones incluyen apoyar cadenas con exportaciones todavía pequeñas, cumplir estándares y trazabilidad, y aprovechar residuos agroindustriales. Procesar más localmente exige energía, logística y escala, de modo que cada cadena requiere su propia evaluación.
+El principio 7 del G20 pide coherencia. Aquí la pregunta concreta es si la carga sobre los productos bioeconómicos responde a una decisión de política o a la suma de instrumentos con fines distintos: recaudación, estabilización de precios internos y salud pública en tabaco y bebidas. Solo con la tasa desagregada tiene sentido simular cambios.
+
+## Diversificación, valor agregado y economía circular
+
+Un superávit concentrado en cinco productos es una fortaleza para las divisas y una exposición a los precios internacionales y al clima: en 2023, con la sequía, el superávit bioeconómico cayó a `r pct(sp("Bioeconomía", 2023))` del PIB. Las opciones incluyen apoyar cadenas con exportaciones todavía pequeñas, cumplir estándares y trazabilidad, y aprovechar residuos agroindustriales.
+
+La OCDE identifica como instrumentos más usados para los productos de base biológica las etiquetas, los estándares y certificaciones, y las compras públicas verdes [@oecd2019]. La visión regional de la CEPAL subraya que las estrategias deben partir de las condiciones estructurales de cada país [@rodriguez2019], en línea con el principio 10 del G20.
+
+La economía circular entra por el principio 5: valorizar residuos agrícolas, agroindustriales y forestales. El COU no registra esos flujos físicos, así que una cuenta de biomasa residual, compatible con el SCN y el SEEA, es el complemento natural de esta cuenta. Procesar más localmente exige además energía, logística y escala, de modo que cada cadena requiere su propia evaluación.
 
 ## Insumos y bioinsumos
 
-La dependencia de abonos y plaguicidas importados abre una discusión sobre investigación y adopción de bioinsumos, marcos regulatorios y monitoreo de la exposición cambiaria. Ninguna sustitución es deseable si no conserva rendimientos, y esa evidencia viene del campo.
+Se importa `r pct(abono_m)` de la oferta de abonos y plaguicidas, a precios básicos. Argentina ya tiene una trayectoria institucional en bioinsumos:
+
+- **2020:** el plan de acción para el sector de los bioinsumos de uso agropecuario.
+- **2021:** el Programa de Bioinsumos Agropecuarios Argentinos (PROBIAAR) [@probiaar2021].
+- **2023:** el procedimiento del SENASA para registrarlos en los Registros Nacionales de Terapéutica Vegetal [@senasa2023].
+- **2026:** la adopción de una definición común de bioinsumos en el Mercosur.
+
+La cuenta aporta una forma de seguir ese proceso: si la adopción avanza, debería verse en la composición de la fila de abonos y plaguicidas y en sus importaciones.
+
+Hay un problema de medición que conviene discutir con los estudiantes. El COU agrupa plaguicidas de síntesis y biológicos en una sola fila, clasificada como bioeconomía parcial. Mientras no exista una apertura de la fila, el éxito de una política de bioinsumos será invisible en la cuenta. Ninguna sustitución es deseable, además, si no conserva rendimientos, y esa evidencia viene del campo.
 
 ## Encadenamientos
 
-Las actividades de dependencia muy alta son candidatas para programas de desarrollo de proveedores, compras públicas de alimentos o instrumentos con foco regional. Un multiplicador alto no garantiza eficiencia ni sostenibilidad. Antes de priorizar, conviene tener empleo y emisiones por actividad.
+Las actividades de dependencia muy alta son candidatas para programas de desarrollo de proveedores, compras públicas de alimentos o instrumentos con foco regional. Un multiplicador alto no garantiza eficiencia ni sostenibilidad. Antes de priorizar, conviene tener empleo y emisiones por actividad, como piden los principios 1 y 3 del G20 sobre desarrollo sostenible y clima.
 
 ## Inversión e innovación
 
-Solo `r pct(sh("Formación bruta de capital"))` de la formación bruta de capital corresponde a productos bioeconómicos. Esta cifra se mide por tipo de bien de capital y por eso subestima lo que invierten las actividades bioeconómicas. Según @vargas2023, buena parte de la innovación está en propiedad intelectual, un activo que las empresas de la región registran con dificultad. Medirla mejor es un requisito para financiarla bien.
+Solo `r pct(sh("Formación bruta de capital"))` de la formación bruta de capital corresponde a productos bioeconómicos. Esta cifra se mide por tipo de bien de capital y por eso subestima lo que invierten las actividades bioeconómicas. Según @vargas2023, buena parte de la innovación está en propiedad intelectual, un activo que las empresas de la región registran con dificultad. El principio 6 del G20 pide además que los beneficios y riesgos de las nuevas tecnologías se evalúen científicamente. Medirlas mejor es un requisito para financiarlas bien.
 
 ## Un sistema de información permanente
 
-Argentina publica los COU necesarios para actualizar esta cuenta cada año. Institucionalizarla exige acordar la clasificación con los sectores, publicarla y añadir progresivamente empleo, precios constantes, una matriz de insumo-producto y cuentas físicas y ambientales, entre ellas una de biomasa residual.
+La OCDE señala que la falta de una definición consensuada dificulta fijar objetivos y evaluar políticas, y recomienda acordar una definición que permita comparar países [@oecd2019]. El principio 8 del G20 pide metodologías transparentes y comparables. Argentina publica los COU necesarios para actualizar esta cuenta cada año, y el SCN 2025 ofrece el marco de las cuentas temáticas para hacerlo [@sna2025].
+
+Institucionalizarla exige tres pasos:
+
+1. **Clasificación:** acordarla con los sectores y publicarla, como hace el lookup de esta nota, con su vigencia por año.
+2. **Datos:** añadir progresivamente empleo, precios constantes, una matriz de insumo-producto y cuentas físicas y ambientales, entre ellas la de biomasa residual.
+3. **Debate abierto:** permitir que cualquiera ponga a prueba la clasificación. La herramienta que acompaña esta nota es un ejemplo pequeño de esa transparencia.
+
+## Preguntas para la discusión
+
+1. Con la herramienta, saquen abonos y plaguicidas de la bioeconomía parcial. ¿Qué indicador cambia más? ¿Cambiaría su lectura de la política de bioinsumos?
+2. Si los derechos de exportación de la soja bajan a 15 %, ¿qué esperan que pase con la tasa implícita de la bioeconomía? ¿Y con su participación en los impuestos?
+3. ¿Qué principio del G20 está peor cubierto por la información disponible en Argentina? ¿Qué dato haría falta?
+4. La OCDE advierte que la bioeconomía no es intrínsecamente sostenible. ¿Qué indicador agregarían a esta cuenta para saber si lo es?
 
 # Limitaciones
 
