@@ -1,6 +1,6 @@
 # Taller de bioeconomía
 
-Minisitio de Quarto con los materiales de un taller sobre cuentas satélite de bioeconomía, con el caso de Argentina.
+Minisitio de Quarto con los materiales de un taller sobre cuentas temáticas de bioeconomía (antes llamadas satélite), con el caso de Argentina.
 
 ## Estructura
 

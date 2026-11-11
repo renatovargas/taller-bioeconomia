@@ -12,7 +12,9 @@
 #   data/config/arg_lookups.xlsx  cómo clasificar: un renglón por código de
 #                                 INDEC (productos, actividades, transacciones),
 #                                 con los años en que el código está vigente
-#                                 (Desde, Hasta).
+#                                 (Desde, Hasta). Las tres categorías (hoja
+#                                 "categorias") siguen el SCN 2025: Bioeconomía,
+#                                 Bioeconomía parcial y Fuera de la bioeconomía.
 #
 # Filas y columnas se asignan POR CÓDIGO y no por posición, porque INDEC
 # cambió la nomenclatura entre años (hoja "cambios" de arg_lookups.xlsx):
@@ -56,6 +58,13 @@ productos <- leer_lookup("productos")
 actividades <- leer_lookup("actividades")
 transacciones <- leer_lookup("transacciones")
 especiales <- leer_lookup("filas_especiales")
+
+# Los nombres de las categorías salen de la hoja "categorias" (por código)
+source("scripts/categorias.R")
+nombre_cat <- setNames(categorias$Categoría, categorias$Código)
+productos <- productos |> mutate(`Bioeconomía Productos` = unname(nombre_cat[`Código Bioeconomía Productos`]))
+actividades <- actividades |> mutate(`Bioeconomía Actividades` = unname(nombre_cat[`Código Bioeconomía Actividades`]))
+stopifnot(!anyNA(productos$`Bioeconomía Productos`), !anyNA(actividades$`Bioeconomía Actividades`))
 
 stopifnot(
   !anyDuplicated(c(actividades$`Código Clasificación Actividades`, na.omit(actividades$`Alias INDEC`))),

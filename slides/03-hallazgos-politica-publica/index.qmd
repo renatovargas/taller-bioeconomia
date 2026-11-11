@@ -56,7 +56,7 @@ m <- r$mult
 ar_grupos <- m |> group_by(Grupo) |> summarise(va = sum(va), n = n(), .groups = "drop") |> mutate(pv = va / sum(va))
 por_encima <- 1 - ar_grupos$pv[ar_grupos$Grupo == "4. Mediana o abajo"]
 md_bio <- with(filter(m, `Bioeconomía Actividades` == "Bioeconomía"), weighted.mean(m_demanda, vbp))
-md_nob <- with(filter(m, `Bioeconomía Actividades` == "No bioeconomía"), weighted.mean(m_demanda, vbp))
+md_nob <- with(filter(m, `Bioeconomía Actividades` == B_FUE), weighted.mean(m_demanda, vbp))
 etiqueta <- function(x, n = 34) str_trunc(str_split_fixed(x, "\\. |; ", 2)[, 1], n)
 ```
 
@@ -73,7 +73,7 @@ etiqueta <- function(x, n = 34) str_trunc(str_split_fixed(x, "\\. |; ", 2)[, 1],
 :::
 ::: {.cifra .azul}
 [`r pct(ta("Bioeconomía"))`]{.n}
-[de tasa implícita sobre los productos bioeconómicos, frente a `r pct(ta("No bioeconomía"))` de los demás]{.t}
+[de tasa implícita sobre los productos bioeconómicos, frente a `r pct(ta(B_FUE))` de los demás]{.t}
 :::
 ::: {.cifra}
 [`r pct(sh("Formación bruta de capital"))`]{.n}
@@ -180,7 +180,7 @@ g_tasas(r$tasas, base = 15)
 :::
 ::: {.column width="44%"}
 ::: {.caja}
-La brecha persiste en los `r length(anios)` años. La tasa bioeconómica es **`r num(ta("Bioeconomía") / ta("No bioeconomía"), 1)` veces** la del resto.
+La brecha persiste en los `r length(anios)` años. La tasa bioeconómica es **`r num(ta("Bioeconomía") / ta(B_FUE), 1)` veces** la del resto.
 :::
 
 ::: {.caja .ambar}
@@ -241,7 +241,7 @@ top |>
 :::
 ::: {.cifra .ambar}
 [`r num(md_bio, 2)` vs. `r num(md_nob, 2)`]{.n style="font-size:1.45em;"}
-[multiplicador de demanda promedio: actividades bioeconómicas y no bioeconómicas]{.t}
+[multiplicador de demanda promedio: actividades bioeconómicas y fuera de la bioeconomía]{.t}
 :::
 :::
 
@@ -256,20 +256,20 @@ top |>
 ::: {.cifras style="--col:1;"}
 ::: {.cifra .ambar}
 [`r pct(abono_m)`]{.n}
-[de la oferta a precios básicos de **abonos y plaguicidas**, un producto de bioeconomía extendida, es importada (`r num(abono$M)` de `r num(abono$VBP + abono$M)` miles de millones)]{.t}
+[de la oferta a precios básicos de **abonos y plaguicidas**, un producto de bioeconomía parcial, es importada (`r num(abono$M)` de `r num(abono$VBP + abono$M)` miles de millones)]{.t}
 :::
 ::: {.cifra .azul}
-[`r num(sal("Bioeconomía extendida"))`]{.n}
-[miles de millones: saldo comercial de los productos de bioeconomía extendida, donde sí hay déficit]{.t}
+[`r num(sal(B_PAR))`]{.n}
+[miles de millones: saldo comercial de los productos de bioeconomía parcial, donde sí hay déficit]{.t}
 :::
 :::
 :::
 ::: {.column width="50%"}
-**Mayores importaciones de bioeconomía extendida**
+**Mayores importaciones de bioeconomía parcial**
 
 ```{r}
 p |>
-  filter(Bio == "Bioeconomía extendida") |>
+  filter(Bio == B_PAR) |>
   arrange(desc(M)) |>
   slice(1:6) |>
   transmute(
@@ -350,7 +350,7 @@ Convertir este ejercicio en una cuenta regular, con empleo y datos físicos.
 :::: {.columns}
 ::: {.column width="48%"}
 ::: {.caja .azul}
-**El dato.** Tasa implícita de `r pct(ta("Bioeconomía"))` frente a `r pct(ta("No bioeconomía"))`. Los productos bioeconómicos aportan `r pct(sh("Impuestos menos subvenciones"))` de los impuestos netos sobre los productos.
+**El dato.** Tasa implícita de `r pct(ta("Bioeconomía"))` frente a `r pct(ta(B_FUE))`. Los productos bioeconómicos aportan `r pct(sh("Impuestos menos subvenciones"))` de los impuestos netos sobre los productos.
 :::
 
 ::: {.caja .neutra}
@@ -412,7 +412,7 @@ Concentración de exportaciones y valor agregado por peso producido.
 :::: {.columns}
 ::: {.column width="48%"}
 ::: {.caja .ambar}
-**El dato.** Se importa `r pct(abono_m)` de la oferta de abonos y plaguicidas, a precios básicos, un producto de bioeconomía extendida. La agricultura destina `r pct(r$va_ci$pct_bio[r$va_ci$Seccion == "A"])` de su consumo intermedio a productos bioeconómicos.
+**El dato.** Se importa `r pct(abono_m)` de la oferta de abonos y plaguicidas, a precios básicos, un producto de bioeconomía parcial. La agricultura destina `r pct(r$va_ci$pct_bio[r$va_ci$Seccion == "A"])` de su consumo intermedio a productos bioeconómicos.
 :::
 
 ::: {.caja .neutra}

@@ -230,6 +230,23 @@ Reordenar las clasificaciones sin tocar los saldos contables.
 
 ![](images/paste-12.png){fig-align="center" height="540"}
 
+## Tres categorías, en la terminología del SCN 2025
+
+El SCN 2025 llama **cuentas temáticas** a las antiguas cuentas satélite y las organiza alrededor de una **actividad clave** con una frontera precisa [@sna2025, párr. 38.2, 38.21 y 38.29].
+
+```{r}
+tibble(
+  `Método 2022 (CEPAL)` = c("BA01 / BP01. Característicos de la bioeconomía", "BA02 / BP02. Características extendidas", "BA03 / BP03. No característicos"),
+  `Categoría en esta cuenta` = niveles_bio,
+  `Concepto del SCN 2025` = c("Dentro de la frontera de la actividad clave", "Parcialmente dentro de la frontera: filas y columnas que la cruzan", "Fuera de la frontera")
+) |>
+  tabla_simple("cou grande", izq = 3)
+```
+
+::: {.caja .ambar}
+El SCN 2025 pide desagregar las filas y columnas que cruzan la frontera [@sna2025, párr. 38.32]. El COU de INDEC no tiene ese detalle, por eso la **bioeconomía parcial** queda como categoría propia.
+:::
+
 ## Datos ordenados
 
 :::: {.columns}
@@ -350,7 +367,7 @@ cuadro_va_act(r$va_act)
 ```
 
 ::: {.caja .neutra}
-Este es el cálculo tradicional: se decide de antemano qué actividades son bioeconómicas y se suma su valor agregado. Las actividades bioeconómicas aportan **`r pct(md$apriori_bio)`** y las extendidas **`r pct(md$apriori_ext)`**.
+Este es el cálculo tradicional: se decide de antemano qué actividades son bioeconómicas y se suma su valor agregado. Las actividades bioeconómicas aportan **`r pct(md$apriori_bio)`** y las de bioeconomía parcial **`r pct(md$apriori_ext)`**.
 :::
 
 ## El problema de clasificar de antemano
@@ -360,8 +377,8 @@ cuadro_bio_html(r$bio$utilizacion, va = r$bio$va, marcar = TRUE)
 ```
 
 ::: {.leyenda}
-[<i style="background:#FBE7D3;"></i>**Subestimación:** insumos bioeconómicos que usan actividades no bioeconómicas]{}
-[<i style="background:#F8D8D6;"></i>**Sobreestimación:** insumos no bioeconómicos que usan actividades bioeconómicas]{}
+[<i style="background:#FBE7D3;"></i>**Subestimación:** insumos bioeconómicos que usan actividades fuera de la bioeconomía]{}
+[<i style="background:#F8D8D6;"></i>**Sobreestimación:** insumos fuera de la bioeconomía que usan actividades bioeconómicas]{}
 :::
 
 ## Valor agregado por el método del consumo intermedio
@@ -377,7 +394,7 @@ Cada sección aporta valor agregado en proporción a sus insumos bioeconómicos:
 ## Multiplicadores de uso de insumos bioeconómicos
 
 ::: incremental
-- Con el cuadro de oferta y utilización se aproxima un modelo de insumo-producto. Con él se estima cuántos insumos bioeconómicos y bioeconómicos extendidos, en pesos, se usan directa e indirectamente por cada peso que una actividad hace llegar a la demanda final.
+- Con el cuadro de oferta y utilización se aproxima un modelo de insumo-producto. Con él se estima cuántos insumos de bioeconomía y de bioeconomía parcial, en pesos, se usan directa e indirectamente por cada peso que una actividad hace llegar a la demanda final.
 - Muestra la dependencia directa e indirecta de los productos bioeconómicos.
 - Va más allá del sector primario.
 - Después se agrupan las actividades según la desviación absoluta mediana (DAM).

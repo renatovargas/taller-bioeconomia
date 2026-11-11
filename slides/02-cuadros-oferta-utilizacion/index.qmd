@@ -72,10 +72,10 @@ candidatos <- r$productos |>
   mutate(Producto = str_trunc(str_split_fixed(Producto, "\\. |; ", 2)[, 1], 44)) |>
   arrange(desc(Importaciones))
 comp_esc <- c("Producción", "Consumo intermedio", "Importaciones", "Exportaciones", "Impuestos menos subvenciones", "Consumo final")
-part_bio <- function(d, k, b = "Bioeconomía extendida") sum(d[[k]][d$Bio == b]) / sum(d[[k]])
-tasa_bio <- function(d, b = "Bioeconomía extendida") sum(d$`Impuestos menos subvenciones`[d$Bio == b]) / sum(d$Producción[d$Bio == b])
+part_bio <- function(d, k, b = B_PAR) sum(d[[k]][d$Bio == b]) / sum(d[[k]])
+tasa_bio <- function(d, b = B_PAR) sum(d$`Impuestos menos subvenciones`[d$Bio == b]) / sum(d$Producción[d$Bio == b])
 original <- r$productos |> filter(Bio %in% names(COL_BIO))
-cambiado <- original |> mutate(Bio = if_else(Código == "346", "No bioeconomía", Bio))
+cambiado <- original |> mutate(Bio = if_else(Código == "346", B_FUE, Bio))
 escenario <- tibble(
   Indicador = c(comp_esc, "Tasa impositiva implícita"),
   Original = c(vapply(comp_esc, \(k) part_bio(original, k), 0), tasa_bio(original)),
@@ -413,16 +413,16 @@ Lo que antes eran sumas de filas enteras, ahora son unos cuantos clics.
 qa(
   c(
     "¿Qué porcentaje de las exportaciones corresponde a <strong class='destacar'>productos bioeconómicos</strong>?",
-    "¿Cuál es la tasa implícita (impuestos menos subvenciones entre producción) de los productos <strong class='destacar'>bioeconómicos</strong> y de los <strong class='azul-t'>no bioeconómicos</strong>?",
+    "¿Cuál es la tasa implícita (impuestos menos subvenciones entre producción) de los productos <strong class='destacar'>bioeconómicos</strong> y de los <strong class='azul-t'>fuera de la bioeconomía</strong>?",
     "¿Qué parte del consumo intermedio de las <strong class='destacar'>manufacturas</strong> son insumos bioeconómicos?",
-    "¿Cuál es el saldo comercial de cada categoría? (bioeconomía; extendida; no bioeconomía, en miles de millones)",
+    "¿Cuál es el saldo comercial de cada categoría? (bioeconomía; parcial; fuera de la bioeconomía, en miles de millones)",
     "¿Cuál es el producto bioeconómico que más se exporta?"
   ),
   c(
     pct(p_x),
-    paste(pct(t_a$tasa[t_a$Bio == "Bioeconomía"]), "y", pct(t_a$tasa[t_a$Bio == "No bioeconomía"])),
+    paste(pct(t_a$tasa[t_a$Bio == "Bioeconomía"]), "y", pct(t_a$tasa[t_a$Bio == B_FUE])),
     pct(ci_manu$pct_bio),
-    paste(num(saldo$s[saldo$Bio == "Bioeconomía"]), num(saldo$s[saldo$Bio == "Bioeconomía extendida"]), num(saldo$s[saldo$Bio == "No bioeconomía"]), sep = "; "),
+    paste(num(saldo$s[saldo$Bio == "Bioeconomía"]), num(saldo$s[saldo$Bio == B_PAR]), num(saldo$s[saldo$Bio == B_FUE]), sep = "; "),
     top_x
   )
 )
@@ -473,7 +473,7 @@ candidatos |>
 
 [Miles de millones de pesos, `r A`. Para verlo en una tabla dinámica: use el campo `Condición ejercicio` y seleccione Datos > Actualizar todo.]{.pequeno}
 
-## Ejemplo: sacar abonos y plaguicidas de la bioeconomía extendida
+## Ejemplo: sacar abonos y plaguicidas de la bioeconomía parcial
 
 :::: {.columns}
 ::: {.column width="62%"}
@@ -487,7 +487,7 @@ tabla_simple(escenario, "cou grande")
 :::
 
 ::: {.caja .ambar}
-**Lo que más cambia.** Las importaciones de la bioeconomía extendida, porque el producto se importa mucho.
+**Lo que más cambia.** Las importaciones de la bioeconomía parcial, porque el producto se importa mucho.
 :::
 
 ::: {.caja .neutra}
@@ -496,7 +496,7 @@ tabla_simple(escenario, "cou grande")
 :::
 ::::
 
-[Valores de la bioeconomía extendida, Argentina, `r A`, al trasladar el producto 346 a "No bioeconomía".]{.pequeno}
+[Valores de la bioeconomía parcial, Argentina, `r A`, al trasladar el producto 346 a "Fuera de la bioeconomía".]{.pequeno}
 
 ## Referencias
 

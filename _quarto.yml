@@ -20,7 +20,7 @@ project:
 
 website:
   title: "Taller de bioeconomía"
-  description: "Cuentas satélite de bioeconomía: método y aplicación al cuadro de oferta y utilización de Argentina"
+  description: "Cuentas temáticas de bioeconomía: método y aplicación al cuadro de oferta y utilización de Argentina"
   navbar:
     left:
       - href: index.qmd

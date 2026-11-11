@@ -7,10 +7,10 @@ toc: false
 ::: portada
 ## Bioeconomía en cifras, con datos de Argentina
 
-Materiales para entender cómo se construye una cuenta satélite de bioeconomía, practicar con el cuadro de oferta y utilización de 2023 y discutir cursos de política pública.
+Materiales para entender cómo se construye una cuenta temática de bioeconomía, practicar con el cuadro de oferta y utilización de 2023 y discutir cursos de política pública.
 :::
 
-Este sitio reúne los materiales del taller, basados en las cuentas satélite de bioeconomía publicadas por la CEPAL para Costa Rica y para trece países de América Latina y el Caribe. Todos los ejemplos se actualizaron con los cuadros de oferta y utilización de Argentina que publica INDEC.
+Este sitio reúne los materiales del taller, basados en las cuentas de bioeconomía publicadas por la CEPAL para Costa Rica y para trece países de América Latina y el Caribe. Todos los ejemplos se actualizaron con los cuadros de oferta y utilización de Argentina que publica INDEC.
 
 # Contenido
 

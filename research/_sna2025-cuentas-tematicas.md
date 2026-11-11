@@ -30,3 +30,15 @@ Resumen de investigación para decidir las denominaciones de la clasificación b
 | No bioeconomía | Fuera del ámbito ("out-of-scope") | |
 
 El SCN 2025 no fija nombres en español para estas categorías; los de la tabla son una traducción propia. Habría que verificar si existe una versión oficial en español del SCN 2025 antes de fijar la terminología.
+
+## Decisión (2026-11-11)
+
+No se encontró una traducción oficial al español del SCN 2025. Se adoptan estas denominaciones, con los mismos códigos 1, 2 y 3:
+
+| Código | Categoría | Método 2022 (CEPAL) |
+|---|---|---|
+| 1 | Bioeconomía | Característicos de la bioeconomía |
+| 2 | Bioeconomía parcial | De características extendidas |
+| 3 | Fuera de la bioeconomía | No característicos |
+
+Los nombres viven solo en la hoja `categorias` de `data/config/arg_lookups.xlsx`, y `scripts/categorias.R` los carga para todos los scripts. "Cuenta satélite" pasa a "cuenta temática" en todo el sitio, salvo en los títulos de publicaciones anteriores.

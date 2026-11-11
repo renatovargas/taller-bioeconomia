@@ -18,7 +18,7 @@ scn <- readRDS("data/bd/arg_scn.rds")
 ANIO <- max(scn$Año)
 ESCALA <- 1e3 # de millones de pesos a miles de millones de pesos
 
-niveles_bio <- c("Bioeconomía", "Bioeconomía extendida", "No bioeconomía")
+source("scripts/categorias.R") # niveles_bio, B_BIO, B_PAR, B_FUE
 niveles_cpc <- c(
   "Productos agrícolas", "Productos mineros", "Manufacturas",
   "Servicios básicos", "Construcción", "Comercio", "Otros servicios"
@@ -98,12 +98,7 @@ cuadro_bio <- function(a, cuadro, componente_act) {
 }
 
 ordenar_bio <- function(t, cols_final) {
-  cols_act <- c(
-    "Bioeconomía | A-B Sector primario", "Bioeconomía | C Manufacturas",
-    "Bioeconomía extendida | C Manufacturas", "Bioeconomía extendida | D-S Servicios",
-    "No bioeconomía | A-B Sector primario", "No bioeconomía | C Manufacturas",
-    "No bioeconomía | D-S Servicios"
-  )
+  cols_act <- COLS_ACT
   cols <- c(cols_act, cols_final)
   for (cc in setdiff(cols, names(t))) t[[cc]] <- 0
   # Ninguna columna de actividades puede quedar fuera del cuadro
@@ -160,8 +155,8 @@ va_via_ci <- function(a) {
     group_by(Seccion = `CIIU Compacto`, Nombre = `CIIU Compacto Descripción`) |>
     summarise(
       ci = sum(Valor) / ESCALA,
-      ci_bio = sum(Valor[`Bioeconomía Productos` == "Bioeconomía"]) / ESCALA,
-      ci_ext = sum(Valor[`Bioeconomía Productos` == "Bioeconomía extendida"]) / ESCALA,
+      ci_bio = sum(Valor[`Bioeconomía Productos` == B_BIO]) / ESCALA,
+      ci_ext = sum(Valor[`Bioeconomía Productos` == B_PAR]) / ESCALA,
       .groups = "drop"
     )
   va <- d |>
@@ -186,7 +181,7 @@ va_via_ci <- function(a) {
 #   D = V * inv(diag(q))   participación de cada actividad en cada producto
 #   L = inv(I - D * B)     requerimientos directos e indirectos entre actividades
 # Multiplicador de la actividad j: b' L, donde b suma las filas de B de los
-# productos bioeconómicos y bioeconómicos extendidos.
+# productos de bioeconomía y de bioeconomía parcial.
 # Es una medida de uso total: el cuadro de INDEC está a precios de comprador y
 # no separa insumos nacionales de importados.
 multiplicadores <- function(a) {
@@ -223,9 +218,9 @@ multiplicadores <- function(a) {
 
   bio_p <- dd |> distinct(`Código fila`, `Bioeconomía Productos`)
   clase <- bio_p$`Bioeconomía Productos`[match(prod, bio_p$`Código fila`)]
-  clase[is.na(clase)] <- "No bioeconomía"
-  b_bio <- colSums(B[clase == "Bioeconomía", ])
-  b_ext <- colSums(B[clase == "Bioeconomía extendida", ])
+  clase[is.na(clase)] <- B_FUE
+  b_bio <- colSums(B[clase == B_BIO, ])
+  b_ext <- colSums(B[clase == B_PAR, ])
   m_bio <- as.vector(b_bio %*% L)
   m_ext <- as.vector(b_ext %*% L)
 
@@ -290,8 +285,8 @@ medidas_va <- function(a) {
   tibble(
     Año = a,
     va_total = tot,
-    apriori_bio = r$`Valor agregado`[r$Bio == "Bioeconomía"] / tot,
-    apriori_ext = r$`Valor agregado`[r$Bio == "Bioeconomía extendida"] / tot,
+    apriori_bio = r$`Valor agregado`[r$Bio == B_BIO] / tot,
+    apriori_ext = r$`Valor agregado`[r$Bio == B_PAR] / tot,
     via_ci = sum(v$va_bio) / tot
   )
 }
@@ -316,7 +311,7 @@ comercio <- function(a) {
 # Exportaciones bioeconómicas por producto y año, con su participación
 export_bio <- function(a) {
   scn |>
-    filter(Año == a, Componente == "Exportaciones", `Bioeconomía Productos` == "Bioeconomía") |>
+    filter(Año == a, Componente == "Exportaciones", `Bioeconomía Productos` == B_BIO) |>
     group_by(Código = `Código serie`, Producto = `Nomenclatura Local de Productos`) |>
     summarise(X = sum(Valor) / ESCALA, .groups = "drop") |>
     mutate(p = X / sum(X), Año = a) |>

@@ -7,11 +7,7 @@ library(stringr)
 library(ggplot2)
 library(knitr)
 
-COL_BIO <- c(
-  "Bioeconomía" = "#0F7B5F",
-  "Bioeconomía extendida" = "#C27C0E",
-  "No bioeconomía" = "#2F6DB5"
-)
+source("scripts/categorias.R") # niveles_bio, B_BIO, B_PAR, B_FUE, COL_BIO, COLS_ACT
 TINTA <- "#1F2A2E"
 TINTA2 <- "#5B676B"
 REJILLA <- "#E3E8E6"
@@ -101,12 +97,6 @@ cuadro_pib <- function(b) {
 
 # Cuadros bioeconómicos
 # ---------------------
-COLS_ACT <- c(
-  "Bioeconomía | A-B Sector primario", "Bioeconomía | C Manufacturas",
-  "Bioeconomía extendida | C Manufacturas", "Bioeconomía extendida | D-S Servicios",
-  "No bioeconomía | A-B Sector primario", "No bioeconomía | C Manufacturas",
-  "No bioeconomía | D-S Servicios"
-)
 cuadro_bio_html <- function(t, va = NULL, marcar = FALSE) {
   otras <- setdiff(names(t), c("Bio", "Fila", COLS_ACT, "Total"))
   nums <- c(COLS_ACT, otras, "Total")
@@ -116,9 +106,9 @@ cuadro_bio_html <- function(t, va = NULL, marcar = FALSE) {
     str_replace("Manufacturas", "Manu-<br>facturas")
   cab1 <- paste0(
     "<tr><th rowspan='2' class='izq'></th>",
-    "<th colspan='2' class='h-bio'>Bioeconomía</th>",
-    "<th colspan='2' class='h-ext'>Bioeconomía extendida</th>",
-    "<th colspan='3' class='h-nob'>No bioeconomía</th>",
+    "<th colspan='2' class='h-bio'>", B_BIO, "</th>",
+    "<th colspan='2' class='h-ext'>", B_PAR, "</th>",
+    "<th colspan='3' class='h-nob'>", B_FUE, "</th>",
     paste0("<th rowspan='2' class='vert'>", otras, "</th>", collapse = ""),
     "<th rowspan='2'>Total</th></tr>"
   )
@@ -132,17 +122,18 @@ cuadro_bio_html <- function(t, va = NULL, marcar = FALSE) {
     cel <- mapply(function(val, n) {
       cc <- ""
       if (marcar && !is.na(bio_fila)) {
-        es_act_bio <- str_detect(n, "^Bioeconomía")
-        es_act_nob <- str_detect(n, "^No bioeconomía")
-        if (bio_fila %in% c("Bioeconomía", "Bioeconomía extendida") && es_act_nob) cc <- "subest"
-        if (bio_fila == "No bioeconomía" && es_act_bio) cc <- "sobrest"
+        cat_act <- str_remove(n, " \\|.*$")
+        es_act_bio <- cat_act %in% c(B_BIO, B_PAR)
+        es_act_nob <- cat_act == B_FUE
+        if (bio_fila %in% c(B_BIO, B_PAR) && es_act_nob) cc <- "subest"
+        if (bio_fila == B_FUE && es_act_bio) cc <- "sobrest"
       }
       paste0("<td class='", cc, "'>", celda(val), "</td>")
     }, v, nums)
     paste0("<tr class='", cl, "'><td class='izq'>", et, "</td>", paste(cel, collapse = ""), "</tr>")
   }
   cuerpo <- character()
-  for (b in c("Bioeconomía", "Bioeconomía extendida", "No bioeconomía")) {
+  for (b in niveles_bio) {
     g <- t[t$Bio == b, ]
     cuerpo <- c(
       cuerpo,
@@ -489,7 +480,7 @@ g_insumos <- function(scn, a, codigos, base = 15) {
     group_by(Actividad) |>
     mutate(p = v / sum(v)) |>
     ungroup()
-  orden <- d |> filter(Bio == "Bioeconomía") |> arrange(p) |> pull(Actividad)
+  orden <- d |> filter(Bio == B_BIO) |> arrange(p) |> pull(Actividad)
   d <- d |>
     mutate(
       Actividad = factor(Actividad, levels = orden),
