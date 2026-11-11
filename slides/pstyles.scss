@@ -293,3 +293,53 @@ $code-block-font-size: 0.75em;
 .reveal table.cou.mediano td.izq { white-space: normal; }
 .reveal h2:empty { display: none; }
 .reveal .cifras .curso { font-size: 0.82em; padding: 0.8em 0.9em; }
+
+// Lámina de lookups: base plana + lookups = base clasificada
+// ----------------------------------------------------------
+.reveal .lk {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) auto minmax(0, 1.4fr);
+  grid-template-rows: auto auto;
+  gap: 0.35em 0.6em;
+  align-items: start;
+  font-family: "Roboto", sans-serif;
+  margin-top: 0.2em;
+
+  .lk-t { font-size: 0.52em; font-weight: 700; color: $theme-bosque; margin-bottom: 0.3em;
+    b { display: inline-grid; place-items: center; width: 1.5em; height: 1.5em; border-radius: 50%;
+        background: $theme-bosque; color: #fff; margin-right: 0.35em; font-size: 0.9em; } }
+  .lk-op { font-size: 1.4em; font-weight: 700; color: $theme-gris; align-self: center; line-height: 1; }
+  .lk-igual { grid-column: 1 / -1; justify-self: center; font-size: 1.1em; margin: -0.1em 0 -0.2em; }
+  .lk-res { grid-column: 1 / -1; }
+  .lk-dos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.45em; table.lk-tab { font-size: 0.42em; } td, th { padding-left: 0.45em; padding-right: 0.45em; } }
+}
+.reveal table.lk-tab {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.46em;
+  font-variant-numeric: tabular-nums;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(11, 74, 58, 0.1);
+  margin: 0;
+  th { background: $theme-bosque; color: #fff; font-weight: 500; padding: 0.4em 0.6em; text-align: left; border: 0; }
+  td { padding: 0.38em 0.6em; border-bottom: 1px solid #E8EDEB; text-align: left; line-height: 1.15; vertical-align: middle; }
+  td.cod { font-family: "Space Mono", monospace; font-weight: 700; color: $theme-bosque; white-space: nowrap; }
+  td.num { text-align: right; white-space: nowrap; }
+  td.vig { color: $theme-gris; white-space: nowrap; }
+  td.vig.nuevo { color: $theme-ambar; font-weight: 700; }
+  &.ancha { font-size: 0.54em; td { padding-top: 0.45em; padding-bottom: 0.45em; } }
+}
+.reveal .pill {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0.12em 0.6em 0.12em 0.5em;
+  border-radius: 999px;
+  font-weight: 500;
+  color: $theme-tinta;
+  &::before { content: ""; display: inline-block; width: 0.62em; height: 0.62em; border-radius: 50%; margin-right: 0.4em; vertical-align: 0.02em; }
+  &.p1 { background: $theme-menta; &::before { background: $theme-verde; } }
+  &.p2 { background: $theme-ambar-claro; &::before { background: $theme-ambar; } }
+  &.p3 { background: $theme-azul-claro; &::before { background: $theme-azul; } }
+}

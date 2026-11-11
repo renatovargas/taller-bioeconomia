@@ -57,7 +57,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-bf42fd8eb5b6346c333755d4180fb073.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-c35ba5b47f00fb1ea0587f8aaac40558.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -747,13 +747,161 @@ Servicios</th>
 </figure>
 </div>
 </section>
-<section id="paso-2-agregar-la-condición-bioeconómica" class="slide level2">
-<h2>Paso 2: agregar la condición bioeconómica</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/paste-57.png" class="quarto-figure quarto-figure-center" height="540"></p>
-</figure>
+<section id="paso-2-agregar-la-categoría-con-los-lookups" class="slide level2">
+<h2>Paso 2: agregar la categoría con los lookups</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="lk"><div class="lk-paso"><div class="lk-t"><b>1</b> Base plana: solo códigos de INDEC</div>
+<table class="lk-tab caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Año</th>
+<th data-quarto-table-cell-role="th">Cuadro</th>
+<th data-quarto-table-cell-role="th">Fila</th>
+<th data-quarto-table-cell-role="th">Columna</th>
+<th data-quarto-table-cell-role="th">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2023</td>
+<td>Oferta</td>
+<td class="cod">011</td>
+<td class="cod">011/014</td>
+<td class="num">5.181.579</td>
+</tr>
+<tr class="even">
+<td>2023</td>
+<td>Utilización</td>
+<td class="cod">211</td>
+<td class="cod">552</td>
+<td class="num">635.094</td>
+</tr>
+<tr class="odd">
+<td>2023</td>
+<td>Utilización</td>
+<td class="cod">346</td>
+<td class="cod">011/014</td>
+<td class="num">2.309.102</td>
+</tr>
+<tr class="even">
+<td>2023</td>
+<td>Oferta</td>
+<td class="cod">651/652</td>
+<td class="cod">61</td>
+<td class="num">72.304</td>
+</tr>
+</tbody>
+</table>
+</div><div class="lk-op">+</div><div class="lk-paso"><div class="lk-t"><b>2</b> Lookups: un renglón por código</div><div class="lk-dos">
+<table class="lk-tab caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Producto</th>
+<th data-quarto-table-cell-role="th">Desde</th>
+<th data-quarto-table-cell-role="th">Categoría</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td class="cod">011</td>
+<td class="vig">2018</td>
+<td><span class="pill p1">Bioeconomía</span></td>
+</tr>
+<tr class="even">
+<td class="cod">211</td>
+<td class="vig">2018</td>
+<td><span class="pill p1">Bioeconomía</span></td>
+</tr>
+<tr class="odd">
+<td class="cod">346</td>
+<td class="vig">2018</td>
+<td><span class="pill p2">Bioeconomía parcial</span></td>
+</tr>
+<tr class="even">
+<td class="cod">651/652</td>
+<td class="vig nuevo">2020</td>
+<td><span class="pill p3">Fuera de la bioeconomía</span></td>
+</tr>
+</tbody>
+</table>
+<table class="lk-tab caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Actividad</th>
+<th data-quarto-table-cell-role="th">Desde</th>
+<th data-quarto-table-cell-role="th">Categoría</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td class="cod">011/014</td>
+<td class="vig">2018</td>
+<td><span class="pill p1">Bioeconomía</span></td>
+</tr>
+<tr class="even">
+<td class="cod">552</td>
+<td class="vig">2018</td>
+<td><span class="pill p2">Bioeconomía parcial</span></td>
+</tr>
+<tr class="odd">
+<td class="cod">61</td>
+<td class="vig">2018</td>
+<td><span class="pill p3">Fuera de la bioeconomía</span></td>
+</tr>
+</tbody>
+</table>
+</div></div><div class="lk-op lk-igual">=</div><div class="lk-paso lk-res"><div class="lk-t"><b>3</b> Base clasificada: se une por código y año</div>
+<table class="lk-tab ancha caption-top">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Cuadro</th>
+<th data-quarto-table-cell-role="th">Producto</th>
+<th data-quarto-table-cell-role="th">Categoría del producto</th>
+<th data-quarto-table-cell-role="th">Actividad</th>
+<th data-quarto-table-cell-role="th">Categoría de la actividad</th>
+<th data-quarto-table-cell-role="th">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Producción</td>
+<td>Cereales</td>
+<td><span class="pill p1">Bioeconomía</span></td>
+<td>Cultivos agrícolas</td>
+<td><span class="pill p1">Bioeconomía</span></td>
+<td class="num">5.181.579</td>
+</tr>
+<tr class="even">
+<td>Consumo intermedio</td>
+<td>Carne y productos de carne</td>
+<td><span class="pill p1">Bioeconomía</span></td>
+<td>Restaurantes, bares y cantinas</td>
+<td><span class="pill p2">Bioeconomía parcial</span></td>
+<td class="num">635.094</td>
+</tr>
+<tr class="odd">
+<td>Consumo intermedio</td>
+<td>Abonos y plaguicidas</td>
+<td><span class="pill p2">Bioeconomía parcial</span></td>
+<td>Cultivos agrícolas</td>
+<td><span class="pill p1">Bioeconomía</span></td>
+<td class="num">2.309.102</td>
+</tr>
+<tr class="even">
+<td>Producción</td>
+<td>Servicios de transporte de ca...</td>
+<td><span class="pill p3">Fuera de la bioeconomía</span></td>
+<td>Transporte por vía acuática</td>
+<td><span class="pill p3">Fuera de la bioeconomía</span></td>
+<td class="num">72.304</td>
+</tr>
+</tbody>
+</table>
+</div></div>
 </div>
+</div>
+<p><span class="pequeno">Valores de 2023 en millones de pesos. La vigencia permite que un mismo lookup sirva para todos los años: “651/652” solo existe desde 2020. <a href="../../materiales/clasificacion.html">Ver la clasificación completa</a>.</span></p>
 </section>
 <section id="paso-3-volver-a-un-cuadro-ahora-con-la-bioeconomía-visible" class="slide level2">
 <h2>Paso 3: volver a un cuadro, ahora con la bioeconomía visible</h2>
@@ -844,7 +992,7 @@ Servicios</th>
 <h2>¿Para qué? Cuadros y gráficos a la medida</h2>
 <p>Una vez ordenada la base, el contenido de insumos de cualquier actividad sale con unos pocos filtros.</p>
 
-<img data-src="index_files/figure-revealjs/unnamed-chunk-7-1.png" width="2400" class="r-stretch"><p><span class="pequeno">Composición del consumo intermedio de cuatro actividades, Argentina, 2023.</span></p>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-8-1.png" width="2400" class="r-stretch"><p><span class="pequeno">Composición del consumo intermedio de cuatro actividades, Argentina, 2023.</span></p>
 </section></section>
 <section>
 <section id="resultados" class="title-slide slide level1 seccion center" data-background-color="#0B4A3A">
@@ -2250,27 +2398,27 @@ Otros servicios</th>
 <section id="participación-por-condición-del-producto" class="slide level2">
 <h2>Participación por condición del producto</h2>
 
-<img data-src="index_files/figure-revealjs/unnamed-chunk-17-1.png" width="2480" class="r-stretch"><p><span class="pequeno">Precios corrientes. Las participaciones también reflejan precios relativos y tipo de cambio.</span></p>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-18-1.png" width="2480" class="r-stretch"><p><span class="pequeno">Precios corrientes. Las participaciones también reflejan precios relativos y tipo de cambio.</span></p>
 </section>
 <section id="tasa-impositiva-implícita" class="slide level2">
 <h2>Tasa impositiva implícita</h2>
 
-<img data-src="index_files/figure-revealjs/unnamed-chunk-18-1.png" width="2480" class="r-stretch"><p><span class="pequeno">Impuestos menos subvenciones sobre los productos entre valor bruto de producción de los mismos productos.</span></p>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-19-1.png" width="2480" class="r-stretch"><p><span class="pequeno">Impuestos menos subvenciones sobre los productos entre valor bruto de producción de los mismos productos.</span></p>
 </section>
 <section id="valor-agregado-bioeconómico-según-el-método" class="slide level2">
 <h2>Valor agregado bioeconómico según el método</h2>
 
-<img data-src="index_files/figure-revealjs/unnamed-chunk-19-1.png" width="2480" class="r-stretch"><p><span class="pequeno">Porcentaje del valor agregado bruto. Método de actividades: solo actividades bioeconómicas. Método del consumo intermedio: cada sección en proporción a sus insumos bioeconómicos.</span></p>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-20-1.png" width="2480" class="r-stretch"><p><span class="pequeno">Porcentaje del valor agregado bruto. Método de actividades: solo actividades bioeconómicas. Método del consumo intermedio: cada sección en proporción a sus insumos bioeconómicos.</span></p>
 </section>
 <section id="saldo-comercial-por-condición-del-producto" class="slide level2">
 <h2>Saldo comercial por condición del producto</h2>
 
-<img data-src="index_files/figure-revealjs/unnamed-chunk-20-1.png" width="2480" class="r-stretch"><p><span class="pequeno">Exportaciones menos importaciones de cada grupo de productos, como porcentaje del PIB a precios corrientes.</span></p>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-21-1.png" width="2480" class="r-stretch"><p><span class="pequeno">Exportaciones menos importaciones de cada grupo de productos, como porcentaje del PIB a precios corrientes.</span></p>
 </section>
 <section id="composición-de-las-exportaciones-bioeconómicas" class="slide level2">
 <h2>Composición de las exportaciones bioeconómicas</h2>
 
-<img data-src="index_files/figure-revealjs/unnamed-chunk-21-1.png" width="2480" class="r-stretch"><p><span class="pequeno">Participación en las exportaciones de productos bioeconómicos, precios corrientes. Los cinco productos son los que más exportan en 2023.</span></p>
+<img data-src="index_files/figure-revealjs/unnamed-chunk-22-1.png" width="2480" class="r-stretch"><p><span class="pequeno">Participación en las exportaciones de productos bioeconómicos, precios corrientes. Los cinco productos son los que más exportan en 2023.</span></p>
 </section></section>
 <section>
 <section id="resultados-en-el-contexto-latinoamericano" class="title-slide slide level1 seccion center" data-background-color="#0B4A3A">

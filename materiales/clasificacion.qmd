@@ -1,0 +1,320 @@
+---
+title: "Clasificación de productos y actividades"
+subtitle: "Qué es bioeconomía, qué es bioeconomía parcial y qué queda fuera, año por año"
+toc: false
+page-layout: full
+---
+
+```{r}
+#| include: false
+source("scripts/funciones-presentacion.R")
+library(readxl)
+lk <- "data/config/arg_lookups.xlsx"
+scn <- readRDS("data/bd/arg_scn.rds")
+anios <- sort(unique(scn$Año))
+sin_codigo <- function(x) str_squish(str_remove(x, "^[^ ]+( [A-Z]+)? - "))
+corto <- function(x, n = 46) {
+  x <- str_remove(sin_codigo(x), "\\.\\s?\\d{2,}.*$")
+  str_trunc(str_split_fixed(x, "\\. |; | / ", 2)[, 1], n)
+}
+
+orden_cpc <- c("Productos agrícolas", "Productos mineros", "Manufacturas", "Servicios básicos", "Construcción", "Comercio", "Otros servicios")
+prod <- read_excel(lk, "productos") |>
+  transmute(
+    tipo = "p",
+    cod = `Código Nomenclatura Local de Productos`,
+    nombre = corto(`Nomenclatura Local de Productos`),
+    completo = sin_codigo(`Nomenclatura Local de Productos`),
+    grupo = `CPC Grupos`,
+    og = match(grupo, orden_cpc),
+    cat = as.integer(`Código Bioeconomía Productos`),
+    desde = as.integer(Desde), hasta = as.integer(Hasta),
+    serie = `Código serie`
+  ) |>
+  # El nombre oficial de 217/218 empieza por su componente menor
+  mutate(nombre = if_else(cod == "217/218", "Tortas oleaginosas y borras de algodón", nombre))
+orden_ciiu <- c("Agricultura", "Minería", "Manufacturas", "Servicios básicos y agua", "Construcción", "Comercio", "Otros servicios")
+act <- read_excel(lk, "actividades") |>
+  transmute(
+    tipo = "a",
+    cod = `Código Clasificación Actividades`,
+    nombre = corto(nombre_actividad(`Descripción Actividades`, 200)),
+    completo = `Descripción Actividades`,
+    grupo = `CIIU Compacto Descripción`,
+    og = match(grupo, orden_ciiu),
+    cat = as.integer(`Código Bioeconomía Actividades`),
+    desde = as.integer(Desde), hasta = as.integer(Hasta),
+    serie = cod
+  )
+
+# Peso de cada código en la producción de cada año (precios básicos)
+peso_p <- scn |>
+  filter(Componente == "Producción", `Tipo fila` == "Producto") |>
+  group_by(anio = Año, cod = `Código fila`) |>
+  summarise(v = sum(Valor), .groups = "drop") |>
+  group_by(anio) |> mutate(s = v / sum(v)) |> ungroup() |> mutate(tipo = "p")
+peso_a <- scn |>
+  filter(Componente == "Producción") |>
+  group_by(anio = Año, cod = `Código columna`) |>
+  summarise(v = sum(Valor), .groups = "drop") |>
+  group_by(anio) |> mutate(s = v / sum(v)) |> ungroup() |> mutate(tipo = "a")
+pesos <- bind_rows(peso_p, peso_a) |> select(tipo, cod, anio, s)
+
+cats <- tibble(cat = seq_along(niveles_bio), nombre = niveles_bio, color = unname(COL_BIO),
+               scn = c("Dentro de la frontera de la actividad clave", "Parcialmente dentro de la frontera", "Fuera de la frontera"))
+ojs_define(prod = prod, act = act, pesos = pesos, cats = cats, anios = anios)
+
+# Cambios entre años (estático)
+cambios <- bind_rows(
+  prod |> filter(desde > min(anios) | !is.na(hasta)) |> mutate(que = "Producto"),
+  read_excel(lk, "transacciones") |>
+    filter(as.integer(Desde) > min(anios) | !is.na(Hasta)) |>
+    transmute(cod = `Código columna`, completo = str_to_sentence(`Descripción INDEC`), desde = as.integer(Desde),
+              hasta = suppressWarnings(as.integer(Hasta)), cat = NA_integer_, que = "Columna", serie = cod)
+)
+celda_anio <- function(d, h, a, k) {
+  vig <- a >= d & (is.na(h) | a <= h)
+  if (!vig) return("<td class='tl-no'></td>")
+  cl <- if (is.na(k)) "tl-si tl-col" else paste0("tl-si c", k)
+  paste0("<td class='", cl, "'><span></span></td>")
+}
+tl <- paste0(
+  "<table class='tl'><thead><tr><th class='izq'>Código</th><th class='izq'>Qué es</th><th class='izq'>Código serie</th>",
+  paste0("<th>", anios, "</th>", collapse = ""), "</tr></thead><tbody>",
+  paste0(vapply(seq_len(nrow(cambios)), \(i) {
+    x <- cambios[i, ]
+    paste0("<tr><td class='izq cod'>", x$cod, "</td><td class='izq'><span class='tl-que'>", x$que, "</span>", str_trunc(x$completo, 90), "</td>",
+           "<td class='izq cod'>", x$serie, "</td>",
+           paste0(vapply(anios, \(a) celda_anio(x$desde, x$hasta, a, x$cat), ""), collapse = ""), "</tr>")
+  }, ""), collapse = ""),
+  "</tbody></table>"
+)
+alias <- read_excel(lk, "actividades") |> filter(!is.na(`Alias INDEC`))
+```
+
+::: {.clasif}
+
+::: {.clasif-intro}
+Cada producto (fila del COU) y cada actividad (columna) tiene **una sola categoría**, válida para todos los años en que INDEC publica su código. Elija un año para ver qué códigos existen, cuánto pesan en la producción y a qué categoría pertenecen.
+:::
+
+```{ojs}
+//| echo: false
+P = transpose(prod)
+A = transpose(act)
+W = transpose(pesos)
+C = transpose(cats)
+ANIOS = typeof anios === "number" ? [anios] : anios
+fmtPct = (x) => x == null ? "–" : (x * 100).toLocaleString("es-AR", {minimumFractionDigits: 1, maximumFractionDigits: 1}) + " %"
+
+function segmented(opciones, valor, etiqueta) {
+  const el = html`<div class="seg" role="radiogroup" aria-label=${etiqueta}></div>`;
+  el.value = valor;
+  const botones = opciones.map(o => {
+    const b = html`<button type="button" role="radio">${o}</button>`;
+    const marcar = () => botones.forEach(([x, v]) => { x.classList.toggle("on", v === el.value); x.setAttribute("aria-checked", v === el.value); });
+    b.addEventListener("click", () => { el.value = o; marcar(); el.dispatchEvent(new Event("input", {bubbles: true})); });
+    el.append(b);
+    return [b, o];
+  });
+  botones.forEach(([x, v]) => { x.classList.toggle("on", v === valor); x.setAttribute("aria-checked", v === valor); });
+  return el;
+}
+
+function chips(cs) {
+  const el = html`<div class="chips" aria-label="Categorías"></div>`;
+  el.value = cs.map(c => c.cat);
+  const bs = cs.map(c => {
+    const b = html`<button type="button" aria-pressed="true"><i></i>${c.nombre}</button>`;
+    b.className = "chip on c" + c.cat;
+    b.addEventListener("click", () => {
+      const on = !b.classList.contains("on");
+      b.classList.toggle("on", on); b.setAttribute("aria-pressed", on);
+      el.value = cs.filter((_, k) => bs[k].classList.contains("on")).map(x => x.cat);
+      el.dispatchEvent(new Event("input", {bubbles: true}));
+    });
+    el.append(b);
+    return b;
+  });
+  return el;
+}
+
+function buscador() {
+  const el = html`<label class="buscar"><span class="sr-only">Buscar</span><input type="search" placeholder="Buscar: carne, 1514, papel…" autocomplete="off"></label>`;
+  const inp = el.querySelector("input");
+  el.value = "";
+  inp.addEventListener("input", (e) => { e.stopPropagation(); el.value = inp.value; el.dispatchEvent(new Event("input", {bubbles: true})); });
+  return el;
+}
+```
+
+::: {.clasif-controles}
+
+```{ojs}
+//| echo: false
+viewof anio = segmented(ANIOS, ANIOS[ANIOS.length - 1], "Año")
+```
+
+```{ojs}
+//| echo: false
+viewof filtro = chips(C)
+```
+
+```{ojs}
+//| echo: false
+viewof q = buscador()
+```
+
+:::
+
+```{ojs}
+//| echo: false
+norm = (s) => (s ?? "").toString().normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
+vigente = (d) => d.desde <= anio && (d.hasta == null || d.hasta >= anio)
+peso = (tipo, cod) => W.find(w => w.tipo === tipo && w.cod === cod && w.anio === anio)?.s ?? 0
+conPeso = (L, tipo) => L.filter(vigente).map(d => ({...d, s: peso(tipo, d.cod), nuevo: d.desde === anio && anio > ANIOS[0]}))
+Pv = conPeso(P, "p")
+Av = conPeso(A, "a")
+coincide = (d) => filtro.includes(d.cat) && (q === "" || norm(d.cod + " " + d.completo + " " + d.grupo).includes(norm(q)))
+```
+
+```{ojs}
+//| echo: false
+resumen = {
+  const fila = (L) => C.map(c => {
+    const xs = L.filter(d => d.cat === c.cat);
+    return {...c, n: xs.length, s: xs.reduce((a, d) => a + d.s, 0)};
+  });
+  const rp = fila(Pv), ra = fila(Av);
+  const barra = (r, titulo) => html`<div class="barra-res">
+    <div class="barra-t">${titulo}</div>
+    <div class="barra" role="img" aria-label=${titulo + ": " + r.map(x => x.nombre + " " + fmtPct(x.s)).join(", ")}>
+      ${r.map(x => html`<div class="seg-b c${x.cat}" style=${"flex-grow:" + x.s} title=${x.nombre + ": " + fmtPct(x.s)}></div>`)}
+    </div></div>`;
+  return html`<div class="tarjetas">
+    ${C.map((c, i) => html`<div class="tarjeta c${c.cat}">
+      <div class="t-nombre"><i></i>${c.nombre}</div>
+      <div class="t-cifras">
+        <div><span class="t-n">${rp[i].n}</span><span class="t-l">productos</span><span class="t-p">${fmtPct(rp[i].s)} de la producción</span></div>
+        <div><span class="t-n">${ra[i].n}</span><span class="t-l">actividades</span><span class="t-p">${fmtPct(ra[i].s)} de la producción</span></div>
+      </div>
+      <div class="t-scn">SCN 2025: ${c.scn.toLowerCase()}</div>
+    </div>`)}
+  </div>
+  <div class="barras">${barra(rp, "Producción por categoría del producto, " + anio)}${barra(ra, "Producción por categoría de la actividad, " + anio)}</div>`;
+}
+```
+
+```{ojs}
+//| echo: false
+function mosaico(L, etiquetaGrupo) {
+  const vis = L.filter(coincide);
+  if (!vis.length) return html`<p class="vacio">Ningún código coincide con la búsqueda y las categorías elegidas.</p>`;
+  const max = Math.max(...L.map(d => d.s), 1e-9);
+  const grupos = d3.groups(vis.sort((a, b) => a.og - b.og || a.cod.localeCompare(b.cod, "es", {numeric: true})), d => d.grupo);
+  return html`<div class="mosaico">${grupos.map(([g, xs]) => {
+    const tot = L.filter(d => d.grupo === g);
+    return html`<section class="grupo">
+      <header><h4>${g}</h4><span class="g-n">${xs.length} de ${tot.length} ${etiquetaGrupo}</span>
+        <span class="g-mini">${C.map(c => html`<i class="c${c.cat}" style=${"flex-grow:" + tot.filter(d => d.cat === c.cat).length}></i>`)}</span>
+      </header>
+      <div class="tiles">${xs.map(d => html`<div class="tile c${d.cat}" tabindex="0">
+        <span class="t-cod">${d.cod}${d.nuevo ? html`<b class="nuevo">nuevo</b>` : ""}</span>
+        <span class="t-nom">${d.nombre}</span>
+        <span class="t-peso" style=${"width:" + Math.max(2, 100 * d.s / max) + "%"}></span>
+        <span class="tip"><b>${d.cod}</b> · ${C[d.cat - 1].nombre}<br>${d.completo}<br>
+          <em>${fmtPct(d.s)} de la producción de ${anio} · vigente desde ${d.desde}${d.hasta ? " hasta " + d.hasta : ""}${d.serie !== d.cod ? " · serie " + d.serie : ""}</em></span>
+      </div>`)}</div>
+    </section>`;
+  })}</div>`;
+}
+
+function tabla(L, etiqueta) {
+  const vis = L.filter(coincide).sort((a, b) => b.s - a.s);
+  const max = Math.max(...L.map(d => d.s), 1e-9);
+  return html`<div class="tabla-scroll"><table class="cou clasif-tabla">
+    <thead><tr><th class="izq">Código</th><th class="izq">${etiqueta}</th><th class="izq">Grupo</th><th class="izq">Categoría</th><th>Peso en la producción, ${anio}</th><th>Vigencia</th></tr></thead>
+    <tbody>${vis.map(d => html`<tr>
+      <td class="izq cod">${d.cod}</td><td class="izq nom">${d.completo}</td><td class="izq">${d.grupo}</td>
+      <td class="izq"><span class="pill p${d.cat}">${C[d.cat - 1].nombre}</span></td>
+      <td class="peso"><span class="mini-barra"><i class="c${d.cat}" style=${"width:" + (100 * d.s / max) + "%"}></i></span>${fmtPct(d.s)}</td>
+      <td>${d.desde}${d.hasta ? "–" + d.hasta : "–"}</td></tr>`)}</tbody></table></div>`;
+}
+```
+
+::: {.panel-tabset}
+
+## Productos
+
+```{ojs}
+//| echo: false
+viewof vistaP = segmented(["Mosaico", "Tabla"], "Mosaico", "Vista de productos")
+```
+
+```{ojs}
+//| echo: false
+vistaP === "Mosaico" ? mosaico(Pv, "productos") : tabla(Pv, "Producto")
+```
+
+[Cada recuadro es una fila del COU. La barra inferior indica su peso en la producción del año. Pase el cursor, o enfoque con el teclado, para ver el nombre completo de INDEC.]{.nota}
+
+## Actividades
+
+```{ojs}
+//| echo: false
+viewof vistaA = segmented(["Mosaico", "Tabla"], "Mosaico", "Vista de actividades")
+```
+
+```{ojs}
+//| echo: false
+vistaA === "Mosaico" ? mosaico(Av, "actividades") : tabla(Av, "Actividad")
+```
+
+[Cada recuadro es una columna del COU (CIIU Rev. 3, 107 actividades en todos los años). Una actividad de una categoría puede producir productos de otra: por eso la cuenta clasifica ambas dimensiones por separado.]{.nota}
+
+## Cambios entre años
+
+Los códigos de INDEC cambian poco, pero cambian. Cada código vigente en un año tiene su color; los años vacíos son años en que el código no aparece en el cuadro. El **código serie** une códigos que se fusionaron, para comparar entre años.
+
+```{r}
+#| echo: false
+html_salida(tl)
+```
+
+Además:
+
+- **Unidad.** De 2018 a 2022, INDEC publica en miles de pesos y en 2023, en millones. La base usa millones de pesos para todos los años.
+- **Alias.** En la hoja de utilización, INDEC escribe `r paste0("<code>", alias$"Alias INDEC", "</code>", collapse = ", ")` para las actividades `r paste0("<code>", alias$"Código Clasificación Actividades", "</code>", collapse = ", ")`. El lookup registra ambos códigos.
+
+## Cómo funcionan los lookups
+
+::: {.pasos-lk}
+::: {.paso-lk}
+[1]{.n}
+**Un renglón por código.** `arg_lookups.xlsx` tiene una hoja para productos y otra para actividades. Cada código de INDEC aparece una sola vez, con su categoría.
+:::
+::: {.paso-lk}
+[2]{.n}
+**Vigencia en lugar de versiones.** Las columnas `Desde` y `Hasta` dicen en qué años el código está en el cuadro. Un código nuevo se agrega con su `Desde`; uno que desaparece recibe su `Hasta`.
+:::
+::: {.paso-lk}
+[3]{.n}
+**La rutina comprueba.** Para cada año, los códigos del cuadro deben coincidir con los vigentes en el lookup, y cada fila debe sumar el total publicado por INDEC. Si algo no cuadra, se detiene y dice qué código falta o sobra.
+:::
+::: {.paso-lk}
+[4]{.n}
+**Reclasificar es editar una celda.** Las categorías viven en la hoja `categorias`. Cambiar la condición de un producto en un renglón la cambia en todos los años.
+:::
+:::
+
+Descargas: [arg_lookups.xlsx](../data/config/arg_lookups.xlsx) · [arg_config.xlsx](../data/config/arg_config.xlsx) · [01-procesar-cou-argentina.R](../scripts/01-procesar-cou-argentina.R)
+
+Las tres categorías siguen la terminología del SCN 2025 para cuentas temáticas (capítulo 38). Una cuenta temática se organiza alrededor de una actividad clave con una frontera precisa:
+
+- **Bioeconomía:** dentro de la frontera.
+- **Bioeconomía parcial:** parcialmente dentro. Son filas y columnas con contenido biológico y no biológico que el COU de INDEC no permite separar.
+- **Fuera de la bioeconomía:** fuera de la frontera.
+
+:::
+
+:::

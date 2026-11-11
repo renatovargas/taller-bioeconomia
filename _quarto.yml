@@ -27,6 +27,8 @@ website:
         text: Inicio
       - href: materiales/index.qmd
         text: Materiales
+      - href: materiales/clasificacion.qmd
+        text: Clasificación
       - href: materiales/descargas.qmd
         text: Descargas
       - href: about.qmd
@@ -47,6 +49,8 @@ website:
           contents:
             - text: "Bioeconomía y política pública en Argentina"
               href: materiales/documentos/bioeconomia-argentina-politica-publica/index.qmd
+        - text: "Clasificación de productos y actividades"
+          href: materiales/clasificacion.qmd
         - text: "Descargas y scripts"
           href: materiales/descargas.qmd
 

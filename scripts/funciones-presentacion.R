@@ -513,3 +513,63 @@ qa <- function(preguntas, respuestas, negativas = integer()) {
     paste(filas, collapse = ""), "</div>"
   ))
 }
+
+# Lámina didáctica de los lookups: base plana + lookups = base clasificada
+# -----------------------------------------------------------------------
+# Toma cuatro celdas reales del COU del año `a` y muestra cómo los lookups,
+# un renglón por código con su vigencia, les agregan la categoría.
+pill <- function(cat) {
+  k <- match(cat, niveles_bio)
+  paste0("<span class='pill p", k, "'>", cat, "</span>")
+}
+lamina_lookup <- function(scn, a,
+                          celdas = list(c("011", "011/014"), c("211", "552"),
+                                        c("346", "011/014"), c("651/652", "61"))) {
+  lk_p <- readxl::read_excel("data/config/arg_lookups.xlsx", "productos")
+  lk_a <- readxl::read_excel("data/config/arg_lookups.xlsx", "actividades")
+  d <- scn |> filter(Año == a, Cuadro != "Valor Agregado", `Tipo fila` == "Producto", `Tipo columna` == "Actividad")
+  filas <- lapply(celdas, \(x) d |> filter(`Código fila` == x[1], `Código columna` == x[2]) |> slice_max(Valor, n = 1))
+  f <- bind_rows(filas)
+  corto_p <- \(x) str_trunc(str_split_fixed(str_remove(x, "^[^ ]+( [A-Z]+)? - "), " / |\\. ", 2)[, 1], 32)
+  corto_a <- \(x) str_trunc(str_to_sentence(nombre_actividad(x)), 32)
+  vig <- \(de, ha) ifelse(is.na(ha), de, paste0(de, "–", ha))
+  td <- \(x, cl = "") paste0("<td class='", cl, "'>", x, "</td>")
+  tabla <- \(cab, filas, cl = "") paste0(
+    "<table class='lk-tab ", cl, "'><thead><tr>", paste0("<th>", cab, "</th>", collapse = ""),
+    "</tr></thead><tbody>", paste(filas, collapse = ""), "</tbody></table>"
+  )
+  base <- tabla(
+    c("Año", "Cuadro", "Fila", "Columna", "Valor"),
+    paste0("<tr>", td(f$Año), td(f$Cuadro), td(f$`Código fila`, "cod"), td(f$`Código columna`, "cod"), td(num(f$Valor), "num"), "</tr>")
+  )
+  p <- lk_p |> filter(`Código Nomenclatura Local de Productos` %in% f$`Código fila`) |>
+    arrange(match(`Código Nomenclatura Local de Productos`, f$`Código fila`))
+  ac <- lk_a |> filter(`Código Clasificación Actividades` %in% f$`Código columna`) |>
+    arrange(match(`Código Clasificación Actividades`, unique(f$`Código columna`)))
+  cat_p <- niveles_bio[as.integer(p$`Código Bioeconomía Productos`)]
+  cat_a <- niveles_bio[as.integer(ac$`Código Bioeconomía Actividades`)]
+  lk1 <- tabla(
+    c("Producto", "Desde", "Categoría"),
+    paste0("<tr>", td(p$`Código Nomenclatura Local de Productos`, "cod"),
+           td(vig(p$Desde, p$Hasta), ifelse(p$Desde > min(lk_p$Desde), "vig nuevo", "vig")), td(pill(cat_p)), "</tr>")
+  )
+  lk2 <- tabla(
+    c("Actividad", "Desde", "Categoría"),
+    paste0("<tr>", td(ac$`Código Clasificación Actividades`, "cod"), td(vig(ac$Desde, ac$Hasta), "vig"), td(pill(cat_a)), "</tr>")
+  )
+  res <- tabla(
+    c("Cuadro", "Producto", "Categoría del producto", "Actividad", "Categoría de la actividad", "Valor"),
+    paste0("<tr>", td(f$Componente), td(corto_p(f$`Nomenclatura Local de Productos`)), td(pill(f$`Bioeconomía Productos`)),
+           td(corto_a(f$`Descripción Actividades`)), td(pill(f$`Bioeconomía Actividades`)), td(num(f$Valor), "num"), "</tr>"),
+    "ancha"
+  )
+  html_salida(paste0(
+    "<div class='lk'>",
+    "<div class='lk-paso'><div class='lk-t'><b>1</b> Base plana: solo códigos de INDEC</div>", base, "</div>",
+    "<div class='lk-op'>+</div>",
+    "<div class='lk-paso'><div class='lk-t'><b>2</b> Lookups: un renglón por código</div><div class='lk-dos'>", lk1, lk2, "</div></div>",
+    "<div class='lk-op lk-igual'>=</div>",
+    "<div class='lk-paso lk-res'><div class='lk-t'><b>3</b> Base clasificada: se une por código y año</div>", res, "</div>",
+    "</div>"
+  ))
+}

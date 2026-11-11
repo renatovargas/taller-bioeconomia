@@ -48,3 +48,135 @@ table.cou.anexo td, table.cou.anexo th { text-align: left; vertical-align: top; 
 table.cou.anexo td.izq { white-space: normal; }
 table.cou.anexo td:first-child { white-space: nowrap; }
 table.cou.anexo td:last-child { white-space: nowrap; }
+
+/* ------------------------------------------------------------------ */
+/* Clasificación de productos y actividades                            */
+/* ------------------------------------------------------------------ */
+.clasif {
+  --bosque: #0B4A3A; --verde: #0F7B5F; --ambar: #C27C0E; --azul: #2F6DB5;
+  --c1: #0F7B5F; --c2: #C27C0E; --c3: #2F6DB5;
+  --t1: #DCEFE8; --t2: #FBEFD9; --t3: #E3EDF8;
+  --tinta: #1F2A2E; --tinta2: #5B676B; --linea: #E3E8E6; --papel: #FBFBF8;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+.clasif .c1 { --c: var(--c1); --t: var(--t1); }
+.clasif .c2 { --c: var(--c2); --t: var(--t2); }
+.clasif .c3 { --c: var(--c3); --t: var(--t3); }
+.clasif .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.clasif-intro { font-size: 1.05rem; color: var(--tinta2); max-width: 62rem; margin-bottom: 1rem; }
+
+/* Controles en una sola fila */
+.clasif-controles {
+  display: flex; flex-wrap: wrap; gap: 0.6rem 1rem; align-items: center;
+  padding: 0.6rem 0; margin-bottom: 0.6rem; border-bottom: 1px solid var(--linea);
+}
+.clasif-controles > div { margin: 0 !important; }
+.clasif .seg { display: inline-flex; background: #EEF3F1; border-radius: 999px; padding: 3px; gap: 2px; }
+.clasif .seg button {
+  border: 0; background: transparent; color: var(--tinta2); font: 600 0.92rem "Source Sans 3", sans-serif;
+  padding: 0.32rem 0.85rem; border-radius: 999px; cursor: pointer; font-variant-numeric: tabular-nums;
+}
+.clasif .seg button:hover { color: var(--bosque); }
+.clasif .seg button.on { background: var(--bosque); color: #fff; box-shadow: 0 1px 4px rgba(11, 74, 58, 0.25); }
+.clasif .chips { display: inline-flex; flex-wrap: wrap; gap: 0.4rem; }
+.clasif .chip {
+  border: 1.5px solid var(--c); background: #fff; color: var(--tinta); border-radius: 999px;
+  padding: 0.28rem 0.8rem 0.28rem 0.6rem; font: 600 0.9rem "Source Sans 3", sans-serif; cursor: pointer; opacity: 0.55;
+}
+.clasif .chip i { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 50%; background: var(--c); margin-right: 0.4em; }
+.clasif .chip.on { background: var(--t); opacity: 1; }
+.clasif .buscar input {
+  border: 1px solid #CCD6D2; border-radius: 999px; padding: 0.38rem 0.95rem; min-width: 19rem; font-size: 0.95rem;
+}
+.clasif .buscar input:focus { outline: 2px solid var(--verde); outline-offset: 1px; border-color: transparent; }
+.clasif button:focus-visible, .clasif .tile:focus-visible { outline: 2px solid var(--bosque); outline-offset: 2px; }
+
+/* Tarjetas de resumen */
+.clasif .tarjetas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem; margin: 0.4rem 0 0.9rem; }
+.clasif .tarjeta { background: var(--t); border-radius: 12px; padding: 0.9rem 1.1rem 0.8rem; border-top: 5px solid var(--c); }
+.clasif .t-nombre { font: 700 1.08rem "Roboto", sans-serif; color: var(--tinta); }
+.clasif .t-nombre i { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 50%; background: var(--c); margin-right: 0.45em; }
+.clasif .t-cifras { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin: 0.45rem 0 0.35rem; }
+.clasif .t-cifras > div { display: flex; flex-direction: column; }
+.clasif .t-n { font: 700 2rem/1 "Roboto", sans-serif; color: var(--tinta); font-variant-numeric: tabular-nums; }
+.clasif .t-l { font-weight: 600; color: var(--tinta); }
+.clasif .t-p { font-size: 0.85rem; color: var(--tinta2); }
+.clasif .t-scn { font-size: 0.8rem; color: var(--tinta2); font-style: italic; border-top: 1px solid rgba(0, 0, 0, 0.07); padding-top: 0.35rem; }
+.clasif .barras { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem 1.4rem; margin-bottom: 1.2rem; }
+.clasif .barra-t { font-size: 0.85rem; color: var(--tinta2); margin-bottom: 0.25rem; }
+.clasif .barra { display: flex; gap: 2px; height: 14px; }
+.clasif .barra .seg-b { background: var(--c); min-width: 3px; flex-basis: 0; }
+.clasif .barra .seg-b:first-child { border-radius: 4px 0 0 4px; }
+.clasif .barra .seg-b:last-child { border-radius: 0 4px 4px 0; }
+
+/* Pestañas */
+.clasif .panel-tabset .nav-link { font-weight: 600; color: var(--tinta2); }
+.clasif .panel-tabset .nav-link.active { color: var(--bosque); border-bottom: 3px solid var(--verde); }
+.clasif .tab-content { padding-top: 0.8rem; }
+.clasif .nota { display: block; font-size: 0.85rem; color: var(--tinta2); margin-top: 0.6rem; }
+.clasif .vacio { color: var(--tinta2); font-style: italic; padding: 1rem 0; }
+
+/* Mosaico */
+.clasif .mosaico { display: grid; gap: 1.1rem; margin-top: 0.7rem; }
+.clasif .grupo header { display: flex; align-items: baseline; gap: 0.8rem; margin-bottom: 0.45rem; border-bottom: 1px solid var(--linea); padding-bottom: 0.25rem; }
+.clasif .grupo h4 { margin: 0; font-size: 1rem; color: var(--bosque); }
+.clasif .g-n { font-size: 0.82rem; color: var(--tinta2); }
+.clasif .g-mini { display: inline-flex; gap: 2px; width: 120px; height: 7px; margin-left: auto; align-self: center; }
+.clasif .g-mini i { background: var(--c); border-radius: 2px; flex-basis: 0; }
+.clasif .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 6px; }
+.clasif .tile {
+  position: relative; background: var(--t); border-left: 4px solid var(--c); border-radius: 6px;
+  padding: 0.35rem 0.55rem 0.55rem; min-height: 3.6rem; cursor: default;
+  display: flex; flex-direction: column; gap: 0.1rem; transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.clasif .tile:hover, .clasif .tile:focus { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(11, 74, 58, 0.16); z-index: 3; }
+.clasif .t-cod { font: 700 0.78rem "Space Mono", ui-monospace, monospace; color: var(--tinta); display: flex; align-items: center; gap: 0.35rem; }
+.clasif .nuevo { font: 700 0.62rem "Source Sans 3", sans-serif; text-transform: uppercase; letter-spacing: 0.04em; background: var(--ambar); color: #fff; border-radius: 4px; padding: 0 0.3rem; }
+.clasif .t-nom { font-size: 0.84rem; line-height: 1.15; color: var(--tinta); }
+.clasif .t-peso { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--c); border-radius: 0 2px 2px 0; opacity: 0.9; }
+.clasif .tip {
+  display: none; position: absolute; left: 0; top: calc(100% + 6px); width: 300px; z-index: 10;
+  background: var(--tinta); color: #fff; font-size: 0.8rem; line-height: 1.3; padding: 0.55rem 0.7rem; border-radius: 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2); pointer-events: none;
+}
+.clasif .tip em { color: #C9D6D1; font-style: normal; display: block; margin-top: 0.25rem; }
+.clasif .tile:hover .tip, .clasif .tile:focus .tip { display: block; }
+
+/* Tabla */
+.clasif table.clasif-tabla { font-size: 0.86rem; }
+.clasif table.clasif-tabla td { vertical-align: middle; }
+.clasif table.clasif-tabla td.cod { font-family: "Space Mono", ui-monospace, monospace; font-weight: 700; white-space: nowrap; }
+.clasif table.clasif-tabla td.nom { white-space: normal; min-width: 18rem; }
+.clasif .mini-barra { display: inline-block; width: 70px; height: 7px; background: #EEF3F1; border-radius: 4px; margin-right: 0.45rem; vertical-align: middle; overflow: hidden; }
+.clasif .mini-barra i { display: block; height: 100%; background: var(--c); border-radius: 4px; }
+.clasif .pill { display: inline-block; white-space: nowrap; padding: 0.08rem 0.6rem 0.08rem 0.5rem; border-radius: 999px; font-weight: 600; font-size: 0.82rem; }
+.clasif .pill::before { content: ""; display: inline-block; width: 0.6em; height: 0.6em; border-radius: 50%; margin-right: 0.4em; }
+.clasif .pill.p1 { background: var(--t1); } .clasif .pill.p1::before { background: var(--c1); }
+.clasif .pill.p2 { background: var(--t2); } .clasif .pill.p2::before { background: var(--c2); }
+.clasif .pill.p3 { background: var(--t3); } .clasif .pill.p3::before { background: var(--c3); }
+
+/* Línea de tiempo de cambios */
+.clasif table.tl { border-collapse: separate; border-spacing: 3px; font-size: 0.88rem; margin: 0.6rem 0 1rem; }
+.clasif table.tl th { color: var(--tinta2); font-weight: 600; text-align: center; padding: 0.2rem 0.5rem; }
+.clasif table.tl .izq { text-align: left; }
+.clasif table.tl td { padding: 0.3rem 0.5rem; }
+.clasif table.tl td.cod { font-family: "Space Mono", ui-monospace, monospace; font-weight: 700; white-space: nowrap; }
+.clasif .tl-que { display: inline-block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--tinta2); width: 5.2rem; }
+.clasif td.tl-si, .clasif td.tl-no { width: 3.4rem; padding: 0; }
+.clasif td.tl-si span { display: block; height: 18px; border-radius: 4px; background: var(--c); }
+.clasif td.tl-col span { background: var(--tinta2); }
+.clasif td.tl-no { background: repeating-linear-gradient(135deg, #F1F4F3 0 4px, #fff 4px 8px); border-radius: 4px; }
+
+/* Pasos de los lookups */
+.clasif .pasos-lk { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; margin: 0.6rem 0 1rem; }
+.clasif .paso-lk { background: #F4F8F6; border-radius: 10px; padding: 0.8rem 0.95rem; font-size: 0.92rem; }
+.clasif .paso-lk .n { display: inline-grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--bosque); color: #fff; font-weight: 700; margin-bottom: 0.4rem; }
+
+@media (max-width: 900px) {
+  .clasif .tarjetas, .clasif .barras, .clasif .pasos-lk { grid-template-columns: 1fr; }
+  .clasif .buscar input { min-width: 0; width: 100%; }
+  .clasif .tip { width: 240px; }
+}
+.clasif table.clasif-tabla thead th { background: #0B4A3A !important; color: #fff !important; padding: 0.45rem 0.55rem; }
+.clasif table.clasif-tabla td.peso { white-space: nowrap; }

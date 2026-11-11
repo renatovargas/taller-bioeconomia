@@ -272,9 +272,13 @@ El SCN 2025 pide desagregar las filas y columnas que cruzan la frontera [@sna202
 
 ![](images/paste-53.png){fig-align="center" height="540"}
 
-## Paso 2: agregar la condición bioeconómica
+## Paso 2: agregar la categoría con los lookups
 
-![](images/paste-57.png){fig-align="center" height="540"}
+```{r}
+lamina_lookup(scn, A)
+```
+
+[Valores de `r A` en millones de pesos. La vigencia permite que un mismo lookup sirva para todos los años: "651/652" solo existe desde 2020. [Ver la clasificación completa](../../materiales/clasificacion.qmd).]{.pequeno}
 
 ## Paso 3: volver a un cuadro, ahora con la bioeconomía visible
 
