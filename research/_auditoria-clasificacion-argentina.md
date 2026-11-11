@@ -44,4 +44,4 @@ Actividades cuya categoría difiere de la de su producto principal en 2023:
 Otros puntos:
 
 - 692 H (distribución de agua a hogares) es Fuera de la bioeconomía y 692 R (al resto) es parcial.
-- Los productos de distribución de electricidad, gas y agua (6911 H, 6912 H, 6911R/6912R, 692 H, 692 R) y 940 están en el grupo CPC "Otros servicios", mientras que 171 Energía eléctrica está en "Servicios básicos". Afecta solo las filas de los cuadros por grupo CPC, no la categoría bioeconómica.
+- **Resuelto:** los productos de distribución de electricidad, gas y agua (6911 H, 6912 H, 6911R/6912R, 692 H, 692 R) pasaron del grupo CPC "Otros servicios" a "Servicios básicos", con 171 Energía eléctrica. 940 Alcantarillado sigue en "Otros servicios".
