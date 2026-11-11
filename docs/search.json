@@ -130,7 +130,7 @@
     "href": "slides/03-hallazgos-politica-publica/index.html#ejercicio-en-grupos",
     "title": "De los hallazgos a la política pública",
     "section": "Ejercicio en grupos",
-    "text": "Ejercicio en grupos\n\n\n\n1. Elijan un curso. Con la herramienta o la base en Excel, busquen tres cifras que lo respalden y una que lo cuestione.\n\n\n2. Identifiquen ganadores y perdedores. ¿Qué sector, región o grupo gana? ¿Quién paga?\n\n\n\n3. Decidan qué falta. ¿Qué dato fuera del COU necesitarían antes de recomendarlo? ¿Qué principio del G20 queda sin cubrir?\n\n\n4. Propongan un indicador. Uno solo, medible cada año, para saber si la política funciona.\n\n\nAbrir la herramienta de bioeconomía · Descargar la base de datos · Descargar los cuadros"
+    "text": "Ejercicio en grupos\n\n\n\n1. Elijan un curso. Con la herramienta, busquen tres cifras que lo respalden y una que lo cuestione.\n\n\n2. Identifiquen ganadores y perdedores. ¿Qué sector, región o grupo gana? ¿Quién paga?\n\n\n\n3. Decidan qué falta. ¿Qué dato fuera del COU necesitarían antes de recomendarlo? ¿Qué principio del G20 queda sin cubrir?\n\n\n4. Propongan un indicador. Uno solo, medible cada año, para saber si la política funciona.\n\n\nAbrir la herramienta de bioeconomía · Descargar la base de datos · Descargar los cuadros"
   },
   {
     "objectID": "slides/03-hallazgos-politica-publica/index.html#preguntas-para-la-discusión",
@@ -473,7 +473,7 @@
     "href": "materiales/presentaciones/02-cuadros-oferta-utilizacion.html#objetivos",
     "title": "Los cuadros de oferta y utilización",
     "section": "Objetivos",
-    "text": "Objetivos\n\nReconocer los componentes de la oferta y la utilización\nEntender la valoración a precios básicos y de comprador\nEncontrar datos en el cuadro oficial de INDEC\nResponder las mismas preguntas, más rápido, con tablas dinámicas",
+    "text": "Objetivos\n\nReconocer los componentes de la oferta y la utilización\nEntender la valoración a precios básicos y de comprador\nEncontrar datos en el cuadro oficial de INDEC\nResponder preguntas sobre la bioeconomía con la herramienta\nPoner a prueba la clasificación y ver qué resultados cambian",
     "crumbs": [
       "Materiales",
       "Presentaciones",
@@ -495,7 +495,7 @@
     "href": "materiales/descargas.html",
     "title": "Descargas y scripts",
     "section": "",
-    "text": "Archivo\nQué contiene\nPara qué sirve\n\n\n\n\nsh_cou_2023_06_26.xls\nCuadro oficial de oferta y utilización de INDEC, 2023 (millones de pesos)\nPrimera ronda de preguntas, a mano\n\n\nARG_SCN_BD_2023.xlsx\nEl mismo cuadro en formato plano, con clasificación bioeconómica, tabla dinámica y hoja para reclasificar productos\nSegunda ronda de preguntas y ejercicio de reclasificación\n\n\nARG_cuadros_bioeconomia_2023.xlsx\nCuadros de oferta y utilización, cuadros bioeconómicos, valor agregado y multiplicadores\nConsulta y gráficos propios\n\n\nHerramienta de bioeconomía\nAplicación en línea con los cuadros, la clasificación y los multiplicadores de 2018 a 2023\nReclasificar productos y actividades y comparar escenarios (código)",
+    "text": "Archivo\nQué contiene\nPara qué sirve\n\n\n\n\nsh_cou_2023_06_26.xls\nCuadro oficial de oferta y utilización de INDEC, 2023 (millones de pesos)\nPrimera ronda de preguntas, a mano\n\n\nHerramienta de bioeconomía\nAplicación en línea con los cuadros, la clasificación y los multiplicadores de 2018 a 2023\nSegunda ronda de preguntas y ejercicio de reclasificación (código)\n\n\nARG_cuadros_bioeconomia_2023.xlsx\nCuadros de oferta y utilización, cuadros bioeconómicos, valor agregado y multiplicadores\nConsulta y gráficos propios\n\n\nARG_SCN_BD_2023.xlsx\nEl mismo cuadro en formato plano, con clasificación bioeconómica\nTrabajar la base por cuenta propia",
     "crumbs": [
       "Materiales",
       "Descargas y scripts"
@@ -506,7 +506,7 @@
     "href": "materiales/descargas.html#para-el-taller",
     "title": "Descargas y scripts",
     "section": "",
-    "text": "Archivo\nQué contiene\nPara qué sirve\n\n\n\n\nsh_cou_2023_06_26.xls\nCuadro oficial de oferta y utilización de INDEC, 2023 (millones de pesos)\nPrimera ronda de preguntas, a mano\n\n\nARG_SCN_BD_2023.xlsx\nEl mismo cuadro en formato plano, con clasificación bioeconómica, tabla dinámica y hoja para reclasificar productos\nSegunda ronda de preguntas y ejercicio de reclasificación\n\n\nARG_cuadros_bioeconomia_2023.xlsx\nCuadros de oferta y utilización, cuadros bioeconómicos, valor agregado y multiplicadores\nConsulta y gráficos propios\n\n\nHerramienta de bioeconomía\nAplicación en línea con los cuadros, la clasificación y los multiplicadores de 2018 a 2023\nReclasificar productos y actividades y comparar escenarios (código)",
+    "text": "Archivo\nQué contiene\nPara qué sirve\n\n\n\n\nsh_cou_2023_06_26.xls\nCuadro oficial de oferta y utilización de INDEC, 2023 (millones de pesos)\nPrimera ronda de preguntas, a mano\n\n\nHerramienta de bioeconomía\nAplicación en línea con los cuadros, la clasificación y los multiplicadores de 2018 a 2023\nSegunda ronda de preguntas y ejercicio de reclasificación (código)\n\n\nARG_cuadros_bioeconomia_2023.xlsx\nCuadros de oferta y utilización, cuadros bioeconómicos, valor agregado y multiplicadores\nConsulta y gráficos propios\n\n\nARG_SCN_BD_2023.xlsx\nEl mismo cuadro en formato plano, con clasificación bioeconómica\nTrabajar la base por cuenta propia",
     "crumbs": [
       "Materiales",
       "Descargas y scripts"
@@ -842,28 +842,28 @@
     "href": "slides/02-cuadros-oferta-utilizacion/index.html#qué-es-la-producción",
     "title": "Los cuadros de oferta y utilización",
     "section": "¿Qué es la producción?",
-    "text": "¿Qué es la producción?\n\n“La producción es una actividad realizada bajo la responsabilidad, el control y la gestión de una unidad institucional, en la que se utilizan insumos de mano de obra, capital y bienes y servicios para obtener otros bienes y servicios.” (Comisión Europea et al., 2008, p. 109)\n\n\n\nEl saldo contable de la cuenta de la producción es el valor agregado."
+    "text": "¿Qué es la producción?\n\n“La producción es una actividad realizada bajo la responsabilidad, el control y la gestión de una unidad institucional, en la que se utilizan insumos de mano de obra, capital y bienes y servicios para obtener otros bienes y servicios.” (Comisión Europea et al., 2008, p. 109)\n\n\n\nEl saldo contable de la cuenta de la producción es el valor agregado: lo que se produce menos los insumos que se usaron para producirlo.\n\n\nPor lo tanto El valor agregado existe por actividad, no por producto. Para medir el de la bioeconomía hay que decidir qué parte de cada actividad le corresponde. → Métodos de la presentación 1"
   },
   {
     "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#de-precios-básicos-a-precios-de-comprador",
     "href": "slides/02-cuadros-oferta-utilizacion/index.html#de-precios-básicos-a-precios-de-comprador",
     "title": "Los cuadros de oferta y utilización",
     "section": "De precios básicos a precios de comprador",
-    "text": "De precios básicos a precios de comprador\n\n\nPrecios básicos\n\n\n\n\n\n\n\nImpuestos sobre los productos, excluido el IVA facturado\n\n\n−\n\n\nSubvenciones a los productos\n\n\n=\n\n\nPrecios de productor\n\n\n\n\n\nPrecios de productor\n\n\n\n\n\n\n\nIVA no deducible por el comprador\n\n\n\n\n\n\n\nTransporte facturado por separado\n\n\n\n\n\n\n\nMárgenes de comercio mayorista y minorista\n\n\n=\n\n\nPrecios de comprador\n\n\n\n\n\nEn el COU de INDEC, la hoja de oferta recorre este camino por producto: de la producción a precios básicos (OPB) a la oferta total a precios de comprador (OPC). Los márgenes de comercio suman cero en el total de la economía: se restan de la fila de los servicios comerciales y se suman a los bienes que los llevan."
+    "text": "De precios básicos a precios de comprador\n\n\nPrecios básicos\n\n\n\n\n\n\n\nImpuestos sobre los productos, excluido el IVA facturado\n\n\n−\n\n\nSubvenciones a los productos\n\n\n=\n\n\nPrecios de productor\n\n\n\n\n\nPrecios de productor\n\n\n\n\n\n\n\nIVA no deducible por el comprador\n\n\n\n\n\n\n\nTransporte facturado por separado\n\n\n\n\n\n\n\nMárgenes de comercio mayorista y minorista\n\n\n=\n\n\nPrecios de comprador\n\n\n\n\n\nEn el COU de INDEC, la hoja de oferta recorre este camino por producto: de la producción a precios básicos (OPB) a la oferta total a precios de comprador (OPC). Los márgenes de comercio suman cero en el total de la economía: se restan de la fila de los servicios comerciales y se suman a los bienes que los llevan.\n\n\nPor lo tanto Los impuestos que separan un precio del otro son los que dan la tasa implícita de la bioeconomía. → Hallazgo 1 de la presentación 3"
   },
   {
     "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#el-equilibrio-de-los-productos",
     "href": "slides/02-cuadros-oferta-utilizacion/index.html#el-equilibrio-de-los-productos",
     "title": "Los cuadros de oferta y utilización",
     "section": "El equilibrio de los productos",
-    "text": "El equilibrio de los productos\n\n\nPara cada bien o servicio, lo que está disponible es igual a lo que se usa:\n\nOferta = producción + importaciones + impuestos netos + márgenes\n\n\nUtilización = consumo intermedio + consumo final + formación de capital + exportaciones\n\n\nEjemplo: cereales en Argentina, 2023\n\n\n\n\n\nMiles de millones de pesos\nValor\n\n\n\n\nProducción a precios básicos\n5.184,9\n\n\n(+) Importaciones\n35,9\n\n\n(+) Impuestos menos subvenciones\n385,6\n\n\n(+) Márgenes\n13,4\n\n\n(=) Oferta total\n5.619,8\n\n\nConsumo intermedio\n2.533,3\n\n\n(+) Consumo final\n62,5\n\n\n(+) Formación de capital y existencias\n584,2\n\n\n(+) Exportaciones\n2.439,8\n\n\n(=) Utilización total\n5.619,8"
+    "text": "El equilibrio de los productos\n\n\nPara cada bien o servicio, lo que está disponible es igual a lo que se usa:\n\nOferta = producción + importaciones + impuestos netos + márgenes\n\n\nUtilización = consumo intermedio + consumo final + formación de capital + exportaciones\n\n\nEjemplo: cereales en Argentina, 2023\n\n\n\n\n\nMiles de millones de pesos\nValor\n\n\n\n\nProducción a precios básicos\n5.184,9\n\n\n(+) Importaciones\n35,9\n\n\n(+) Impuestos menos subvenciones\n385,6\n\n\n(+) Márgenes\n13,4\n\n\n(=) Oferta total\n5.619,8\n\n\nConsumo intermedio\n2.533,3\n\n\n(+) Consumo final\n62,5\n\n\n(+) Formación de capital y existencias\n584,2\n\n\n(+) Exportaciones\n2.439,8\n\n\n(=) Utilización total\n5.619,8\n\n\n\n\n\n\n\nPor lo tanto Como cada producto cuadra, clasificar una fila como bioeconómica arrastra todos sus usos a la vez: producción, importaciones, impuestos y exportaciones. → Por eso se clasifican productos"
   },
   {
     "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#qué-papel-desempeñan-los-cuadros-de-oferta-y-utilización",
     "href": "slides/02-cuadros-oferta-utilizacion/index.html#qué-papel-desempeñan-los-cuadros-de-oferta-y-utilización",
     "title": "Los cuadros de oferta y utilización",
     "section": "¿Qué papel desempeñan los cuadros de oferta y utilización?",
-    "text": "¿Qué papel desempeñan los cuadros de oferta y utilización?\n\n\n\nCuenta de producción. Muestran la cuenta de producción de todos los sectores de la economía en un solo instrumento (o dos).\n\n\n\nEquilibrio de productos. Muestran el equilibrio de todos los bienes y servicios que reconoce la institución encargada de prepararlos."
+    "text": "¿Qué papel desempeñan los cuadros de oferta y utilización?\n\n\n\nCuenta de producción. Muestran la cuenta de producción de todos los sectores de la economía en un solo instrumento (o dos).\n\n\n\nEquilibrio de productos. Muestran el equilibrio de todos los bienes y servicios que reconoce la institución encargada de prepararlos.\n\n\n\n\n\n\n\n\n\n\n\n\n\nPor lo tanto Las columnas muestran actividades y las filas, productos. La cuenta de bioeconomía clasifica las dos dimensiones por separado, y para eso hay que saber dónde está cada dato. → Pregunta 2"
   },
   {
     "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#los-cuadros-de-oferta-y-utilización-de-argentina",
@@ -912,14 +912,14 @@
     "href": "slides/02-cuadros-oferta-utilizacion/index.html#ejercicio-y-si-clasificamos-distinto",
     "title": "Los cuadros de oferta y utilización",
     "section": "Ejercicio: ¿y si clasificamos distinto?",
-    "text": "Ejercicio: ¿y si clasificamos distinto?\nLa clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba con la herramienta de bioeconomía o con la hoja Ejercicio de la base de datos.\n\n\n1 Elijan un producto dudoso en la lista del anexo.\n\n\n2 Anoten qué esperan que cambie, antes de tocar nada.\n\n\n3 Cambien su categoría: un clic en su recuadro de la pantalla Clasificación, o la celda amarilla del Excel.\n\n\n4 Comparen en la pantalla Reclasificar y defiendan su decisión.\n\n\n\n\n\n\n\n\nCandidato\nCondición actual\nExportaciones\nImportaciones\nImpuestos netos\n\n\n\n\nProductos farmacéuticos\nBioeconomía parcial\n338\n990\n197\n\n\nProductos químicos orgánicos básicos\nBioeconomía parcial\n100\n789\n125\n\n\nAbonos y plaguicidas\nBioeconomía parcial\n135\n613\n137\n\n\nServicios relacionados con la agricultura...\nBioeconomía\n5\n0\n3\n\n\n\n\n\nMiles de millones de pesos, 2023. En Excel, para verlo en una tabla dinámica: use el campo Condición ejercicio y seleccione Datos &gt; Actualizar todo."
+    "text": "Ejercicio: ¿y si clasificamos distinto?\nCon la herramienta de bioeconomía:\n\n\n1 Elijan un producto dudoso en la lista del anexo o en la pantalla Clasificación.\n\n\n2 Anoten qué esperan que cambie, antes de tocar nada.\n\n\n3 Cambien su categoría en la pantalla Reclasificar y apliquen el escenario.\n\n\n4 Comparen el original con el escenario y defiendan su decisión.\n\n\n\n\n\n\n\n\nCandidato\nCondición actual\nExportaciones\nImportaciones\nImpuestos netos\n\n\n\n\nProductos farmacéuticos\nBioeconomía parcial\n338\n990\n197\n\n\nProductos químicos orgánicos básicos\nBioeconomía parcial\n100\n789\n125\n\n\nAbonos y plaguicidas\nBioeconomía parcial\n135\n613\n137\n\n\nServicios relacionados con la agricultura...\nBioeconomía\n5\n0\n3\n\n\n\n\n\nAlgunos candidatos para empezar. Miles de millones de pesos, 2023."
   },
   {
     "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#ejemplo-sacar-abonos-y-plaguicidas-de-la-bioeconomía-parcial",
     "href": "slides/02-cuadros-oferta-utilizacion/index.html#ejemplo-sacar-abonos-y-plaguicidas-de-la-bioeconomía-parcial",
     "title": "Los cuadros de oferta y utilización",
     "section": "Ejemplo: sacar abonos y plaguicidas de la bioeconomía parcial",
-    "text": "Ejemplo: sacar abonos y plaguicidas de la bioeconomía parcial\n\n\n\n\n\n\n\nIndicador\nOriginal\nEscenario\nCambio (p. p.)\n\n\n\n\nProducción\n5,8 %\n5,3 %\n-0,5\n\n\nConsumo intermedio\n7,9 %\n6,3 %\n-1,5\n\n\nImportaciones\n15,5 %\n13,3 %\n-2,2\n\n\nExportaciones\n5,9 %\n5,4 %\n-0,6\n\n\nImpuestos menos subvenciones\n8,4 %\n8,0 %\n-0,5\n\n\nConsumo final\n9,9 %\n9,8 %\n-0,1\n\n\nTasa impositiva implícita\n13,4 %\n13,8 %\n0,4\n\n\n\n\n\n\n\nLo que no cambia. La bioeconomía en sentido estricto: sigue con 44,3 % de las exportaciones.\n\n\nLo que más cambia. Las importaciones de la bioeconomía parcial, porque el producto se importa mucho.\n\n\nPara discutir. ¿Un plaguicida de síntesis debería contar? ¿Y uno biológico? El COU los agrupa en una sola fila.\n\n\nValores de la bioeconomía parcial, Argentina, 2023, al trasladar el producto 346 a “Fuera de la bioeconomía”. Abrir este escenario en la herramienta."
+    "text": "Ejemplo: sacar abonos y plaguicidas de la bioeconomía parcial\n\n\n\n\n\n\n\nIndicador\nOriginal\nEscenario\nCambio (p. p.)\n\n\n\n\nProducción\n5,8 %\n5,3 %\n-0,5\n\n\nConsumo intermedio\n7,9 %\n6,3 %\n-1,5\n\n\nImportaciones\n15,5 %\n13,3 %\n-2,2\n\n\nExportaciones\n5,9 %\n5,4 %\n-0,6\n\n\nImpuestos menos subvenciones\n8,4 %\n8,0 %\n-0,5\n\n\nConsumo final\n9,9 %\n9,8 %\n-0,1\n\n\nTasa impositiva implícita\n13,4 %\n13,8 %\n0,4\n\n\n\n\n\nBioeconomía parcial, 2023, con el 346 fuera de la bioeconomía. Abrir en la herramienta.\n\n\nLo que no cambia. La bioeconomía en sentido estricto: sigue con 44,3 % de las exportaciones.\n\n\nLo que más cambia. Las importaciones de la bioeconomía parcial, porque el producto se importa mucho.\n\n\nPara discutir. ¿Un plaguicida de síntesis debería contar? ¿Y uno biológico? El COU los agrupa en una sola fila.\n\n\n\nPor lo tanto Mientras la fila no se separe, una política de bioinsumos sería invisible en la cuenta, sin importar cómo la clasifiquemos. → Curso 3 de la presentación 3"
   },
   {
     "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#escenario-la-regla-del-producto-principal",
@@ -933,7 +933,7 @@
     "href": "slides/02-cuadros-oferta-utilizacion/index.html#para-discutir-el-escenario",
     "title": "Los cuadros de oferta y utilización",
     "section": "Para discutir el escenario",
-    "text": "Para discutir el escenario\n\n\n\n¿Basta el producto principal? En 222 Impresión, el producto principal es solo 34 % de lo que produce la actividad. En 900 Desechos, es el 100 %.\nRestaurantes. Su producto, el servicio de comida, está fuera de la bioeconomía, pero 71 % de sus insumos son de bioeconomía. ¿Dónde debe verse esa dependencia: en su categoría o en su multiplicador?\nComparabilidad. Las publicaciones de la CEPAL usan la clasificación original. ¿Qué vale más: la coherencia interna o poder comparar con otros países?\nEl método. El valor agregado vía consumo intermedio no se mueve con este escenario. ¿Es una ventaja?\n\n\n\nPruébenlo. Este enlace abre la herramienta con las 8 actividades ya movidas:\nAbrir el escenario en la herramienta\n\n\nVariante. En la pantalla Reclasificar, deshagan uno por uno los cambios que no los convenzan y miren qué indicador se mueve."
+    "text": "Para discutir el escenario\n\n\n\n\n¿Basta el producto principal? En 222 Impresión, el producto principal es solo 34 % de lo que produce la actividad. En 900 Desechos, es el 100 %.\nRestaurantes. Su producto, el servicio de comida, está fuera de la bioeconomía, pero 71 % de sus insumos son de bioeconomía. ¿Dónde debe verse esa dependencia: en su categoría o en su multiplicador?\nComparabilidad. Las publicaciones de la CEPAL usan la clasificación original. ¿Qué vale más: la coherencia interna o poder comparar con otros países?\nEl método. El valor agregado vía consumo intermedio no se mueve con este escenario. ¿Es una ventaja?\n\n\n\n\nPruébenlo. Este enlace abre la herramienta con las 8 actividades ya movidas:\nAbrir el escenario en la herramienta\n\n\nVariante. En la pantalla Reclasificar, deshagan uno por uno los cambios que no los convenzan y miren qué indicador se mueve.\n\n\n\nPor lo tanto La clasificación es una decisión técnica discutible. Por eso tiene que ser pública, tener vigencia por año y poder ponerse a prueba. → Curso 6 de la presentación 3"
   },
   {
     "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#referencias",
@@ -1021,5 +1021,33 @@
     "title": "De los hallazgos a la política pública",
     "section": "Tres mensajes para llevar",
     "text": "Tres mensajes para llevar\n\n\n¿Dónde pesa?\nPesa más en divisas e impuestos que en producción.\nPor eso importa cómo tributa y qué tan concentrado está su superávit.\nCursos 1 y 2: coherencia fiscal y diversificación\n\n\n¿De qué depende?\nDepende de insumos importados y de cadenas que van más allá del campo.\nPor eso importan los bioinsumos y los proveedores locales.\nCursos 3 y 4: bioinsumos y encadenamientos\n\n\n¿Qué no vemos?\nLo que no se mide no se puede gestionar.\nPor eso importa medir la inversión y sostener la cuenta en el tiempo.\nCursos 5 y 6: inversión y sistema de información"
+  },
+  {
+    "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#tres-preguntas-guían-esta-sesión",
+    "href": "slides/02-cuadros-oferta-utilizacion/index.html#tres-preguntas-guían-esta-sesión",
+    "title": "Los cuadros de oferta y utilización",
+    "section": "Tres preguntas guían esta sesión",
+    "text": "Tres preguntas guían esta sesión\n\n\nPregunta 1\n¿Cómo se lee un cuadro de oferta y utilización?\nQué es la producción, cómo se valora y por qué cada producto cuadra.\nLos conceptos detrás de cada celda\n\n\nPregunta 2\n¿Dónde están los datos en el archivo de INDEC?\nCómo está organizado el cuadro oficial y cómo encontrar un dato a mano.\nPrimera ronda, a mano · segunda, con la herramienta\n\n\nPregunta 3\n¿Qué tanto depende la cuenta de cómo clasificamos?\nQué cambia en los resultados cuando un producto o una actividad cambia de categoría.\nEjercicio y escenario de reclasificación\n\n\n\nEl recorrido de la sesión\n\n\nConceptosla cuenta de producción\n\n→\n\nEl archivoel COU de INDEC\n\n→\n\nA manobuscar en el Excel oficial\n\n→\n\nCon la herramientalas mismas preguntas\n\n→\n\nReclasificarponer a prueba la cuenta\n\n\nLa presentación 1 mostró cómo el cuadro se convierte en una base de datos clasificada. Aquí la usamos."
+  },
+  {
+    "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#los-materiales-de-esta-sesión",
+    "href": "slides/02-cuadros-oferta-utilizacion/index.html#los-materiales-de-esta-sesión",
+    "title": "Los cuadros de oferta y utilización",
+    "section": "Los materiales de esta sesión",
+    "text": "Los materiales de esta sesión\n\n\n\nCOU oficial de INDEC, 2023\nDescargar sh_cou_2023_06_26.xls\nPara responder a mano, como lo haría un analista frente al cuadro original. Así se aprende cómo publica INDEC sus cuadros.\n\n\n\nHerramienta de bioeconomía\nAbrir la herramienta\nEl mismo cuadro ya clasificado, de 2018 a 2023, para responder en segundos y reclasificar productos y actividades."
+  },
+  {
+    "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#segunda-ronda-con-la-herramienta",
+    "href": "slides/02-cuadros-oferta-utilizacion/index.html#segunda-ronda-con-la-herramienta",
+    "title": "Los cuadros de oferta y utilización",
+    "section": "Segunda ronda: con la herramienta",
+    "text": "Segunda ronda: con la herramienta\nLas preguntas ahora son sobre la bioeconomía, y cada una indica en qué pantalla está la respuesta.\n\n\nPreguntaRespuesta1. Panorama. ¿Qué porcentaje de las exportaciones corresponde a productos bioeconómicos?44,3 %2. Panorama. ¿Cuánto aporta la bioeconomía al valor agregado por el método de actividades y por el del consumo intermedio?12,8 % y 14,5 %3. Reclasificar, Todos los indicadores. ¿Cuál es la tasa implícita de los productos bioeconómicos y de los fuera de la bioeconomía?13,1 % y 8,1 %4. Cuadros, Valor agregado vía consumo intermedio. ¿Qué parte del consumo intermedio de las manufacturas son insumos bioeconómicos?27,9 %5. Reclasificar, Todos los indicadores. ¿Cuál es el saldo comercial de cada categoría, en porcentaje del PIB? (bioeconomía; parcial; fuera)4,3 %; -1,5 %; -4,4 %\n\n\n\nPor lo tanto Todas estas respuestas dependen de qué productos y actividades llamamos bioeconómicos. ¿Qué pasa si clasificamos distinto? → Pregunta 3"
+  },
+  {
+    "objectID": "slides/02-cuadros-oferta-utilizacion/index.html#tres-ideas-para-llevar",
+    "href": "slides/02-cuadros-oferta-utilizacion/index.html#tres-ideas-para-llevar",
+    "title": "Los cuadros de oferta y utilización",
+    "section": "Tres ideas para llevar",
+    "text": "Tres ideas para llevar\n\n\n¿Cómo se lee?\nCada producto cuadra: lo que se ofrece es lo que se usa.\nPor eso, clasificar una fila lleva consigo todos sus usos.\n\n\n¿Dónde están los datos?\nEl dato está en el cuadro oficial, si se sabe buscar.\nConocer el archivo de INDEC permite verificar cualquier cifra de la cuenta.\n\n\n¿Qué tanto depende?\nLa clasificación es una decisión, y se puede poner a prueba.\nAlgunos resultados se mueven mucho y otros casi nada.\n\n\n\nLo que sigue Con la cuenta construida y puesta a prueba, pasamos a leer sus resultados para la política pública. → Presentación 3"
   }
 ]

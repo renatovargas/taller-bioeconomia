@@ -1,6 +1,6 @@
 ---
 title: "Los cuadros de oferta y utilización"
-subtitle: "Sus componentes y particularidades, con el COU 2023 de Argentina"
+subtitle: "Cómo se leen, dónde están los datos y qué tanto depende la cuenta de su clasificación"
 author:
   - name: "Renato Vargas"
     affiliations:
@@ -39,7 +39,7 @@ n_prod <- n_distinct(scn$`Código fila`[scn$`Tipo fila` == "Producto"])
 prod <- function(cod) scn |> filter(`Código Nomenclatura Local de Productos` == cod)
 miles <- function(x) num(x, 0)
 
-# Respuestas leídas de la base, que coincide con el archivo de INDEC
+# Primera ronda: respuestas leídas de la base, que coincide con el archivo de INDEC
 vinos <- scn |>
   filter(Componente == "Producción", `Código Clasificación Actividades` == "1552") |>
   summarise(v = sum(Valor)) |> pull(v)
@@ -56,16 +56,13 @@ ce_v <- function(k) {
   if (length(x)) x else 0
 }
 
-# Preguntas con la tabla dinámica
+# Segunda ronda: respuestas que da la herramienta
 s_a <- r$series |> filter(Año == A)
 p_x <- s_a |> filter(Componente == "Exportaciones", Bio == "Bioeconomía") |> pull(pct)
 t_a <- r$tasas |> filter(Año == A)
-top_x <- r$productos |> filter(Bio == "Bioeconomía") |> slice_max(Exportaciones, n = 1) |> pull(Producto)
-vaci <- r$va_ci
-ci_manu <- vaci |> filter(Seccion == "C")
-saldo <- r$productos |>
-  group_by(Bio) |>
-  summarise(s = sum(Exportaciones) - sum(Importaciones), .groups = "drop")
+md_a <- r$medidas |> filter(Año == A)
+ci_manu <- r$va_ci |> filter(Seccion == "C")
+sp_a <- function(b) r$comercio$saldo_pib[r$comercio$Bio == b & r$comercio$Año == A]
 
 # Ejercicio de reclasificación
 candidatos <- r$productos |>
@@ -94,6 +91,78 @@ rv <- regla$va |> filter(Año == A)
 corto_n <- function(x, n = 34) str_trunc(str_split_fixed(str_remove(x, "^[^ ]+( [A-Z]+)? - "), "\\. |; | / ", 2)[, 1], n)
 ```
 
+## Tres preguntas guían esta sesión
+
+::: {.cifras style="--col:3;"}
+::: {.guia style="--c:#2F6DB5;"}
+[Pregunta 1]{.g-n}
+
+[¿Cómo se lee un cuadro de oferta y utilización?]{.g-q}
+
+Qué es la producción, cómo se valora y por qué cada producto cuadra.
+
+[Los conceptos detrás de cada celda]{.g-r}
+:::
+::: {.guia style="--c:#C27C0E;"}
+[Pregunta 2]{.g-n}
+
+[¿Dónde están los datos en el archivo de INDEC?]{.g-q}
+
+Cómo está organizado el cuadro oficial y cómo encontrar un dato a mano.
+
+[Primera ronda, a mano · segunda, con la herramienta]{.g-r}
+:::
+::: {.guia style="--c:#0F7B5F;"}
+[Pregunta 3]{.g-n}
+
+[¿Qué tanto depende la cuenta de cómo clasificamos?]{.g-q}
+
+Qué cambia en los resultados cuando un producto o una actividad cambia de categoría.
+
+[Ejercicio y escenario de reclasificación]{.g-r}
+:::
+:::
+
+. . .
+
+**El recorrido de la sesión**
+
+::: {.flujo style="font-size:0.66em;"}
+::: {.paso}
+**Conceptos**<br>la cuenta de producción
+:::
+
+[→]{.op}
+
+::: {.paso}
+**El archivo**<br>el COU de INDEC
+:::
+
+[→]{.op}
+
+::: {.paso .clave}
+**A mano**<br>buscar en el Excel oficial
+:::
+
+[→]{.op}
+
+::: {.paso}
+**Con la herramienta**<br>las mismas preguntas
+:::
+
+[→]{.op}
+
+::: {.paso}
+**Reclasificar**<br>poner a prueba la cuenta
+:::
+:::
+
+[La presentación 1 mostró cómo el cuadro se convierte en una base de datos clasificada. Aquí la usamos.]{.pequeno}
+
+# ¿Cómo se lee un cuadro de oferta y utilización? {.seccion background-color="#0B4A3A"}
+
+Pregunta 1 · Los conceptos que hay detrás de cada celda.
+
 ## La cuenta de producción
 
 ::: incremental
@@ -109,7 +178,11 @@ corto_n <- function(x, n = 34) str_trunc(str_split_fixed(str_remove(x, "^[^ ]+( 
 . . .
 
 ::: {.caja .ambar}
-El saldo contable de la cuenta de la producción es el **valor agregado**.
+El saldo contable de la cuenta de la producción es el **valor agregado**: lo que se produce menos los insumos que se usaron para producirlo.
+:::
+
+::: {.amarre style="--c:#2F6DB5;"}
+[Por lo tanto]{.por} [El valor agregado existe por actividad, no por producto. Para medir el de la bioeconomía hay que decidir qué parte de cada actividad le corresponde.]{.txt} [→ Métodos de la presentación 1]{.dest}
 :::
 
 ## De precios básicos a precios de comprador
@@ -176,6 +249,10 @@ Precios de comprador
 En el COU de INDEC, la **hoja de oferta** recorre este camino por producto: de la producción a precios básicos (`OPB`) a la oferta total a precios de comprador (`OPC`). Los márgenes de comercio suman cero en el total de la economía: se restan de la fila de los servicios comerciales y se suman a los bienes que los llevan.
 :::
 
+::: {.amarre style="--c:#2F6DB5;"}
+[Por lo tanto]{.por} [Los impuestos que separan un precio del otro son los que dan la tasa implícita de la bioeconomía.]{.txt} [→ Hallazgo 1 de la presentación 3]{.dest}
+:::
+
 ## El equilibrio de los productos
 
 :::: {.columns}
@@ -197,7 +274,7 @@ Para cada bien o servicio, lo que está disponible es igual a lo que se usa:
 ```{r}
 f <- function(et, v, cl = "") paste0("<tr class='", cl, "'><td class='izq'>", et, "</td><td>", num(v, 1), "</td></tr>")
 html_salida(paste0(
-  "<table class='cou grande'><thead><tr><th class='izq'>Miles de millones de pesos</th><th>Valor</th></tr></thead><tbody>",
+  "<table class='cou mediano'><thead><tr><th class='izq'>Miles de millones de pesos</th><th>Valor</th></tr></thead><tbody>",
   f("Producción a precios básicos", ce_v("Producción")),
   f("(+) Importaciones", ce_v("Importaciones")),
   f("(+) Impuestos menos subvenciones", ce_v("Impuestos menos subvenciones")),
@@ -213,6 +290,10 @@ html_salida(paste0(
 ```
 :::
 ::::
+
+::: {.amarre style="--c:#2F6DB5;"}
+[Por lo tanto]{.por} [Como cada producto cuadra, clasificar una fila como bioeconómica arrastra todos sus usos a la vez: producción, importaciones, impuestos y exportaciones.]{.txt} [→ Por eso se clasifican productos]{.dest}
+:::
 
 ## ¿Qué papel desempeñan los cuadros de oferta y utilización?
 
@@ -233,7 +314,7 @@ html_salida(paste0(
 
 ```{r}
 #| fig-width: 11.5
-#| fig-height: 3.4
+#| fig-height: 2.9
 d <- r$basicos$oferta
 sec <- c("A-B Sector primario", "C Manufacturas", "D-S Servicios")
 va <- r$basicos$va$v
@@ -250,6 +331,14 @@ tibble(
   tema_bio(17) +
   theme(panel.grid = element_blank(), axis.text.y = element_text(color = TINTA))
 ```
+
+::: {.amarre style="--c:#2F6DB5;"}
+[Por lo tanto]{.por} [Las columnas muestran actividades y las filas, productos. La cuenta de bioeconomía clasifica las dos dimensiones por separado, y para eso hay que saber dónde está cada dato.]{.txt} [→ Pregunta 2]{.dest}
+:::
+
+# ¿Dónde están los datos en el archivo de INDEC? {.seccion background-color="#0B4A3A"}
+
+Pregunta 2 · Del cuadro oficial a las respuestas.
 
 ## Los cuadros de oferta y utilización de Argentina
 
@@ -286,7 +375,7 @@ tibble(
 **Cuidado con la comparación entre años.** Las clasificaciones cambian: "715 CSCD" aparece desde 2019, 651 y 652 aparecen juntas desde 2020 y "841 L" ya no figura desde 2021. Y la unidad también: 2018 a 2022 vienen en miles de pesos y 2023 en millones.
 :::
 
-## Descargar los archivos {.center}
+## Los materiales de esta sesión {.center}
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -295,16 +384,16 @@ tibble(
 
 [Descargar `r cfg$Archivo`](`r ruta_cou`)
 
-Para responder a mano, como lo haría un analista frente al cuadro original.
+Para responder a mano, como lo haría un analista frente al cuadro original. Así se aprende cómo publica INDEC sus cuadros.
 :::
 :::
 ::: {.column width="50%"}
 ::: {.caja .ambar}
-**Base de datos en Excel, `r A`**
+**Herramienta de bioeconomía**
 
-[Descargar ARG_SCN_BD_2023.xlsx](../../data/bd/ARG_SCN_BD_2023.xlsx)
+[Abrir la herramienta](`r URL_HERRAMIENTA`){target="_blank"}
 
-El mismo cuadro en formato plano, con clasificación bioeconómica y una tabla dinámica lista.
+El mismo cuadro ya clasificado, de 2018 a `r A`, para responder en segundos y reclasificar productos y actividades.
 :::
 :::
 ::::
@@ -333,121 +422,45 @@ qa(
 **La peculiaridad de la pregunta 3.** El margen del comercio es negativo porque se traslada: su valor sale de la fila de los servicios comerciales y se reparte entre los bienes que lo llevan. Por eso la columna de márgenes suma cero.
 :::
 
-## De la matriz a la base de datos
+## Segunda ronda: con la herramienta
 
-:::: {.columns}
-::: {.column width="42%"}
-Cada celda distinta de cero del COU se vuelve una fila. Ya no buscamos coordenadas: filtramos por nombre.
-
-::: {.caja}
-**Una fila por celda.** Producto, actividad, cuadro, componente y valor.
-:::
-
-::: {.caja .ambar}
-**Con condición bioeconómica.** Para productos y para actividades.
-:::
-:::
-
-::: {.column width="58%"}
-**Hoja `BD` de ARG_SCN_BD_2023.xlsx**
-
-```{r}
-scn |>
-  filter(`Código Nomenclatura Local de Productos` == "011", Componente %in% c("Producción", "Exportaciones", "Importaciones")) |>
-  arrange(desc(Valor)) |>
-  slice(1:6) |>
-  transmute(
-    Componente,
-    Producto = "Cereales",
-    `Bio. producto` = `Bioeconomía Productos`,
-    Actividad = if_else(Componente == "Producción", nombre_actividad(`Descripción Actividades`, 28), ""),
-    Valor = num(Valor)
-  ) |>
-  tabla_simple("cou mediano", izq = 4)
-```
-:::
-::::
-
-## Crear una tabla dinámica
-
-::: {.cifras style="--col:4;"}
-::: {.cifra}
-[1]{.n}
-[Clic dentro de la tabla de la hoja `BD`.]{.t}
-:::
-::: {.cifra}
-[2]{.n}
-[Insertar > Tabla dinámica > Nueva hoja.]{.t}
-:::
-::: {.cifra .ambar}
-[3]{.n}
-[Filas: `Bioeconomía Productos`. Columnas: `Componente`. Valores: `Valor`.]{.t}
-:::
-::: {.cifra .azul}
-[4]{.n}
-[Filtros: `Cuadro`. Formato de miles. Agregue `CPC Grupos` para abrir el detalle.]{.t}
-:::
-:::
-
-. . .
-
-```{r}
-d <- r$series |>
-  filter(Año == A) |>
-  select(Componente, Bio, v) |>
-  pivot_wider(names_from = Componente, values_from = v) |>
-  mutate(Bio = factor(Bio, levels = names(COL_BIO))) |>
-  arrange(Bio) |>
-  transmute(
-    `Bioeconomía Productos` = as.character(Bio),
-    Producción = num(Producción),
-    Importaciones = num(Importaciones),
-    `Consumo intermedio` = num(`Consumo intermedio`),
-    Exportaciones = num(Exportaciones),
-    `Consumo final` = num(`Consumo final`)
-  )
-tabla_simple(d, "cou grande")
-```
-
-[En miles de millones de pesos, `r A`. La hoja `TD` del archivo trae una tabla parecida ya armada.]{.pequeno}
-
-## Segunda ronda: con tablas dinámicas
-
-Lo que antes eran sumas de filas enteras, ahora son unos cuantos clics.
+Las preguntas ahora son sobre la bioeconomía, y cada una indica en qué pantalla está la respuesta.
 
 ```{r}
 qa(
   c(
-    "¿Qué porcentaje de las exportaciones corresponde a <strong class='destacar'>productos bioeconómicos</strong>?",
-    "¿Cuál es la tasa implícita (impuestos menos subvenciones entre producción) de los productos <strong class='destacar'>bioeconómicos</strong> y de los <strong class='azul-t'>fuera de la bioeconomía</strong>?",
-    "¿Qué parte del consumo intermedio de las <strong class='destacar'>manufacturas</strong> son insumos bioeconómicos?",
-    "¿Cuál es el saldo comercial de cada categoría? (bioeconomía; parcial; fuera de la bioeconomía, en miles de millones)",
-    "¿Cuál es el producto bioeconómico que más se exporta?"
+    "<strong>Panorama.</strong> ¿Qué porcentaje de las exportaciones corresponde a <strong class='destacar'>productos bioeconómicos</strong>?",
+    "<strong>Panorama.</strong> ¿Cuánto aporta la bioeconomía al <strong class='destacar'>valor agregado</strong> por el método de actividades y por el del consumo intermedio?",
+    "<strong>Reclasificar, Todos los indicadores.</strong> ¿Cuál es la tasa implícita de los productos <strong class='destacar'>bioeconómicos</strong> y de los <strong class='azul-t'>fuera de la bioeconomía</strong>?",
+    "<strong>Cuadros, Valor agregado vía consumo intermedio.</strong> ¿Qué parte del consumo intermedio de las <strong class='destacar'>manufacturas</strong> son insumos bioeconómicos?",
+    "<strong>Reclasificar, Todos los indicadores.</strong> ¿Cuál es el saldo comercial de cada categoría, en porcentaje del PIB? (bioeconomía; parcial; fuera)"
   ),
   c(
     pct(p_x),
+    paste(pct(md_a$apriori_bio), "y", pct(md_a$via_ci)),
     paste(pct(t_a$tasa[t_a$Bio == "Bioeconomía"]), "y", pct(t_a$tasa[t_a$Bio == B_FUE])),
     pct(ci_manu$pct_bio),
-    paste(num(saldo$s[saldo$Bio == "Bioeconomía"]), num(saldo$s[saldo$Bio == B_PAR]), num(saldo$s[saldo$Bio == B_FUE]), sep = "; "),
-    top_x
+    paste(pct(sp_a("Bioeconomía")), pct(sp_a(B_PAR)), pct(sp_a(B_FUE)), sep = "; ")
   )
 )
 ```
 
-. . .
-
-::: {.caja}
-**Para discutir.** ¿Cuál de estas respuestas cambiaría más si se reclasificara un producto? Revisen en la hoja `BD` qué productos quedaron en cada categoría.
+::: {.amarre style="--c:#C27C0E;"}
+[Por lo tanto]{.por} [Todas estas respuestas dependen de qué productos y actividades llamamos bioeconómicos. ¿Qué pasa si clasificamos distinto?]{.txt} [→ Pregunta 3]{.dest}
 :::
+
+# ¿Qué tanto depende la cuenta de cómo clasificamos? {.seccion background-color="#0B4A3A"}
+
+Pregunta 3 · La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba.
 
 ## Ejercicio: ¿y si clasificamos distinto?
 
-La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba con la [herramienta de bioeconomía](`r URL_HERRAMIENTA`){target="_blank"} o con la hoja `Ejercicio` de la [base de datos](../../data/bd/ARG_SCN_BD_2023.xlsx).
+Con la [herramienta de bioeconomía](`r URL_HERRAMIENTA`){target="_blank"}:
 
 ::: {.cifras style="--col:4;"}
 ::: {.cifra}
 [1]{.n}
-[Elijan un producto dudoso en la [lista del anexo](../../materiales/documentos/bioeconomia-argentina-politica-publica/index.qmd#anexo).]{.t}
+[Elijan un producto dudoso en la [lista del anexo](../../materiales/documentos/bioeconomia-argentina-politica-publica/index.qmd#anexo) o en la pantalla **Clasificación**.]{.t}
 :::
 ::: {.cifra .ambar}
 [2]{.n}
@@ -455,11 +468,11 @@ La clasificación es la decisión más discutible de la cuenta. Pongámosla a pr
 :::
 ::: {.cifra .azul}
 [3]{.n}
-[Cambien su categoría: un clic en su recuadro de la pantalla **Clasificación**, o la celda amarilla del Excel.]{.t}
+[Cambien su categoría en la pantalla **Reclasificar** y apliquen el escenario.]{.t}
 :::
 ::: {.cifra}
 [4]{.n}
-[Comparen en la pantalla **Reclasificar** y defiendan su decisión.]{.t}
+[Comparen el original con el escenario y defiendan su decisión.]{.t}
 :::
 :::
 
@@ -477,7 +490,7 @@ candidatos |>
   tabla_simple("cou mediano", izq = 2)
 ```
 
-[Miles de millones de pesos, `r A`. En Excel, para verlo en una tabla dinámica: use el campo `Condición ejercicio` y seleccione Datos > Actualizar todo.]{.pequeno}
+[Algunos candidatos para empezar. Miles de millones de pesos, `r A`.]{.pequeno}
 
 ## Ejemplo: sacar abonos y plaguicidas de la bioeconomía parcial
 
@@ -486,6 +499,8 @@ candidatos |>
 ```{r}
 tabla_simple(escenario, "cou grande")
 ```
+
+[Bioeconomía parcial, `r A`, con el 346 fuera de la bioeconomía. [Abrir en la herramienta](`r enlace_herramienta(p = c("346" = B_FUE), anio = A)`){target="_blank"}.]{.pequeno}
 :::
 ::: {.column width="38%"}
 ::: {.caja}
@@ -502,7 +517,9 @@ tabla_simple(escenario, "cou grande")
 :::
 ::::
 
-[Valores de la bioeconomía parcial, Argentina, `r A`, al trasladar el producto 346 a "Fuera de la bioeconomía". [Abrir este escenario en la herramienta](`r enlace_herramienta(p = c("346" = B_FUE), anio = A)`){target="_blank"}.]{.pequeno}
+::: {.amarre style="--c:#0F7B5F;"}
+[Por lo tanto]{.por} [Mientras la fila no se separe, una política de bioinsumos sería invisible en la cuenta, sin importar cómo la clasifiquemos.]{.txt} [→ Curso 3 de la presentación 3]{.dest}
+:::
 
 ## Escenario: la regla del producto principal
 
@@ -544,7 +561,7 @@ regla$tabla |>
 
 :::: {.columns}
 ::: {.column width="55%"}
-::: incremental
+::: {.incremental style="font-size:0.78em;"}
 - **¿Basta el producto principal?** En 222 Impresión, el producto principal es solo `r pct(regla$tabla$sh[regla$tabla$Código == "222"], 0)` de lo que produce la actividad. En 900 Desechos, es el 100 %.
 - **Restaurantes.** Su producto, el servicio de comida, está fuera de la bioeconomía, pero `r pct(sum(scn$Valor[scn$Componente == "Consumo intermedio" & scn[["Código columna"]] == "552" & scn[["Bioeconomía Productos"]] == B_BIO]) / sum(scn$Valor[scn$Componente == "Consumo intermedio" & scn[["Código columna"]] == "552"]), 0)` de sus insumos son de bioeconomía. ¿Dónde debe verse esa dependencia: en su categoría o en su multiplicador?
 - **Comparabilidad.** Las publicaciones de la CEPAL usan la clasificación original. ¿Qué vale más: la coherencia interna o poder comparar con otros países?
@@ -563,6 +580,40 @@ regla$tabla |>
 :::
 :::
 ::::
+
+::: {.amarre style="--c:#0F7B5F;"}
+[Por lo tanto]{.por} [La clasificación es una decisión técnica discutible. Por eso tiene que ser pública, tener vigencia por año y poder ponerse a prueba.]{.txt} [→ Curso 6 de la presentación 3]{.dest}
+:::
+
+## Tres ideas para llevar
+
+::: {.cifras style="--col:3;font-size:1.2em;margin-top:0.8em;"}
+::: {.guia style="--c:#2F6DB5;"}
+[¿Cómo se lee?]{.g-n}
+
+[Cada producto cuadra: lo que se ofrece es lo que se usa.]{.g-q}
+
+Por eso, clasificar una fila lleva consigo todos sus usos.
+:::
+::: {.guia style="--c:#C27C0E;"}
+[¿Dónde están los datos?]{.g-n}
+
+[El dato está en el cuadro oficial, si se sabe buscar.]{.g-q}
+
+Conocer el archivo de INDEC permite verificar cualquier cifra de la cuenta.
+:::
+::: {.guia style="--c:#0F7B5F;"}
+[¿Qué tanto depende?]{.g-n}
+
+[La clasificación es una decisión, y se puede poner a prueba.]{.g-q}
+
+Algunos resultados se mueven mucho y otros casi nada.
+:::
+:::
+
+::: {.amarre style="--c:#0B4A3A;margin-top:1em;"}
+[Lo que sigue]{.por} [Con la cuenta construida y puesta a prueba, pasamos a leer sus resultados para la política pública.]{.txt} [→ Presentación 3]{.dest}
+:::
 
 ## Referencias
 

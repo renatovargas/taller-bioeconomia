@@ -838,7 +838,7 @@ Por eso importa medir la inversión y sostener la cuenta en el tiempo.
 :::: {.columns}
 ::: {.column width="50%"}
 ::: {.caja}
-**1. Elijan un curso.** Con la herramienta o la base en Excel, busquen tres cifras que lo respalden y una que lo cuestione.
+**1. Elijan un curso.** Con la herramienta, busquen tres cifras que lo respalden y una que lo cuestione.
 :::
 
 ::: {.caja .ambar}

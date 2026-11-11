@@ -16,4 +16,5 @@ subtitle: "Ejercicio práctico con el COU 2023 de Argentina"
 - Reconocer los componentes de la oferta y la utilización
 - Entender la valoración a precios básicos y de comprador
 - Encontrar datos en el cuadro oficial de INDEC
-- Responder las mismas preguntas, más rápido, con tablas dinámicas
+- Responder preguntas sobre la bioeconomía con la herramienta
+- Poner a prueba la clasificación y ver qué resultados cambian

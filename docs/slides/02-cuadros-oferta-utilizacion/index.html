@@ -55,7 +55,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-9320ac90c4f9d2193c319a1b680b8372.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-125ae9a459a74f1f629e3f7f7373634a.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -154,7 +154,7 @@
 
 <section id="title-slide" data-background-gradient="linear-gradient(125deg, #0B4A3A 0%, #0F7B5F 65%, #C27C0E 135%)" class="quarto-title-block center">
   <h1 class="title">Los cuadros de oferta y utilización</h1>
-  <p class="subtitle">Sus componentes y particularidades, con el COU 2023 de Argentina</p>
+  <p class="subtitle">Cómo se leen, dónde están los datos y qué tanto depende la cuenta de su clasificación</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -167,6 +167,59 @@ Renato Vargas
     </div>
 </div>
 
+</section>
+<section id="tres-preguntas-guían-esta-sesión" class="slide level2">
+<h2>Tres preguntas guían esta sesión</h2>
+<div class="cifras" style="--col:3;">
+<div class="guia" style="--c:#2F6DB5;">
+<p><span class="g-n">Pregunta 1</span></p>
+<p><span class="g-q">¿Cómo se lee un cuadro de oferta y utilización?</span></p>
+<p>Qué es la producción, cómo se valora y por qué cada producto cuadra.</p>
+<p><span class="g-r">Los conceptos detrás de cada celda</span></p>
+</div>
+<div class="guia" style="--c:#C27C0E;">
+<p><span class="g-n">Pregunta 2</span></p>
+<p><span class="g-q">¿Dónde están los datos en el archivo de INDEC?</span></p>
+<p>Cómo está organizado el cuadro oficial y cómo encontrar un dato a mano.</p>
+<p><span class="g-r">Primera ronda, a mano · segunda, con la herramienta</span></p>
+</div>
+<div class="guia" style="--c:#0F7B5F;">
+<p><span class="g-n">Pregunta 3</span></p>
+<p><span class="g-q">¿Qué tanto depende la cuenta de cómo clasificamos?</span></p>
+<p>Qué cambia en los resultados cuando un producto o una actividad cambia de categoría.</p>
+<p><span class="g-r">Ejercicio y escenario de reclasificación</span></p>
+</div>
+</div>
+<div class="fragment">
+<p><strong>El recorrido de la sesión</strong></p>
+<div class="flujo" style="font-size:0.66em;">
+<div class="paso">
+<p><strong>Conceptos</strong><br>la cuenta de producción</p>
+</div>
+<p><span class="op">→</span></p>
+<div class="paso">
+<p><strong>El archivo</strong><br>el COU de INDEC</p>
+</div>
+<p><span class="op">→</span></p>
+<div class="paso clave">
+<p><strong>A mano</strong><br>buscar en el Excel oficial</p>
+</div>
+<p><span class="op">→</span></p>
+<div class="paso">
+<p><strong>Con la herramienta</strong><br>las mismas preguntas</p>
+</div>
+<p><span class="op">→</span></p>
+<div class="paso">
+<p><strong>Reclasificar</strong><br>poner a prueba la cuenta</p>
+</div>
+</div>
+<p><span class="pequeno">La presentación 1 mostró cómo el cuadro se convierte en una base de datos clasificada. Aquí la usamos.</span></p>
+</div>
+</section>
+<section>
+<section id="cómo-se-lee-un-cuadro-de-oferta-y-utilización" class="title-slide slide level1 seccion center" data-background-color="#0B4A3A">
+<h1>¿Cómo se lee un cuadro de oferta y utilización?</h1>
+<p>Pregunta 1 · Los conceptos que hay detrás de cada celda.</p>
 </section>
 <section id="la-cuenta-de-producción" class="slide level2">
 <h2>La cuenta de producción</h2>
@@ -183,7 +236,10 @@ Renato Vargas
 </blockquote>
 <div class="fragment">
 <div class="caja ambar">
-<p>El saldo contable de la cuenta de la producción es el <strong>valor agregado</strong>.</p>
+<p>El saldo contable de la cuenta de la producción es el <strong>valor agregado</strong>: lo que se produce menos los insumos que se usaron para producirlo.</p>
+</div>
+<div class="amarre" style="--c:#2F6DB5;">
+<p><span class="por">Por lo tanto</span> <span class="txt">El valor agregado existe por actividad, no por producto. Para medir el de la bioeconomía hay que decidir qué parte de cada actividad le corresponde.</span> <span class="dest">→ Métodos de la presentación 1</span></p>
 </div>
 </div>
 </section>
@@ -255,6 +311,9 @@ Renato Vargas
 <div class="caja azul">
 <p>En el COU de INDEC, la <strong>hoja de oferta</strong> recorre este camino por producto: de la producción a precios básicos (<code>OPB</code>) a la oferta total a precios de comprador (<code>OPC</code>). Los márgenes de comercio suman cero en el total de la economía: se restan de la fila de los servicios comerciales y se suman a los bienes que los llevan.</p>
 </div>
+<div class="amarre" style="--c:#2F6DB5;">
+<p><span class="por">Por lo tanto</span> <span class="txt">Los impuestos que separan un precio del otro son los que dan la tasa implícita de la bioeconomía.</span> <span class="dest">→ Hallazgo 1 de la presentación 3</span></p>
+</div>
 </div>
 </section>
 <section id="el-equilibrio-de-los-productos" class="slide level2">
@@ -272,7 +331,7 @@ Renato Vargas
 <p><strong>Ejemplo: cereales en Argentina, 2023</strong></p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="cou grande caption-top">
+<table class="cou mediano caption-top">
 <thead>
 <tr class="header">
 <th class="izq" data-quarto-table-cell-role="th">Miles de millones de pesos</th>
@@ -325,6 +384,9 @@ Renato Vargas
 </div>
 </div>
 </div></div>
+<div class="amarre" style="--c:#2F6DB5;">
+<p><span class="por">Por lo tanto</span> <span class="txt">Como cada producto cuadra, clasificar una fila como bioeconómica arrastra todos sus usos a la vez: producción, importaciones, impuestos y exportaciones.</span> <span class="dest">→ Por eso se clasifican productos</span></p>
+</div>
 </section>
 <section id="qué-papel-desempeñan-los-cuadros-de-oferta-y-utilización" class="slide level2">
 <h2>¿Qué papel desempeñan los cuadros de oferta y utilización?</h2>
@@ -348,7 +410,15 @@ Renato Vargas
 </div>
 </div>
 </div>
+<div class="amarre" style="--c:#2F6DB5;">
+<p><span class="por">Por lo tanto</span> <span class="txt">Las columnas muestran actividades y las filas, productos. La cuenta de bioeconomía clasifica las dos dimensiones por separado, y para eso hay que saber dónde está cada dato.</span> <span class="dest">→ Pregunta 2</span></p>
 </div>
+</div>
+</section></section>
+<section>
+<section id="dónde-están-los-datos-en-el-archivo-de-indec" class="title-slide slide level1 seccion center" data-background-color="#0B4A3A">
+<h1>¿Dónde están los datos en el archivo de INDEC?</h1>
+<p>Pregunta 2 · Del cuadro oficial a las respuestas.</p>
 </section>
 <section id="los-cuadros-de-oferta-y-utilización-de-argentina" class="slide level2">
 <h2>Los cuadros de oferta y utilización de Argentina</h2>
@@ -378,20 +448,20 @@ Renato Vargas
 </div>
 </div>
 </section>
-<section id="descargar-los-archivos" class="slide level2 center">
-<h2>Descargar los archivos</h2>
+<section id="los-materiales-de-esta-sesión" class="slide level2 center">
+<h2>Los materiales de esta sesión</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="caja">
 <p><strong>COU oficial de INDEC, 2023</strong></p>
 <p><a href="../../data/indec-cou/sh_cou_2023_06_26.xls">Descargar sh_cou_2023_06_26.xls</a></p>
-<p>Para responder a mano, como lo haría un analista frente al cuadro original.</p>
+<p>Para responder a mano, como lo haría un analista frente al cuadro original. Así se aprende cómo publica INDEC sus cuadros.</p>
 </div>
 </div><div class="column" style="width:50%;">
 <div class="caja ambar">
-<p><strong>Base de datos en Excel, 2023</strong></p>
-<p><a href="../../data/bd/ARG_SCN_BD_2023.xlsx">Descargar ARG_SCN_BD_2023.xlsx</a></p>
-<p>El mismo cuadro en formato plano, con clasificación bioeconómica y una tabla dinámica lista.</p>
+<p><strong>Herramienta de bioeconomía</strong></p>
+<p><a href="https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/" target="_blank">Abrir la herramienta</a></p>
+<p>El mismo cuadro ya clasificado, de 2018 a 2023, para responder en segundos y reclasificar productos y actividades.</p>
 </div>
 </div></div>
 </section>
@@ -409,164 +479,38 @@ Renato Vargas
 </div>
 </div>
 </section>
-<section id="de-la-matriz-a-la-base-de-datos" class="slide level2">
-<h2>De la matriz a la base de datos</h2>
-<div class="columns">
-<div class="column" style="width:42%;">
-<p>Cada celda distinta de cero del COU se vuelve una fila. Ya no buscamos coordenadas: filtramos por nombre.</p>
-<div class="caja">
-<p><strong>Una fila por celda.</strong> Producto, actividad, cuadro, componente y valor.</p>
-</div>
-<div class="caja ambar">
-<p><strong>Con condición bioeconómica.</strong> Para productos y para actividades.</p>
-</div>
-</div><div class="column" style="width:58%;">
-<p><strong>Hoja <code>BD</code> de ARG_SCN_BD_2023.xlsx</strong></p>
+<section id="segunda-ronda-con-la-herramienta" class="slide level2">
+<h2>Segunda ronda: con la herramienta</h2>
+<p>Las preguntas ahora son sobre la bioeconomía, y cada una indica en qué pantalla está la respuesta.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table class="cou mediano caption-top">
-<thead>
-<tr class="header">
-<th class="izq" data-quarto-table-cell-role="th">Componente</th>
-<th class="izq" data-quarto-table-cell-role="th">Producto</th>
-<th class="izq" data-quarto-table-cell-role="th">Bio. producto</th>
-<th class="izq" data-quarto-table-cell-role="th">Actividad</th>
-<th data-quarto-table-cell-role="th">Valor</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td class="izq">Producción</td>
-<td class="izq">Cereales</td>
-<td class="izq">Bioeconomía</td>
-<td class="izq">Cultivos agrícolas</td>
-<td>5.181.579</td>
-</tr>
-<tr class="even">
-<td class="izq">Exportaciones</td>
-<td class="izq">Cereales</td>
-<td class="izq">Bioeconomía</td>
-<td class="izq"></td>
-<td>2.439.785</td>
-</tr>
-<tr class="odd">
-<td class="izq">Importaciones</td>
-<td class="izq">Cereales</td>
-<td class="izq">Bioeconomía</td>
-<td class="izq"></td>
-<td>35.945</td>
-</tr>
-<tr class="even">
-<td class="izq">Producción</td>
-<td class="izq">Cereales</td>
-<td class="izq">Bioeconomía</td>
-<td class="izq">Elaboración de productos ...</td>
-<td>3.277</td>
-</tr>
-<tr class="odd">
-<td class="izq">Producción</td>
-<td class="izq">Cereales</td>
-<td class="izq">Bioeconomía</td>
-<td class="izq">Tostado, torrado y molien...</td>
-<td>83</td>
-</tr>
-</tbody>
-</table>
+<div class="qa"><div class="cab">Pregunta</div><div class="cab">Respuesta</div><div class="q fragment">1. <strong>Panorama.</strong> ¿Qué porcentaje de las exportaciones corresponde a <strong class="destacar">productos bioeconómicos</strong>?</div><div class="a fragment">44,3 %</div><div class="q fragment">2. <strong>Panorama.</strong> ¿Cuánto aporta la bioeconomía al <strong class="destacar">valor agregado</strong> por el método de actividades y por el del consumo intermedio?</div><div class="a fragment">12,8 % y 14,5 %</div><div class="q fragment">3. <strong>Reclasificar, Todos los indicadores.</strong> ¿Cuál es la tasa implícita de los productos <strong class="destacar">bioeconómicos</strong> y de los <strong class="azul-t">fuera de la bioeconomía</strong>?</div><div class="a fragment">13,1 % y 8,1 %</div><div class="q fragment">4. <strong>Cuadros, Valor agregado vía consumo intermedio.</strong> ¿Qué parte del consumo intermedio de las <strong class="destacar">manufacturas</strong> son insumos bioeconómicos?</div><div class="a fragment">27,9 %</div><div class="q fragment">5. <strong>Reclasificar, Todos los indicadores.</strong> ¿Cuál es el saldo comercial de cada categoría, en porcentaje del PIB? (bioeconomía; parcial; fuera)</div><div class="a fragment">4,3 %; -1,5 %; -4,4 %</div></div>
 </div>
 </div>
-</div></div>
-</section>
-<section id="crear-una-tabla-dinámica" class="slide level2">
-<h2>Crear una tabla dinámica</h2>
-<div class="cifras" style="--col:4;">
-<div class="cifra">
-<p><span class="n">1</span> <span class="t">Clic dentro de la tabla de la hoja <code>BD</code>.</span></p>
+<div class="amarre" style="--c:#C27C0E;">
+<p><span class="por">Por lo tanto</span> <span class="txt">Todas estas respuestas dependen de qué productos y actividades llamamos bioeconómicos. ¿Qué pasa si clasificamos distinto?</span> <span class="dest">→ Pregunta 3</span></p>
 </div>
-<div class="cifra">
-<p><span class="n">2</span> <span class="t">Insertar &gt; Tabla dinámica &gt; Nueva hoja.</span></p>
-</div>
-<div class="cifra ambar">
-<p><span class="n">3</span> <span class="t">Filas: <code>Bioeconomía Productos</code>. Columnas: <code>Componente</code>. Valores: <code>Valor</code>.</span></p>
-</div>
-<div class="cifra azul">
-<p><span class="n">4</span> <span class="t">Filtros: <code>Cuadro</code>. Formato de miles. Agregue <code>CPC Grupos</code> para abrir el detalle.</span></p>
-</div>
-</div>
-<div class="fragment">
-<div class="cell">
-<div class="cell-output-display">
-<table class="cou grande caption-top">
-<thead>
-<tr class="header">
-<th class="izq" data-quarto-table-cell-role="th">Bioeconomía Productos</th>
-<th data-quarto-table-cell-role="th">Producción</th>
-<th data-quarto-table-cell-role="th">Importaciones</th>
-<th data-quarto-table-cell-role="th">Consumo intermedio</th>
-<th data-quarto-table-cell-role="th">Exportaciones</th>
-<th data-quarto-table-cell-role="th">Consumo final</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td class="izq">Bioeconomía</td>
-<td>54.292</td>
-<td>2.434</td>
-<td>30.088</td>
-<td>10.734</td>
-<td>38.599</td>
-</tr>
-<tr class="even">
-<td class="izq">Bioeconomía parcial</td>
-<td>18.862</td>
-<td>4.247</td>
-<td>12.577</td>
-<td>1.433</td>
-<td>15.731</td>
-</tr>
-<tr class="odd">
-<td class="izq">Fuera de la bioeconomía</td>
-<td>250.672</td>
-<td>20.631</td>
-<td>117.073</td>
-<td>12.064</td>
-<td>104.665</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><span class="pequeno">En miles de millones de pesos, 2023. La hoja <code>TD</code> del archivo trae una tabla parecida ya armada.</span></p>
-</div>
-</section>
-<section id="segunda-ronda-con-tablas-dinámicas" class="slide level2">
-<h2>Segunda ronda: con tablas dinámicas</h2>
-<p>Lo que antes eran sumas de filas enteras, ahora son unos cuantos clics.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div class="qa"><div class="cab">Pregunta</div><div class="cab">Respuesta</div><div class="q fragment">1. ¿Qué porcentaje de las exportaciones corresponde a <strong class="destacar">productos bioeconómicos</strong>?</div><div class="a fragment">44,3 %</div><div class="q fragment">2. ¿Cuál es la tasa implícita (impuestos menos subvenciones entre producción) de los productos <strong class="destacar">bioeconómicos</strong> y de los <strong class="azul-t">fuera de la bioeconomía</strong>?</div><div class="a fragment">13,1 % y 8,1 %</div><div class="q fragment">3. ¿Qué parte del consumo intermedio de las <strong class="destacar">manufacturas</strong> son insumos bioeconómicos?</div><div class="a fragment">27,9 %</div><div class="q fragment">4. ¿Cuál es el saldo comercial de cada categoría? (bioeconomía; parcial; fuera de la bioeconomía, en miles de millones)</div><div class="a fragment">8.300; -2.814; -8.567</div><div class="q fragment">5. ¿Cuál es el producto bioeconómico que más se exporta?</div><div class="a fragment">Cereales</div></div>
-</div>
-</div>
-<div class="fragment">
-<div class="caja">
-<p><strong>Para discutir.</strong> ¿Cuál de estas respuestas cambiaría más si se reclasificara un producto? Revisen en la hoja <code>BD</code> qué productos quedaron en cada categoría.</p>
-</div>
-</div>
+</section></section>
+<section>
+<section id="qué-tanto-depende-la-cuenta-de-cómo-clasificamos" class="title-slide slide level1 seccion center" data-background-color="#0B4A3A">
+<h1>¿Qué tanto depende la cuenta de cómo clasificamos?</h1>
+<p>Pregunta 3 · La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba.</p>
 </section>
 <section id="ejercicio-y-si-clasificamos-distinto" class="slide level2">
 <h2>Ejercicio: ¿y si clasificamos distinto?</h2>
-<p>La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba con la <a href="https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/" target="_blank">herramienta de bioeconomía</a> o con la hoja <code>Ejercicio</code> de la <a href="../../data/bd/ARG_SCN_BD_2023.xlsx">base de datos</a>.</p>
+<p>Con la <a href="https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/" target="_blank">herramienta de bioeconomía</a>:</p>
 <div class="cifras" style="--col:4;">
 <div class="cifra">
-<p><span class="n">1</span> <span class="t">Elijan un producto dudoso en la <a href="../../materiales/documentos/bioeconomia-argentina-politica-publica/index.html#anexo">lista del anexo</a>.</span></p>
+<p><span class="n">1</span> <span class="t">Elijan un producto dudoso en la <a href="../../materiales/documentos/bioeconomia-argentina-politica-publica/index.html#anexo">lista del anexo</a> o en la pantalla <strong>Clasificación</strong>.</span></p>
 </div>
 <div class="cifra ambar">
 <p><span class="n">2</span> <span class="t">Anoten qué esperan que cambie, antes de tocar nada.</span></p>
 </div>
 <div class="cifra azul">
-<p><span class="n">3</span> <span class="t">Cambien su categoría: un clic en su recuadro de la pantalla <strong>Clasificación</strong>, o la celda amarilla del Excel.</span></p>
+<p><span class="n">3</span> <span class="t">Cambien su categoría en la pantalla <strong>Reclasificar</strong> y apliquen el escenario.</span></p>
 </div>
 <div class="cifra">
-<p><span class="n">4</span> <span class="t">Comparen en la pantalla <strong>Reclasificar</strong> y defiendan su decisión.</span></p>
+<p><span class="n">4</span> <span class="t">Comparen el original con el escenario y defiendan su decisión.</span></p>
 </div>
 </div>
 <div class="fragment">
@@ -615,7 +559,7 @@ Renato Vargas
 </table>
 </div>
 </div>
-<p><span class="pequeno">Miles de millones de pesos, 2023. En Excel, para verlo en una tabla dinámica: use el campo <code>Condición ejercicio</code> y seleccione Datos &gt; Actualizar todo.</span></p>
+<p><span class="pequeno">Algunos candidatos para empezar. Miles de millones de pesos, 2023.</span></p>
 </div>
 </section>
 <section id="ejemplo-sacar-abonos-y-plaguicidas-de-la-bioeconomía-parcial" class="slide level2">
@@ -680,6 +624,7 @@ Renato Vargas
 </table>
 </div>
 </div>
+<p><span class="pequeno">Bioeconomía parcial, 2023, con el 346 fuera de la bioeconomía. <a href="https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/?tab=Reclasificar&amp;anio=2023&amp;p=346%3A3" target="_blank">Abrir en la herramienta</a>.</span></p>
 </div><div class="column" style="width:38%;">
 <div class="caja">
 <p><strong>Lo que no cambia.</strong> La bioeconomía en sentido estricto: sigue con 44,3 % de las exportaciones.</p>
@@ -691,7 +636,9 @@ Renato Vargas
 <p><strong>Para discutir.</strong> ¿Un plaguicida de síntesis debería contar? ¿Y uno biológico? El COU los agrupa en una sola fila.</p>
 </div>
 </div></div>
-<p><span class="pequeno">Valores de la bioeconomía parcial, Argentina, 2023, al trasladar el producto 346 a “Fuera de la bioeconomía”. <a href="https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/?tab=Reclasificar&amp;anio=2023&amp;p=346%3A3" target="_blank">Abrir este escenario en la herramienta</a>.</span></p>
+<div class="amarre" style="--c:#0F7B5F;">
+<p><span class="por">Por lo tanto</span> <span class="txt">Mientras la fila no se separe, una política de bioinsumos sería invisible en la cuenta, sin importar cómo la clasifiquemos.</span> <span class="dest">→ Curso 3 de la presentación 3</span></p>
+</div>
 </section>
 <section id="escenario-la-regla-del-producto-principal" class="slide level2">
 <h2>Escenario: la regla del producto principal</h2>
@@ -780,12 +727,14 @@ Renato Vargas
 <h2>Para discutir el escenario</h2>
 <div class="columns">
 <div class="column" style="width:55%;">
+<div style="font-size:0.78em;">
 <ul>
 <li class="fragment"><strong>¿Basta el producto principal?</strong> En 222 Impresión, el producto principal es solo 34 % de lo que produce la actividad. En 900 Desechos, es el 100 %.</li>
 <li class="fragment"><strong>Restaurantes.</strong> Su producto, el servicio de comida, está fuera de la bioeconomía, pero 71 % de sus insumos son de bioeconomía. ¿Dónde debe verse esa dependencia: en su categoría o en su multiplicador?</li>
 <li class="fragment"><strong>Comparabilidad.</strong> Las publicaciones de la CEPAL usan la clasificación original. ¿Qué vale más: la coherencia interna o poder comparar con otros países?</li>
 <li class="fragment"><strong>El método.</strong> El valor agregado vía consumo intermedio no se mueve con este escenario. ¿Es una ventaja?</li>
 </ul>
+</div>
 </div><div class="column" style="width:45%;">
 <div class="caja">
 <p><strong>Pruébenlo.</strong> Este enlace abre la herramienta con las 8 actividades ya movidas:</p>
@@ -795,6 +744,32 @@ Renato Vargas
 <p><strong>Variante.</strong> En la pantalla <strong>Reclasificar</strong>, deshagan uno por uno los cambios que no los convenzan y miren qué indicador se mueve.</p>
 </div>
 </div></div>
+<div class="amarre" style="--c:#0F7B5F;">
+<p><span class="por">Por lo tanto</span> <span class="txt">La clasificación es una decisión técnica discutible. Por eso tiene que ser pública, tener vigencia por año y poder ponerse a prueba.</span> <span class="dest">→ Curso 6 de la presentación 3</span></p>
+</div>
+</section>
+<section id="tres-ideas-para-llevar" class="slide level2">
+<h2>Tres ideas para llevar</h2>
+<div class="cifras" style="--col:3;font-size:1.2em;margin-top:0.8em;">
+<div class="guia" style="--c:#2F6DB5;">
+<p><span class="g-n">¿Cómo se lee?</span></p>
+<p><span class="g-q">Cada producto cuadra: lo que se ofrece es lo que se usa.</span></p>
+<p>Por eso, clasificar una fila lleva consigo todos sus usos.</p>
+</div>
+<div class="guia" style="--c:#C27C0E;">
+<p><span class="g-n">¿Dónde están los datos?</span></p>
+<p><span class="g-q">El dato está en el cuadro oficial, si se sabe buscar.</span></p>
+<p>Conocer el archivo de INDEC permite verificar cualquier cifra de la cuenta.</p>
+</div>
+<div class="guia" style="--c:#0F7B5F;">
+<p><span class="g-n">¿Qué tanto depende?</span></p>
+<p><span class="g-q">La clasificación es una decisión, y se puede poner a prueba.</span></p>
+<p>Algunos resultados se mueven mucho y otros casi nada.</p>
+</div>
+</div>
+<div class="amarre" style="--c:#0B4A3A;margin-top:1em;">
+<p><span class="por">Lo que sigue</span> <span class="txt">Con la cuenta construida y puesta a prueba, pasamos a leer sus resultados para la política pública.</span> <span class="dest">→ Presentación 3</span></p>
+</div>
 </section>
 <section id="referencias" class="slide level2 smaller scrollable">
 <h2>Referencias</h2>
@@ -812,7 +787,7 @@ Comisión Europea, Fondo Monetario Internacional, Organización para la Cooperac
 </div>
 
 
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
