@@ -8,22 +8,22 @@ toc: false
 
 | Archivo | Qué contiene | Para qué sirve |
 |---|---|---|
-| [COU-2021.xls](../data/cou/COU-2021.xls) | Cuadro oficial de oferta y utilización de INDEC, 2021 | Primera ronda de preguntas, a mano |
-| [ARG_SCN_BD_2021.xlsx](../data/bd/ARG_SCN_BD_2021.xlsx) | El mismo cuadro en formato plano, con clasificación bioeconómica, tabla dinámica y hoja para reclasificar productos | Segunda ronda de preguntas y ejercicio de reclasificación |
-| [ARG_cuadros_bioeconomia_2021.xlsx](../data/salidas/ARG_cuadros_bioeconomia_2021.xlsx) | Cuadros de oferta y utilización, cuadros bioeconómicos, valor agregado y multiplicadores | Consulta y gráficos propios |
+| [sh_cou_2023_06_26.xls](../data/indec-cou/sh_cou_2023_06_26.xls) | Cuadro oficial de oferta y utilización de INDEC, 2023 (millones de pesos) | Primera ronda de preguntas, a mano |
+| [ARG_SCN_BD_2023.xlsx](../data/bd/ARG_SCN_BD_2023.xlsx) | El mismo cuadro en formato plano, con clasificación bioeconómica, tabla dinámica y hoja para reclasificar productos | Segunda ronda de preguntas y ejercicio de reclasificación |
+| [ARG_cuadros_bioeconomia_2023.xlsx](../data/salidas/ARG_cuadros_bioeconomia_2023.xlsx) | Cuadros de oferta y utilización, cuadros bioeconómicos, valor agregado y multiplicadores | Consulta y gráficos propios |
 
 : {tbl-colwidths="[34,40,26]"}
 
 ## Años anteriores y clasificaciones
 
-- COU de INDEC: [2018](../data/cou/COU-2018.xls), [2019](../data/cou/COU-2019.xls), [2020](../data/cou/COU-2020.xls)
-- [ARG_Clasificaciones.xlsx](../data/clasificaciones/ARG_Clasificaciones.xlsx): clasificación de filas y columnas, con su condición bioeconómica
-- Equivalencias de [columnas](../data/clasificaciones/ARG_equivalencias_columnas.csv) y [filas](../data/clasificaciones/ARG_equivalencias_filas.csv) con los grupos CIIU y CPC
+- COU de INDEC: [2018](../data/indec-cou/sh_cou_2018_08_21.xls), [2019](../data/indec-cou/sh_cou_2019_06_22.xls), [2020](../data/indec-cou/sh_cou_2020_06_23.xls), [2021](../data/indec-cou/sh_cou_2021_06_24.xls), [2022](../data/indec-cou/sh_cou_2022_06_25.xls). De 2018 a 2022 vienen en miles de pesos.
+- [arg_lookups.xlsx](../data/config/arg_lookups.xlsx): clasificación de productos, actividades y transacciones, con su condición bioeconómica y los años en que cada código de INDEC está vigente
+- [arg_config.xlsx](../data/config/arg_config.xlsx): qué archivo, hojas y unidad corresponden a cada año
 
 ## Scripts de procesamiento
 
 Son opcionales: el taller no requiere programar. Están escritos en R y reproducen todos los resultados desde el cuadro original.
 
-- [01-procesar-cou-argentina.R](../scripts/01-procesar-cou-argentina.R): convierte los COU a formato plano y aplica la clasificación
-- [02-cuadros-y-resultados.R](../scripts/02-cuadros-y-resultados.R): calcula cuadros, valor agregado, multiplicadores y tasas, y genera los Excel
+- [01-procesar-cou-argentina.R](../scripts/01-procesar-cou-argentina.R): convierte los COU de todos los años a una sola base plana y aplica la clasificación
+- [02-cuadros-y-resultados.R](../scripts/02-cuadros-y-resultados.R): calcula cuadros, valor agregado, multiplicadores, tasas y series, y genera los Excel
 - [funciones-presentacion.R](../scripts/funciones-presentacion.R): da formato a los cuadros y gráficos del sitio

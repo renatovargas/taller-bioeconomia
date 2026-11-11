@@ -2,8 +2,9 @@
 # ================================================================================
 # Lee la base plana de 01-procesar-cou-argentina.R y produce:
 #   data/salidas/resultados.rds                     insumo de presentaciones y documento
-#   data/salidas/ARG_cuadros_bioeconomia_2021.xlsx  cuadros para descargar
-#   data/bd/ARG_SCN_BD_2021.xlsx                    base con tabla dinámica
+#   data/salidas/ARG_cuadros_bioeconomia_<año>.xlsx cuadros para descargar
+#   data/bd/ARG_SCN_BD_<año>.xlsx                   base con tabla dinámica
+# El año de análisis es el más reciente de la base; las series cubren todos.
 #
 # Ejecutar desde la raíz del proyecto:
 #   Rscript scripts/02-cuadros-y-resultados.R
@@ -13,9 +14,9 @@ library(tidyr)
 library(stringr)
 library(openxlsx2)
 
-scn <- readRDS("data/bd/arg_scn_2018_2021.rds")
-ANIO <- 2021L
-ESCALA <- 1e6 # de miles de pesos a miles de millones de pesos
+scn <- readRDS("data/bd/arg_scn.rds")
+ANIO <- max(scn$Año)
+ESCALA <- 1e3 # de millones de pesos a miles de millones de pesos
 
 niveles_bio <- c("Bioeconomía", "Bioeconomía extendida", "No bioeconomía")
 niveles_cpc <- c(
@@ -25,14 +26,7 @@ niveles_cpc <- c(
 
 # Rótulo de fila: grupo de producto o ajuste
 fila_cou <- function(d) {
-  d |>
-    mutate(
-      Fila = case_when(
-        str_detect(Filas, "f224$") ~ "Ajuste CIF/FOB",
-        str_detect(Filas, "f22[56]$") ~ "Compras directas",
-        TRUE ~ `CPC Grupos`
-      )
-    )
+  d |> mutate(Fila = `Grupo fila`)
 }
 
 # 1. Cuadro básico por sector (oferta, utilización, PIB)
@@ -199,25 +193,25 @@ multiplicadores <- function(a) {
   d <- scn |> filter(Año == a)
   act <- d |>
     filter(Componente == "Valor agregado") |>
-    transmute(n = as.integer(str_extract(Columnas, "\\d+$")),
-              Actividad = `Descripción Actividades`,
+    transmute(Actividad = `Descripción Actividades`,
               `Código` = `Código Clasificación Actividades`,
               `Bioeconomía Actividades`,
               Seccion = `CIIU Compacto`,
               `Sección CIIU` = `CIIU Compacto Descripción`,
               va = Valor)
-  n_act <- 107L
-  prod <- sort(unique(str_extract(
-    d$Filas[d$Componente %in% c("Producción", "Consumo intermedio")], "\\d+$"
-  )))
-  prod <- prod[as.integer(prod) <= 223 | prod == "227"]
+  # Orden de las actividades: el de las columnas del cuadro
+  orden_act <- readxl::read_excel("data/config/arg_lookups.xlsx", "actividades")$`Código Clasificación Actividades`
+  act <- tibble(`Código` = orden_act) |> left_join(act, by = "Código") |> mutate(va = coalesce(va, 0))
+  n_act <- nrow(act)
+  dd <- d |> filter(`Tipo fila` == "Producto", `Tipo columna` == "Actividad", Cuadro != "Valor Agregado")
+  prod <- sort(unique(dd$`Código fila`))
   n_p <- length(prod)
   V <- matrix(0, n_act, n_p)
   U <- matrix(0, n_p, n_act)
-  pr <- d |> filter(Componente == "Producción", str_detect(Filas, paste0("(", paste(prod, collapse = "|"), ")$")))
-  V[cbind(as.integer(str_extract(pr$Columnas, "\\d+$")), match(str_extract(pr$Filas, "\\d+$"), prod))] <- pr$Valor
-  ci <- d |> filter(Componente == "Consumo intermedio", str_extract(Filas, "\\d+$") %in% prod)
-  U[cbind(match(str_extract(ci$Filas, "\\d+$"), prod), as.integer(str_extract(ci$Columnas, "\\d+$")))] <- ci$Valor
+  pr <- dd |> filter(Componente == "Producción")
+  V[cbind(match(pr$`Código columna`, act$Código), match(pr$`Código fila`, prod))] <- pr$Valor
+  ci <- dd |> filter(Componente == "Consumo intermedio")
+  U[cbind(match(ci$`Código fila`, prod), match(ci$`Código columna`, act$Código))] <- ci$Valor
 
   x <- rowSums(V)
   q <- colSums(V)
@@ -227,10 +221,8 @@ multiplicadores <- function(a) {
   A <- Dm %*% B
   L <- solve(diag(n_act) - A)
 
-  bio_p <- d |>
-    filter(Componente == "Producción") |>
-    distinct(id = str_extract(Filas, "\\d+$"), `Bioeconomía Productos`)
-  clase <- bio_p$`Bioeconomía Productos`[match(prod, bio_p$id)]
+  bio_p <- dd |> distinct(`Código fila`, `Bioeconomía Productos`)
+  clase <- bio_p$`Bioeconomía Productos`[match(prod, bio_p$`Código fila`)]
   clase[is.na(clase)] <- "No bioeconomía"
   b_bio <- colSums(B[clase == "Bioeconomía", ])
   b_ext <- colSums(B[clase == "Bioeconomía extendida", ])
@@ -238,7 +230,6 @@ multiplicadores <- function(a) {
   m_ext <- as.vector(b_ext %*% L)
 
   res <- act |>
-    arrange(n) |>
     mutate(
       directo = b_bio + b_ext,
       m_bio = m_bio,
@@ -305,10 +296,38 @@ medidas_va <- function(a) {
   )
 }
 
+# Comercio exterior por año: saldo en % del PIB y concentración de las
+# exportaciones bioeconómicas. En pesos corrientes los niveles no se comparan
+# entre años (inflación), por eso se expresan como proporciones.
+comercio <- function(a) {
+  d <- scn |> filter(Año == a)
+  pib <- sum(d$Valor[d$Componente %in% c("Valor agregado", "Impuestos menos subvenciones")])
+  d |>
+    filter(`Bioeconomía Productos` %in% niveles_bio, Componente %in% c("Exportaciones", "Importaciones")) |>
+    group_by(Bio = `Bioeconomía Productos`) |>
+    summarise(
+      X = sum(Valor[Componente == "Exportaciones"]) / ESCALA,
+      M = sum(Valor[Componente == "Importaciones"]) / ESCALA,
+      .groups = "drop"
+    ) |>
+    mutate(Saldo = X - M, pib = pib / ESCALA, saldo_pib = Saldo / pib, Año = a)
+}
+
+# Exportaciones bioeconómicas por producto y año, con su participación
+export_bio <- function(a) {
+  scn |>
+    filter(Año == a, Componente == "Exportaciones", `Bioeconomía Productos` == "Bioeconomía") |>
+    group_by(Código = `Código serie`, Producto = `Nomenclatura Local de Productos`) |>
+    summarise(X = sum(Valor) / ESCALA, .groups = "drop") |>
+    mutate(p = X / sum(X), Año = a) |>
+    arrange(desc(X)) |>
+    mutate(rango = row_number())
+}
+
 # Detalle por producto en el año de análisis
 detalle_productos <- function(a) {
   scn |>
-    filter(Año == a, !str_detect(Filas, "f22[456]$"), Cuadro != "Valor Agregado") |>
+    filter(Año == a, `Tipo fila` == "Producto") |>
     group_by(
       Código = `Código Nomenclatura Local de Productos`,
       Producto = `Nomenclatura Local de Productos`,
@@ -338,6 +357,12 @@ resultados <- list(
   series = bind_rows(lapply(anios, series)),
   tasas = bind_rows(lapply(anios, tasa_implicita)),
   medidas = bind_rows(lapply(anios, medidas_va)),
+  comercio = bind_rows(lapply(anios, comercio)),
+  export_bio = bind_rows(lapply(anios, export_bio)),
+  conc = bind_rows(lapply(anios, \(a) {
+    e <- export_bio(a)
+    tibble(Año = a, top5 = sum(e$p[e$rango <= 5]))
+  })),
   productos = detalle_productos(ANIO),
   # Para validar contra el anexo publicado
   bio2018 = cuadros_bio(2018)
@@ -384,7 +409,7 @@ wb$add_data_table(
   table_style = "TableStyleLight9"
 )
 wb$set_col_widths(sheet = "Multiplicadores", cols = 1:12, widths = 16)
-wb$save("data/salidas/ARG_cuadros_bioeconomia_2021.xlsx")
+wb$save(sprintf("data/salidas/ARG_cuadros_bioeconomia_%d.xlsx", ANIO))
 
 # 8. Base de datos en Excel con tabla dinámica y hoja de ejercicio
 # ----------------------------------------------------------------
@@ -400,27 +425,27 @@ lee <- data.frame(
     "Cuadro", "Componente", "Valor", "Bioeconomía Productos", "CPC Grupos",
     "Nomenclatura Local de Productos", "Bioeconomía Actividades",
     "Sector agregado", "CIIU Compacto Descripción", "Descripción Actividades",
-    "Filas / Columnas", "Condición ejercicio"
+    "Código fila / Código columna", "Condición ejercicio"
   ),
   Descripción = c(
     "Oferta, Utilización o Valor Agregado.",
     "Columna del COU con nombre uniforme: Producción, Importaciones, Impuestos menos subvenciones, Márgenes de distribución, Consumo intermedio, Exportaciones, Consumo final, Formación bruta de capital, Valor agregado.",
-    "Valor en miles de pesos corrientes, igual que en el archivo de INDEC. Solo se incluyen celdas distintas de cero.",
+    "Valor en millones de pesos corrientes, igual que en el archivo de INDEC de 2023. Solo se incluyen celdas distintas de cero.",
     "Condición del producto (la fila del COU).",
     "Grupo de productos.",
-    "Producto (222 en 2021).",
+    sprintf("Producto (%d en %d).", n_distinct(scn$`Código fila`[scn$Año == ANIO & scn$`Tipo fila` == "Producto"]), ANIO),
     "Condición de la actividad (la columna del COU).",
     "Sector primario, manufacturas o servicios.",
     "Sección de la CIIU compacta.",
     "Actividad económica (107).",
-    "Identificadores internos de la fila y la columna.",
+    "Código de INDEC de la fila (producto o ajuste) y de la columna (actividad o transacción).",
     "Condición del producto en su escenario: la fórmula la toma de la hoja Ejercicio."
   )
 )
 
 wbb <- wb_workbook(creator = "Renato Vargas")
 wbb$add_worksheet("Léeme")
-wbb$add_data(sheet = "Léeme", x = "Base de datos de la cuenta de bioeconomía de Argentina, 2021", dims = "A1")
+wbb$add_data(sheet = "Léeme", x = sprintf("Base de datos de la cuenta de bioeconomía de Argentina, %d", ANIO), dims = "A1")
 wbb$add_font(sheet = "Léeme", dims = "A1", bold = TRUE, size = 14)
 wbb$add_data(
   sheet = "Léeme",
@@ -579,6 +604,6 @@ wbb$add_formula(
 )
 
 wbb$set_active_sheet("Léeme")
-wbb$save("data/bd/ARG_SCN_BD_2021.xlsx")
+wbb$save(sprintf("data/bd/ARG_SCN_BD_%d.xlsx", ANIO))
 
 cat("Listo\n")

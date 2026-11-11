@@ -1,6 +1,6 @@
 ---
 title: "Los cuadros de oferta y utilización"
-subtitle: "Sus componentes y particularidades, con el COU 2021 de Argentina"
+subtitle: "Sus componentes y particularidades, con el COU 2023 de Argentina"
 author:
   - name: "Renato Vargas"
     affiliations:
@@ -29,33 +29,37 @@ execute:
 #| include: false
 source("scripts/funciones-presentacion.R")
 r <- readRDS("data/salidas/resultados.rds")
-scn <- readRDS("data/bd/arg_scn_2018_2021.rds") |> filter(Año == 2021)
+A <- r$anio
+scn <- readRDS("data/bd/arg_scn.rds") |> filter(Año == A)
+cfg <- readxl::read_excel("data/config/arg_config.xlsx", "config") |> filter(Año == A)
+ruta_cou <- file.path("../../data/indec-cou", cfg$Archivo)
+n_prod <- n_distinct(scn$`Código fila`[scn$`Tipo fila` == "Producto"])
 
 prod <- function(cod) scn |> filter(`Código Nomenclatura Local de Productos` == cod)
-mM <- function(x, d = 1) num(x / 1e6, d)
 miles <- function(x) num(x, 0)
 
 # Respuestas leídas de la base, que coincide con el archivo de INDEC
 vinos <- scn |>
   filter(Componente == "Producción", `Código Clasificación Actividades` == "1552") |>
   summarise(v = sum(Valor)) |> pull(v)
-margen_carne <- prod("211") |> filter(Columnas == "ARGoc113") |> pull(Valor)
-margen_620 <- prod("620") |> filter(Columnas == "ARGoc113") |> pull(Valor)
+margen_carne <- prod("211") |> filter(`Código columna` == "Mg D") |> pull(Valor)
+margen_620 <- prod("620") |> filter(`Código columna` == "Mg D") |> pull(Valor)
 ui_oleag <- prod("014") |> filter(Componente == "Consumo intermedio") |> summarise(v = sum(Valor)) |> pull(v)
 x_cereal <- prod("011") |> filter(Componente == "Exportaciones") |> pull(Valor)
 
 ce <- prod("011") |>
   group_by(Componente) |>
-  summarise(v = sum(Valor) / 1e6, .groups = "drop")
+  summarise(v = sum(Valor) / 1e3, .groups = "drop")
 ce_v <- function(k) {
   x <- ce$v[ce$Componente == k]
   if (length(x)) x else 0
 }
 
 # Preguntas con la tabla dinámica
-s21 <- r$series |> filter(Año == 2021)
-p_x <- s21 |> filter(Componente == "Exportaciones", Bio == "Bioeconomía") |> pull(pct)
-t21 <- r$tasas |> filter(Año == 2021)
+s_a <- r$series |> filter(Año == A)
+p_x <- s_a |> filter(Componente == "Exportaciones", Bio == "Bioeconomía") |> pull(pct)
+t_a <- r$tasas |> filter(Año == A)
+top_x <- r$productos |> filter(Bio == "Bioeconomía") |> slice_max(Exportaciones, n = 1) |> pull(Producto)
 vaci <- r$va_ci
 ci_manu <- vaci |> filter(Seccion == "C")
 saldo <- r$productos |>
@@ -182,7 +186,7 @@ Para cada bien o servicio, lo que está disponible es igual a lo que se usa:
 :::
 
 ::: {.column width="54%"}
-**Ejemplo: cereales en Argentina, 2021**
+**Ejemplo: cereales en Argentina, `r A`**
 
 ```{r}
 f <- function(et, v, cl = "") paste0("<tr class='", cl, "'><td class='izq'>", et, "</td><td>", num(v, 1), "</td></tr>")
@@ -236,7 +240,7 @@ tibble(
   geom_col(fill = "#0F7B5F", width = 0.65) +
   geom_text(aes(label = num(v)), hjust = -0.1, size = 5.6, color = TINTA) +
   scale_x_continuous(labels = NULL, expand = expansion(mult = c(0, 0.15))) +
-  labs(x = "Miles de millones de pesos, 2021", y = NULL) +
+  labs(x = paste0("Miles de millones de pesos, ", A), y = NULL) +
   tema_bio(17) +
   theme(panel.grid = element_blank(), axis.text.y = element_text(color = TINTA))
 ```
@@ -249,7 +253,7 @@ tibble(
 [actividades económicas (CIIU Rev. 3)]{.t}
 :::
 ::: {.cifra .ambar}
-[222]{.n}
+[`r n_prod`]{.n}
 [bienes y servicios en equilibrio (CPC 1.1)]{.t}
 :::
 ::: {.cifra .azul}
@@ -257,23 +261,23 @@ tibble(
 [hojas: oferta y utilización; el valor agregado está al pie de la segunda]{.t}
 :::
 ::: {.cifra}
-[2021]{.n}
-[último año disponible, a precios corrientes, en miles de pesos]{.t}
+[`r A`]{.n}
+[último año disponible, a precios corrientes, en `r tolower(cfg$"Unidad INDEC")`]{.t}
 :::
 :::
 
 . . .
 
 ::: {.caja .azul}
-**La hoja `Mat_Of_pc_2021`** va de la producción por actividad (columnas C a DE) a la oferta total a precios de comprador (`OPC`): `OPB`, `IMPO`, `DI`, `IP`, `Mg D`, `IVA`, `CSCD`.
+**La hoja `r paste0("<code>", cfg$"Hoja oferta", "</code>")`** va de la producción por actividad (columnas C a DE) a la oferta total a precios de comprador (`OPC`): `OPB`, `IMPO`, `DI`, `IP`, `Mg D`, `IVA`, `CSCD`.
 :::
 
 ::: {.caja .ambar}
-**La hoja `Mat_Ut_pc_2021`** contiene el consumo intermedio por actividad y las columnas de utilización final: `CH`, `CP`, `EX`, `Fbc Fijo`, `OV`, variación de existencias y `DEMANDA`.
+**La hoja `r paste0("<code>", cfg$"Hoja utilización", "</code>")`** contiene el consumo intermedio por actividad y las columnas de utilización final: `CH`, `CP`, `EX`, `Fbc Fijo`, `OV`, variación de existencias y `DEMANDA`.
 :::
 
 ::: {.caja .neutra}
-**Cuidado con la comparación entre años.** Las clasificaciones cambian: 651 y 652 aparecen juntas desde 2020, "715 CSCD" aparece desde 2019 y "841 L" ya no figura en 2021.
+**Cuidado con la comparación entre años.** Las clasificaciones cambian: "715 CSCD" aparece desde 2019, 651 y 652 aparecen juntas desde 2020 y "841 L" ya no figura desde 2021. Y la unidad también: 2018 a 2022 vienen en miles de pesos y 2023 en millones.
 :::
 
 ## Descargar los archivos {.center}
@@ -281,18 +285,18 @@ tibble(
 :::: {.columns}
 ::: {.column width="50%"}
 ::: {.caja}
-**COU oficial de INDEC, 2021**
+**COU oficial de INDEC, `r A`**
 
-[Descargar COU-2021.xls](../../data/cou/COU-2021.xls)
+[Descargar `r cfg$Archivo`](`r ruta_cou`)
 
 Para responder a mano, como lo haría un analista frente al cuadro original.
 :::
 :::
 ::: {.column width="50%"}
 ::: {.caja .ambar}
-**Base de datos en Excel, 2021**
+**Base de datos en Excel, `r A`**
 
-[Descargar ARG_SCN_BD_2021.xlsx](../../data/bd/ARG_SCN_BD_2021.xlsx)
+[Descargar ARG_SCN_BD_2023.xlsx](../../data/bd/ARG_SCN_BD_2023.xlsx)
 
 El mismo cuadro en formato plano, con clasificación bioeconómica y una tabla dinámica lista.
 :::
@@ -301,7 +305,7 @@ El mismo cuadro en formato plano, con clasificación bioeconómica y una tabla d
 
 ## Primera ronda: a mano con el Excel oficial
 
-Abrimos **COU-2021.xls** y respondemos. Las respuestas están en miles de pesos, como en el archivo.
+Abrimos **`r cfg$Archivo`** y respondemos. Las respuestas están en millones de pesos, como en el archivo.
 
 ```{r}
 qa(
@@ -339,7 +343,7 @@ Cada celda distinta de cero del COU se vuelve una fila. Ya no buscamos coordenad
 :::
 
 ::: {.column width="58%"}
-**Hoja `BD` de ARG_SCN_BD_2021.xlsx**
+**Hoja `BD` de ARG_SCN_BD_2023.xlsx**
 
 ```{r}
 scn |>
@@ -383,7 +387,7 @@ scn |>
 
 ```{r}
 d <- r$series |>
-  filter(Año == 2021) |>
+  filter(Año == A) |>
   select(Componente, Bio, v) |>
   pivot_wider(names_from = Componente, values_from = v) |>
   mutate(Bio = factor(Bio, levels = names(COL_BIO))) |>
@@ -399,7 +403,7 @@ d <- r$series |>
 tabla_simple(d, "cou grande")
 ```
 
-[En miles de millones de pesos, 2021. La hoja `TD` del archivo trae una tabla parecida ya armada.]{.pequeno}
+[En miles de millones de pesos, `r A`. La hoja `TD` del archivo trae una tabla parecida ya armada.]{.pequeno}
 
 ## Segunda ronda: con tablas dinámicas
 
@@ -416,10 +420,10 @@ qa(
   ),
   c(
     pct(p_x),
-    paste(pct(t21$tasa[t21$Bio == "Bioeconomía"]), "y", pct(t21$tasa[t21$Bio == "No bioeconomía"])),
+    paste(pct(t_a$tasa[t_a$Bio == "Bioeconomía"]), "y", pct(t_a$tasa[t_a$Bio == "No bioeconomía"])),
     pct(ci_manu$pct_bio),
     paste(num(saldo$s[saldo$Bio == "Bioeconomía"]), num(saldo$s[saldo$Bio == "Bioeconomía extendida"]), num(saldo$s[saldo$Bio == "No bioeconomía"]), sep = "; "),
-    "Cereales"
+    top_x
   )
 )
 ```
@@ -432,7 +436,7 @@ qa(
 
 ## Ejercicio: ¿y si clasificamos distinto?
 
-La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba con la hoja `Ejercicio` de la [base de datos](../../data/bd/ARG_SCN_BD_2021.xlsx).
+La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba con la hoja `Ejercicio` de la [base de datos](../../data/bd/ARG_SCN_BD_2023.xlsx).
 
 ::: {.cifras style="--col:4;"}
 ::: {.cifra}
@@ -467,7 +471,7 @@ candidatos |>
   tabla_simple("cou mediano", izq = 2)
 ```
 
-[Miles de millones de pesos, 2021. Para verlo en una tabla dinámica: use el campo `Condición ejercicio` y seleccione Datos > Actualizar todo.]{.pequeno}
+[Miles de millones de pesos, `r A`. Para verlo en una tabla dinámica: use el campo `Condición ejercicio` y seleccione Datos > Actualizar todo.]{.pequeno}
 
 ## Ejemplo: sacar abonos y plaguicidas de la bioeconomía extendida
 
@@ -492,7 +496,7 @@ tabla_simple(escenario, "cou grande")
 :::
 ::::
 
-[Valores de la bioeconomía extendida, Argentina, 2021, al trasladar el producto 346 a "No bioeconomía".]{.pequeno}
+[Valores de la bioeconomía extendida, Argentina, `r A`, al trasladar el producto 346 a "No bioeconomía".]{.pequeno}
 
 ## Referencias
 

@@ -2,6 +2,7 @@ refs/
 /.quarto/
 **/*.quarto_ipynb
 *_files/
+!docs/**/*_files/
 .Rhistory
 .RData
 .DS_Store

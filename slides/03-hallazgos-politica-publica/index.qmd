@@ -30,9 +30,13 @@ execute:
 source("scripts/funciones-presentacion.R")
 r <- readRDS("data/salidas/resultados.rds")
 s <- r$series
-sh <- function(k, b = "Bioeconomía", a = 2021) s$pct[s$Componente == k & s$Bio == b & s$Año == a]
-ta <- function(b, a = 2021) r$tasas$tasa[r$tasas$Bio == b & r$tasas$Año == a]
-md <- function(k, a = 2021) r$medidas[[k]][r$medidas$Año == a]
+A <- r$anio
+anios <- sort(unique(s$Año))
+sh <- function(k, b = "Bioeconomía", a = A) s$pct[s$Componente == k & s$Bio == b & s$Año == a]
+ta <- function(b, a = A) r$tasas$tasa[r$tasas$Bio == b & r$tasas$Año == a]
+md <- function(k, a = A) r$medidas[[k]][r$medidas$Año == a]
+sp <- function(b, a = A) r$comercio$saldo_pib[r$comercio$Bio == b & r$comercio$Año == a]
+conc_a <- function(a) r$conc$top5[r$conc$Año == a]
 p <- r$productos |>
   rename(VBP = Producción, X = Exportaciones, M = Importaciones, CI = `Consumo intermedio`, Imp = `Impuestos menos subvenciones`)
 bio <- p |> filter(Bio == "Bioeconomía")
@@ -83,7 +87,7 @@ etiqueta <- function(x, n = 34) str_trunc(str_split_fixed(x, "\\. |; ", 2)[, 1],
 **Mensaje central.** La bioeconomía sostiene buena parte de las divisas y de la recaudación de Argentina con una base concentrada de productos. Pesa más de lo que indica su producción, y la discusión de política está en cómo tributa, cómo se diversifica y de qué insumos depende.
 :::
 
-[Argentina, 2021, precios corrientes. Elaboración propia con datos de @indec2021 y el método de @vargas2023.]{.pequeno}
+[Argentina, `r A`, precios corrientes. Elaboración propia con datos de @indec2023 y el método de @vargas2023.]{.pequeno}
 
 # Hallazgos {.seccion background-color="#0B4A3A"}
 
@@ -97,7 +101,7 @@ Seis resultados de la cuenta de bioeconomía de Argentina.
 g_participacion(r$series, base = 18)
 ```
 
-[Argentina, 2021. Participación de cada condición en cada agregado.]{.pequeno}
+[Argentina, `r A`. Participación de cada condición en cada agregado.]{.pequeno}
 
 ## 2. Genera un saldo externo, muy concentrado
 
@@ -133,9 +137,36 @@ bio |>
   g_barras("X", "Producto", etq = "Lab", base = 15, leyenda = FALSE)
 ```
 
-[Miles de millones de pesos, 2021.]{.pequeno}
+[Miles de millones de pesos, `r A`.]{.pequeno}
 :::
 ::::
+
+## El saldo y su concentración en el tiempo
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| fig-width: 6.6
+#| fig-height: 4.6
+g_saldo(r$comercio, base = 14, tam = 3.4)
+```
+
+[Saldo comercial como porcentaje del PIB.]{.pequeno}
+:::
+::: {.column width="50%"}
+```{r}
+#| fig-width: 6.6
+#| fig-height: 4.6
+g_export_comp(r$export_bio, base = 13, tam = 3.4) + theme(legend.position = "bottom") + guides(fill = guide_legend(ncol = 2, reverse = TRUE))
+```
+
+[Participación en las exportaciones bioeconómicas.]{.pequeno}
+:::
+::::
+
+::: {.caja .ambar}
+El superávit bioeconómico pasó de `r pct(sp("Bioeconomía", 2021))` del PIB en 2021 a `r pct(sp("Bioeconomía"))` en `r A`. Cinco productos concentran entre `r pct(min(r$conc$top5), 0)` y `r pct(max(r$conc$top5), 0)` de las exportaciones bioeconómicas en todo el periodo.
+:::
 
 ## 3. Tributa más que el resto de la economía
 
@@ -149,7 +180,7 @@ g_tasas(r$tasas, base = 15)
 :::
 ::: {.column width="44%"}
 ::: {.caja}
-La brecha persiste en los cuatro años. La tasa bioeconómica es **`r num(ta("Bioeconomía") / ta("No bioeconomía"), 1)` veces** la del resto.
+La brecha persiste en los `r length(anios)` años. La tasa bioeconómica es **`r num(ta("Bioeconomía") / ta("No bioeconomía"), 1)` veces** la del resto.
 :::
 
 ::: {.caja .ambar}
@@ -168,7 +199,7 @@ La tasa resume en un resultado neto instrumentos creados con fines diversos. El 
 #| fig-width: 12.4
 #| fig-height: 5.2
 bio |>
-  filter(X > 100 | Código %in% c("250", "243", "244")) |>
+  filter(X > 0.01 * sum(X) | Código %in% c("250", "243", "244")) |>
   mutate(
     t = Imp / VBP,
     Producto = etiqueta(Producto, 42)
@@ -182,7 +213,7 @@ bio |>
   g_barras("t", "Producto", etq = "Lab", base = 16, leyenda = FALSE)
 ```
 
-[Productos con exportaciones superiores a 100 miles de millones de pesos, más tabaco y bebidas. Impuestos netos entre valor bruto de producción. Hipótesis por verificar: que en los productos de exportación pesen los derechos de exportación.]{.pequeno}
+[Productos con más de 1 % de las exportaciones bioeconómicas, más tabaco y bebidas. Impuestos netos entre valor bruto de producción. Hipótesis por verificar: que en los productos de exportación pesen los derechos de exportación.]{.pequeno}
 
 ## 4. Los encadenamientos llegan más allá del campo
 
@@ -250,7 +281,7 @@ p |>
   tabla_simple("cou mediano")
 ```
 
-[Miles de millones de pesos, 2021. El vínculo de estos productos con los recursos biológicos es menos directo, y conviene revisarlo producto por producto.]{.pequeno}
+[Miles de millones de pesos, `r A`. El vínculo de estos productos con los recursos biológicos es menos directo, y conviene revisarlo producto por producto.]{.pequeno}
 :::
 ::::
 
@@ -261,27 +292,16 @@ p |>
 ```{r}
 #| fig-width: 7.6
 #| fig-height: 4.6
-r$medidas |>
-  select(Año, `Método de actividades` = apriori_bio, `Método del consumo intermedio` = via_ci) |>
-  pivot_longer(-Año, names_to = "Medida", values_to = "v") |>
-  ggplot(aes(Año, v, color = Medida)) +
-  geom_line(linewidth = 1.1) +
-  geom_point(size = 3) +
-  geom_text(aes(label = pct(v)), vjust = -1, size = 4, show.legend = FALSE, color = TINTA) +
-  scale_color_manual(values = c("Método de actividades" = "#0F7B5F", "Método del consumo intermedio" = "#C27C0E")) +
-  scale_x_continuous(breaks = 2018:2021, expand = expansion(mult = 0.08)) +
-  scale_y_continuous(labels = \(x) paste0(round(100 * x), " %"), limits = c(0, 0.18)) +
-  labs(x = NULL, y = "% del valor agregado") +
-  tema_bio(15)
+g_medidas(r$medidas, base = 15, tam = 3.6)
 ```
 :::
 ::: {.column width="44%"}
 ::: {.caja}
-De 2018 a 2020 el método del consumo intermedio daba **más** que el de actividades, como se esperaba en 10 de 13 países [@vargas2023]. En 2021 se invierte.
+En casi todos los años el método del consumo intermedio da **más** que el de actividades, como se esperaba en 10 de 13 países [@vargas2023]. Solo en 2021 se invierte.
 :::
 
 ::: {.caja .ambar}
-El año 2021 combina precios de materias primas, tipo de cambio y salida de la pandemia. Los cuadros están a **precios corrientes**, de modo que las participaciones no aíslan volúmenes.
+En 2023, con la sequía, cae el método de actividades (`r pct(md("apriori_bio", 2022))` a `r pct(md("apriori_bio"))`), pero el del consumo intermedio casi no cambia. Los cuadros están a **precios corrientes**, de modo que las participaciones no aíslan volúmenes.
 :::
 :::
 ::::
@@ -485,7 +505,7 @@ Inversión e I+D de las actividades bioeconómicas.
 :::: {.columns}
 ::: {.column width="48%"}
 ::: {.caja .azul}
-**El dato.** Argentina ya publica los COU que permiten esta cuenta. Con una rutina reproducible se procesaron cuatro años.
+**El dato.** Argentina ya publica los COU que permiten esta cuenta. Con una rutina reproducible se procesaron `r length(anios)` años en una sola base.
 :::
 
 ::: {.caja .neutra}
@@ -516,7 +536,7 @@ Una cuenta anual publicada y citada en decisiones de política.
 ```{r}
 tibble(
   Curso = c("1. Coherencia fiscal", "2. Diversificación y valor", "3. Insumos y bioinsumos", "4. Encadenamientos", "5. Inversión e innovación", "6. Sistema de información"),
-  `Dato de la cuenta` = c(pct(ta("Bioeconomía")), pct(conc), pct(abono_m), paste(ar_grupos$n[1], "actividades"), pct(sh("Formación bruta de capital")), "4 años"),
+  `Dato de la cuenta` = c(pct(ta("Bioeconomía")), pct(conc), pct(abono_m), paste(ar_grupos$n[1], "actividades"), pct(sh("Formación bruta de capital")), paste(length(anios), "años")),
   Horizonte = c("Corto a mediano", "Mediano a largo", "Mediano", "Mediano", "Largo", "Corto"),
   `Costo fiscal` = c("Alto", "Medio", "Medio", "Medio", "Medio a alto", "Bajo"),
   `Actores clave` = c("Hacienda, sectores", "Producción, cancillería", "Agricultura, ciencia", "Producción, provincias", "Ciencia, banca pública", "INDEC, ministerios")
@@ -549,7 +569,7 @@ tibble(
 :::
 ::::
 
-[Descargar la base de datos](../../data/bd/ARG_SCN_BD_2021.xlsx) · [Descargar los cuadros](../../data/salidas/ARG_cuadros_bioeconomia_2021.xlsx)
+[Descargar la base de datos](../../data/bd/ARG_SCN_BD_2023.xlsx) · [Descargar los cuadros](../../data/salidas/ARG_cuadros_bioeconomia_2023.xlsx)
 
 ## Lo que estos datos no permiten afirmar
 

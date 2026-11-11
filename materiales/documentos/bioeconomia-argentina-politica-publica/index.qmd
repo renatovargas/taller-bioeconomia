@@ -1,13 +1,13 @@
 ---
 title: "La bioeconomía en las cuentas nacionales de Argentina"
-subtitle: "Una lectura para la política pública a partir del cuadro de oferta y utilización de 2021"
+subtitle: "Una lectura para la política pública a partir de los cuadros de oferta y utilización de 2018 a 2023"
 author:
   - name: "Renato Vargas"
     affiliations:
       - name: Economista / Analista de datos
 lang: es
 abstract: |
-  Esta nota retoma la metodología de las cuentas satélite de bioeconomía desarrollada para Costa Rica y trece países de América Latina y el Caribe, y la aplica a los cuadros de oferta y utilización de Argentina de 2018 a 2021. Los productos bioeconómicos representan alrededor de una quinta parte de la producción, pero más de la mitad de las exportaciones y cerca de un tercio de los impuestos netos sobre los productos. Generan un superávit comercial amplio y concentrado en pocos productos, y tributan a una tasa implícita que duplica a la del resto de la economía. La nota revisa estos resultados, sus límites y seis cursos de política pública que se pueden discutir a partir de ellos.
+  Esta nota retoma la metodología de las cuentas satélite de bioeconomía desarrollada para Costa Rica y trece países de América Latina y el Caribe, y la aplica a los cuadros de oferta y utilización de Argentina de 2018 a 2023. En 2023, los productos bioeconómicos representaron alrededor de un sexto de la producción, pero 44 % de las exportaciones (más de la mitad entre 2019 y 2022, antes de la sequía) y casi una cuarta parte de los impuestos netos sobre los productos. Generan un superávit comercial amplio y concentrado en pocos productos, y en todos los años tributan a una tasa implícita mayor que la del resto de la economía. La nota revisa estos resultados, sus límites y seis cursos de política pública que se pueden discutir a partir de ellos.
 bibliography: ../../../slides/refs.bib
 csl: ../../../assets/apa-es.csl
 format:
@@ -33,9 +33,14 @@ source("scripts/funciones-presentacion.R")
 opts_chunk$set(dev = "ragg_png", dpi = 200, fig.width = 8, fig.height = 4.2)
 r <- readRDS("data/salidas/resultados.rds")
 s <- r$series
-sh <- function(k, b = "Bioeconomía", a = 2021) s$pct[s$Componente == k & s$Bio == b & s$Año == a]
-ta <- function(b, a = 2021) r$tasas$tasa[r$tasas$Bio == b & r$tasas$Año == a]
-md <- function(k, a = 2021) r$medidas[[k]][r$medidas$Año == a]
+A <- r$anio
+anios <- sort(unique(s$Año))
+periodo <- paste(min(anios), "a", max(anios))
+sh <- function(k, b = "Bioeconomía", a = A) s$pct[s$Componente == k & s$Bio == b & s$Año == a]
+ta <- function(b, a = A) r$tasas$tasa[r$tasas$Bio == b & r$tasas$Año == a]
+md <- function(k, a = A) r$medidas[[k]][r$medidas$Año == a]
+sp <- function(b, a = A) r$comercio$saldo_pib[r$comercio$Bio == b & r$comercio$Año == a]
+cb <- r$comercio |> filter(Bio == "Bioeconomía")
 p <- r$productos |>
   rename(VBP = Producción, X = Exportaciones, M = Importaciones, CI = `Consumo intermedio`, Imp = `Impuestos menos subvenciones`)
 bio <- p |> filter(Bio == "Bioeconomía")
@@ -84,7 +89,7 @@ Como un producto puede salir de varias actividades y una actividad puede produci
 
 Los COU se publican como matrices. Para analizarlos, cada celda distinta de cero se convierte en una fila de una tabla con sus atributos: cuadro, producto, actividad, condición bioeconómica y valor. Después, cualquier cuadro se reconstruye con una tabla dinámica, y los totales siguen coincidiendo con los oficiales.
 
-Para Argentina se usaron los COU de INDEC de 2018 a 2021 [@indec2021], con la clasificación de productos y actividades elaborada para @vargas2023. La rutina asigna filas y columnas por su código, porque la nomenclatura de INDEC cambió entre años. Controlamos dos cosas: que la oferta y la utilización sean iguales para cada producto y año, y que para 2018 se reproduzcan los valores publicados: `r pct(sh("Exportaciones", a = 2018))` de las exportaciones, `r pct(ta("Bioeconomía", 2018))` de tasa implícita y `r pct(md("via_ci", 2018))` de valor agregado por consumo intermedio.
+Para Argentina se usaron los COU de INDEC de `r periodo` [@indec2023], con la clasificación de productos y actividades elaborada para @vargas2023. Todos los años quedan en una sola base, en millones de pesos corrientes. La rutina asigna filas y columnas por su código, porque la nomenclatura de INDEC cambió entre años, y cada código tiene una sola clasificación válida para todo el periodo. Controlamos tres cosas: que la oferta y la utilización sean iguales para cada producto y año, que cada fila sume el total publicado por INDEC, y que para 2018 se reproduzcan los valores publicados: `r pct(sh("Exportaciones", a = 2018))` de las exportaciones, `r pct(ta("Bioeconomía", 2018))` de tasa implícita y `r pct(md("via_ci", 2018))` de valor agregado por consumo intermedio.
 
 ## Dos maneras de medir el valor agregado
 
@@ -98,12 +103,21 @@ Para captar los encadenamientos, estimamos cuántos insumos bioeconómicos y bio
 
 ## El panorama general
 
-En 2021, los productos bioeconómicos representaron `r pct(sh("Producción"))` de la producción, `r pct(sh("Consumo intermedio"))` del consumo intermedio, `r pct(sh("Consumo final"))` del consumo final y `r pct(sh("Exportaciones"))` de las exportaciones (@fig-participacion). En importaciones (`r pct(sh("Importaciones"))`) y en formación bruta de capital (`r pct(sh("Formación bruta de capital"))`) su participación es mucho menor. En comparación con el promedio de los trece países en @vargas2023, Argentina destaca sobre todo en exportaciones y en impuestos.
+En `r A`, los productos bioeconómicos representaron `r pct(sh("Producción"))` de la producción, `r pct(sh("Consumo intermedio"))` del consumo intermedio, `r pct(sh("Consumo final"))` del consumo final y `r pct(sh("Exportaciones"))` de las exportaciones (@fig-participacion). En importaciones (`r pct(sh("Importaciones"))`) y en formación bruta de capital (`r pct(sh("Formación bruta de capital"))`) su participación es mucho menor. En comparación con el promedio de los trece países en @vargas2023, Argentina destaca sobre todo en exportaciones y en impuestos.
 
 ```{r}
 #| label: fig-participacion
-#| fig-cap: "Argentina: participación de cada condición del producto en los principales agregados, 2021"
+#| fig-cap: !expr 'paste0("Argentina: participación de cada condición del producto en los principales agregados, ", A)'
 g_participacion(r$series, base = 12)
+```
+
+Estas participaciones se movieron en el periodo (@fig-series). La de las exportaciones subió de `r pct(sh("Exportaciones", a = 2018))` en 2018 a `r pct(sh("Exportaciones", a = 2021))` en 2021 y bajó a `r pct(sh("Exportaciones"))` en `r A`, el año de la sequía. La de la producción siguió un camino parecido, más suave.
+
+```{r}
+#| label: fig-series
+#| fig-cap: !expr 'paste0("Argentina: participación de cada condición del producto en los principales agregados, ", periodo)'
+#| fig-height: 5.6
+g_series(r$series, base = 11)
 ```
 
 El @tbl-oferta y el @tbl-utilizacion presentan los cuadros completos. Permiten ver, por ejemplo, cuántos productos bioeconómicos producen las actividades no bioeconómicas y cuántos insumos bioeconómicos compran.
@@ -115,7 +129,7 @@ cuadro_bio_html(r$bio$oferta)
 ```
 :::
 
-Argentina: oferta bioeconómica, 2021 (miles de millones de pesos corrientes)
+Argentina: oferta bioeconómica, `r A` (miles de millones de pesos corrientes)
 :::
 
 ::: {#tbl-utilizacion .column-page}
@@ -125,33 +139,34 @@ cuadro_bio_html(r$bio$utilizacion, va = r$bio$va)
 ```
 :::
 
-Argentina: utilización bioeconómica, 2021 (miles de millones de pesos corrientes)
+Argentina: utilización bioeconómica, `r A` (miles de millones de pesos corrientes)
 :::
 
 ## Valor agregado
 
-Las actividades bioeconómicas generaron `r pct(md("apriori_bio"))` del valor agregado bruto de `r num(va_tot)` miles de millones de pesos, y las extendidas `r pct(md("apriori_ext"))`. Por el método del consumo intermedio, la bioeconomía aporta `r pct(md("via_ci"))`. La diferencia entre métodos se invirtió en 2021: de 2018 a 2020 el segundo daba más que el primero (@fig-medidas). Una explicación posible es que los precios agrícolas elevaron el valor agregado primario en 2021, pero el COU a precios corrientes no permite separar ese efecto.
+Las actividades bioeconómicas generaron `r pct(md("apriori_bio"))` del valor agregado bruto de `r num(va_tot)` miles de millones de pesos, y las extendidas `r pct(md("apriori_ext"))`. Por el método del consumo intermedio, la bioeconomía aporta `r pct(md("via_ci"))`. En todos los años, salvo 2021, el segundo método da más que el primero (@fig-medidas). Una explicación posible para 2021 es que los precios agrícolas elevaron el valor agregado primario, pero el COU a precios corrientes no permite separar ese efecto. En `r A`, el método de actividades bajó a `r pct(md("apriori_bio"))` desde `r pct(md("apriori_bio", A - 1))` el año anterior, mientras que el del consumo intermedio se mantuvo en `r pct(md("via_ci"))`: la sequía golpeó la producción primaria, pero cambió menos la mezcla de insumos de las demás actividades.
 
 ```{r}
 #| label: fig-medidas
-#| fig-cap: "Argentina: contribución de la bioeconomía al valor agregado, según el método, 2018 a 2021"
-r$medidas |>
-  select(Año, `Método de actividades` = apriori_bio, `Método del consumo intermedio` = via_ci) |>
-  pivot_longer(-Año, names_to = "Medida", values_to = "v") |>
-  ggplot(aes(Año, v, color = Medida)) +
-  geom_line(linewidth = 1) +
-  geom_point(size = 2.6) +
-  geom_text(aes(label = pct(v)), vjust = -1, size = 3.3, show.legend = FALSE, color = TINTA) +
-  scale_color_manual(values = c("Método de actividades" = "#0F7B5F", "Método del consumo intermedio" = "#C27C0E")) +
-  scale_x_continuous(breaks = 2018:2021, expand = expansion(mult = 0.08)) +
-  scale_y_continuous(labels = \(x) paste0(round(100 * x), " %"), limits = c(0, 0.18)) +
-  labs(x = NULL, y = "% del valor agregado") +
-  tema_bio(12)
+#| fig-cap: !expr 'paste0("Argentina: contribución de la bioeconomía al valor agregado, según el método, ", periodo)'
+g_medidas(r$medidas, base = 12, tam = 3.2)
 ```
 
 ## Comercio exterior: superávit y concentración
 
-Los productos bioeconómicos generaron un saldo comercial de `r num(sal("Bioeconomía"))` miles de millones de pesos en 2021. Los extendidos registraron un déficit de `r num(abs(sal("Bioeconomía extendida")))` y los no bioeconómicos, uno de `r num(abs(sal("No bioeconomía")))`. Cinco productos concentran `r pct(conc)` de las exportaciones bioeconómicas (@tbl-exportaciones). La participación en exportaciones pasó de `r pct(sh("Exportaciones", a = 2018))` en 2018 a `r pct(sh("Exportaciones"))` en 2021, un cambio en el que también influyen los precios internacionales.
+Los productos bioeconómicos generaron un saldo comercial de `r num(sal("Bioeconomía"))` miles de millones de pesos en `r A`, equivalente a `r pct(sp("Bioeconomía"))` del PIB. Los extendidos registraron un déficit de `r num(abs(sal("Bioeconomía extendida")))` y los no bioeconómicos, uno de `r num(abs(sal("No bioeconomía")))`. Cinco productos concentran `r pct(conc)` de las exportaciones bioeconómicas (@tbl-exportaciones). Medido en proporción del PIB, el superávit bioeconómico llegó a `r pct(max(cb$saldo_pib))` en `r cb$Año[which.max(cb$saldo_pib)]` y se redujo a `r pct(sp("Bioeconomía"))` en `r A` (@fig-saldo). En estos cambios influyen tanto las cosechas como los precios internacionales y el tipo de cambio. La composición de las exportaciones, en cambio, es estable: cereales, tortas y aceites oleaginosos, carne y semillas oleaginosas explican la mayor parte en todos los años (@fig-export).
+
+```{r}
+#| label: fig-saldo
+#| fig-cap: !expr 'paste0("Argentina: saldo comercial por condición del producto, ", periodo, " (porcentaje del PIB)")'
+g_saldo(r$comercio, base = 12, tam = 3.2)
+```
+
+```{r}
+#| label: fig-export
+#| fig-cap: !expr 'paste0("Argentina: composición de las exportaciones de productos bioeconómicos, ", periodo)'
+g_export_comp(r$export_bio, base = 12, tam = 3.2)
+```
 
 ::: {#tbl-exportaciones}
 ```{r}
@@ -168,18 +183,18 @@ bio |>
   tabla_simple("cou")
 ```
 
-Argentina: principales exportaciones bioeconómicas, 2021 (miles de millones de pesos corrientes)
+Argentina: principales exportaciones bioeconómicas, `r A` (miles de millones de pesos corrientes)
 :::
 
 ## Impuestos sobre los productos
 
-La tasa implícita sobre los productos bioeconómicos fue de `r pct(ta("Bioeconomía"))` en 2021, frente a `r pct(ta("No bioeconomía"))` en los no bioeconómicos (@fig-tasas). @vargas2023 ya habían señalado que Argentina tenía la tasa más alta de los trece países. Esta tasa es el resultado neto de todos los instrumentos, creados con fines distintos y en épocas distintas, al margen de una política deliberada hacia la bioeconomía.
+La tasa implícita sobre los productos bioeconómicos fue de `r pct(ta("Bioeconomía"))` en `r A`, frente a `r pct(ta("No bioeconomía"))` en los no bioeconómicos (@fig-tasas). @vargas2023 ya habían señalado que Argentina tenía la tasa más alta de los trece países. Esta tasa es el resultado neto de todos los instrumentos, creados con fines distintos y en épocas distintas, al margen de una política deliberada hacia la bioeconomía.
 
 Conviene abrirla. Tabaco, bebidas alcohólicas, cerveza y bebidas no alcohólicas aportan `r pct(peso_exc)` de lo recaudado en productos bioeconómicos, y responden a objetivos propios. Sin ellos, la tasa baja a `r pct(tasa_sin)`, que sigue siendo mayor que la del resto. También se observan tasas altas en productos muy exportados, como aceites y tortas oleaginosas. Una hipótesis razonable es que ahí pesan los derechos de exportación, pero el COU no separa instrumentos y esto debe verificarse con datos fiscales.
 
 ```{r}
 #| label: fig-tasas
-#| fig-cap: "Argentina: tasa impositiva implícita sobre los productos, 2018 a 2021"
+#| fig-cap: !expr 'paste0("Argentina: tasa impositiva implícita sobre los productos, ", periodo)'
 g_tasas(r$tasas, base = 12)
 ```
 
@@ -201,7 +216,7 @@ m |>
   tabla_simple("cou")
 ```
 
-Argentina: actividades con mayor uso directo e indirecto de insumos bioeconómicos y extendidos, 2021 (pesos por peso de demanda final)
+Argentina: actividades con mayor uso directo e indirecto de insumos bioeconómicos y extendidos, `r A` (pesos por peso de demanda final)
 :::
 
 ## Insumos clave
@@ -238,7 +253,7 @@ Argentina publica los COU necesarios para actualizar esta cuenta cada año. Inst
 
 # Limitaciones
 
-- **Precios corrientes.** El periodo incluye alta inflación, cambios en el tipo de cambio y la pandemia. Las participaciones mezclan volúmenes y precios.
+- **Precios corrientes.** El periodo incluye alta inflación, cambios en el tipo de cambio, la pandemia y la sequía de 2023. Las participaciones mezclan volúmenes y precios.
 - **Sin empleo ni ambiente.** Una bioeconomía grande no es necesariamente una bioeconomía sostenible. El COU no mide esa diferencia.
 - **Clasificación.** Es una decisión técnica discutible, sobre todo en químicos, farmacéuticos, textiles y plásticos. Los productos del COU agrupan bienes con y sin base biológica, y la cuenta asigna cada grupo completo a una categoría.
 - **Multiplicadores.** Son de uso total, a precios de comprador, con tecnología de la industria. Los umbrales de DAM son un criterio de ordenamiento.
@@ -267,10 +282,10 @@ Las cifras son elaboración propia a partir de datos oficiales y no constituyen 
 
 ```{r}
 #| include: false
-scn21 <- readRDS("data/bd/arg_scn_2018_2021.rds") |> filter(Año == 2021)
+scn_a <- readRDS("data/bd/arg_scn.rds") |> filter(Año == A)
 
-an_prod <- scn21 |>
-  filter(Cuadro != "Valor Agregado", !str_detect(Filas, "f22[456]$")) |>
+an_prod <- scn_a |>
+  filter(`Tipo fila` == "Producto") |>
   distinct(
     Código = `Código Nomenclatura Local de Productos`,
     Nombre = `Nomenclatura Local de Productos`,
@@ -278,7 +293,7 @@ an_prod <- scn21 |>
     Bio = `Bioeconomía Productos`
   )
 
-an_act <- scn21 |>
+an_act <- scn_a |>
   filter(Cuadro == "Valor Agregado") |>
   distinct(
     Código = `Código Clasificación Actividades`,
@@ -298,7 +313,7 @@ lista_anexo <- function(d, b, grupo) {
 }
 ```
 
-Este anexo lista la condición asignada a cada producto y actividad del COU de 2021. La clasificación es la que usa toda la nota, y los nombres son los de INDEC. Los mismos datos están en [ARG_Clasificaciones.xlsx](../../../data/clasificaciones/ARG_Clasificaciones.xlsx) y en la [base de datos](../../../data/bd/ARG_SCN_BD_2021.xlsx), donde se pueden filtrar.
+Este anexo lista la condición asignada a cada producto y actividad del COU de `r A`. La clasificación es la que usa toda la nota, y los nombres son los de INDEC. Los mismos datos están en [arg_lookups.xlsx](../../../data/config/arg_lookups.xlsx), que incluye también los códigos de años anteriores, y en la [base de datos](../../../data/bd/ARG_SCN_BD_2023.xlsx), donde se pueden filtrar.
 
 Cada producto o actividad recibe una sola condición, aunque su nombre agrupe bienes con y sin base biológica. Por eso conviene revisar estos listados al interpretar los resultados, en particular los de químicos, farmacéuticos, textiles y plásticos.
 

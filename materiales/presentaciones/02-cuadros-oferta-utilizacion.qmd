@@ -1,6 +1,6 @@
 ---
 title: "Los cuadros de oferta y utilización"
-subtitle: "Ejercicio práctico con el COU 2021 de Argentina"
+subtitle: "Ejercicio práctico con el COU 2023 de Argentina"
 ---
 
 ::::{.slide-embed}

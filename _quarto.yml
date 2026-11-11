@@ -8,10 +8,10 @@ project:
     - "slides/**/*.qmd"
     - "!refs/"
   resources:
-    - data/cou/
-    - data/bd/ARG_SCN_BD_2021.xlsx
-    - data/clasificaciones/
-    - data/salidas/ARG_cuadros_bioeconomia_2021.xlsx
+    - data/indec-cou/
+    - data/bd/ARG_SCN_BD_2023.xlsx
+    - data/config/
+    - data/salidas/ARG_cuadros_bioeconomia_2023.xlsx
     - scripts/01-procesar-cou-argentina.R
     - scripts/02-cuadros-y-resultados.R
     - scripts/funciones-presentacion.R

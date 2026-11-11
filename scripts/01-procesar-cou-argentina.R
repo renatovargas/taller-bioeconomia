@@ -1,17 +1,31 @@
 # Procesamiento de los cuadros de oferta y utilización (COU) de Argentina
 # =========================================================================
-# Convierte los COU de INDEC (2018 a 2021) en una base de datos en formato
-# plano, le agrega la clasificación bioeconómica y la guarda para su análisis.
+# Convierte los COU de INDEC (todos los años de data/config/arg_config.xlsx)
+# en una sola base de datos plana con un campo de año, le agrega la
+# clasificación bioeconómica y la guarda en data/bd/arg_scn.rds.
 #
-# Adaptado del script original de A. Mondaini para el COU de 2018. Diferencias:
-#   - Lee cada año con sus dos hojas (oferta y utilización) del .xls de INDEC.
-#   - Asigna filas y columnas POR CÓDIGO y no por posición. INDEC cambió la
-#     nomenclatura entre años:
-#       * 2019+: producto nuevo "715 CSCD" y columna nueva "CSCD" (comisiones
-#         por servicios de cambio de divisas).
-#       * 2020+: "651" y "652" se publican juntos como "651/652".
-#       * 2021:  desaparece el producto "841 L" (locutorios).
-#   - Conserva solo los valores distintos de cero, para que el Excel sea liviano.
+# Adaptado del script original de A. Mondaini para el COU de 2018.
+#
+# Dos archivos de configuración gobiernan la rutina:
+#   data/config/arg_config.xlsx   qué leer: un renglón por año, con archivo,
+#                                 hojas y factor de conversión de unidades.
+#   data/config/arg_lookups.xlsx  cómo clasificar: un renglón por código de
+#                                 INDEC (productos, actividades, transacciones),
+#                                 con los años en que el código está vigente
+#                                 (Desde, Hasta).
+#
+# Filas y columnas se asignan POR CÓDIGO y no por posición, porque INDEC
+# cambió la nomenclatura entre años (hoja "cambios" de arg_lookups.xlsx):
+#   2019: producto nuevo "715 CSCD" y columna nueva "CSCD".
+#   2020: "651" y "652" se publican juntos como "651/652".
+#   2021: desaparece el producto "841 L" (locutorios).
+#   2023: INDEC publica en millones de pesos (antes, miles).
+# La base usa millones de pesos para todos los años.
+#
+# La rutina se detiene si un código del cuadro no está en los lookups, si un
+# código vigente falta en el cuadro, o si los totales de INDEC no cuadran.
+# Para agregar un año: copie el .xls en data/indec-cou/, agregue su renglón en
+# arg_config.xlsx y, si INDEC cambió códigos, ajuste Desde/Hasta en los lookups.
 #
 # Ejecutar desde la raíz del proyecto:
 #   Rscript scripts/01-procesar-cou-argentina.R
@@ -20,203 +34,202 @@ library(readxl)
 library(dplyr)
 library(tidyr)
 library(stringr)
+library(purrr)
 
-anios <- 2018:2021
-ruta_clasif <- "data/clasificaciones/ARG_Clasificaciones.xlsx"
+ruta_config <- "data/config/arg_config.xlsx"
+ruta_lookups <- "data/config/arg_lookups.xlsx"
+dir_cou <- "data/indec-cou"
+salida <- "data/bd/arg_scn.rds"
 
 limpiar <- function(x) str_squish(as.character(x))
-parse_number_col <- function(x) as.numeric(str_extract(x, "\\d+$"))
 
-# 1. Clasificaciones
-# ------------------
-columnas <- read_excel(ruta_clasif, sheet = "columnas") |>
-  filter(!is.na(Columnas)) |>
-  left_join(
-    read.csv(
-      "data/clasificaciones/ARG_equivalencias_columnas.csv",
-      check.names = FALSE,
-      encoding = "UTF-8"
-    ),
-    by = "Columnas"
-  ) |>
-  mutate(across(where(is.character), limpiar))
+# 1. Configuración y lookups
+# --------------------------
+config <- read_excel(ruta_config, sheet = "config")
 
-filas <- read_excel(ruta_clasif, sheet = "filas") |>
-  filter(!is.na(Filas)) |>
-  left_join(
-    read.csv(
-      "data/clasificaciones/ARG_equivalencias_filas.csv",
-      check.names = FALSE,
-      encoding = "UTF-8"
-    ),
-    by = "Filas"
-  ) |>
-  mutate(across(where(is.character), limpiar))
+leer_lookup <- function(hoja) {
+  read_excel(ruta_lookups, sheet = hoja, col_types = "text") |>
+    mutate(across(everything(), limpiar)) |>
+    mutate(across(any_of(c("Desde", "Hasta", "Orden")), as.integer))
+}
+productos <- leer_lookup("productos")
+actividades <- leer_lookup("actividades")
+transacciones <- leer_lookup("transacciones")
+especiales <- leer_lookup("filas_especiales")
 
-# Producto nuevo "715 CSCD": hereda los atributos de "711 COM/715" (servicios financieros, no bioeconomía).
-nueva_fila <- function(prefijo, id) {
-  filas |>
-    filter(
-      str_starts(Filas, prefijo),
-      `Código Nomenclatura Local de Productos` == "711 COM/715"
-    ) |>
-    mutate(
-      Filas = id,
-      `Código Nomenclatura Local de Productos` = "715 CSCD",
-      `Nomenclatura Local de Productos` =
-        "715 - Otros servicios auxiliares de la intermediación financiera"
+stopifnot(
+  !anyDuplicated(c(actividades$`Código Clasificación Actividades`, na.omit(actividades$`Alias INDEC`))),
+  !anyDuplicated(productos$`Código Nomenclatura Local de Productos`),
+  !anyDuplicated(actividades$`Código Clasificación Actividades`),
+  !anyDuplicated(paste(transacciones$Cuadro, transacciones$`Código columna`))
+)
+
+# Códigos vigentes en un año
+vigente <- function(d, a) d |> filter(Desde <= a, is.na(Hasta) | Hasta >= a)
+
+# Versiones: los años que comparten versión deben compartir todos los códigos
+# vigentes, y dos versiones distintas deben diferir en al menos uno.
+firma <- function(a) {
+  paste(c(
+    vigente(productos, a)$`Código Nomenclatura Local de Productos`,
+    vigente(actividades, a)$`Código Clasificación Actividades`,
+    with(vigente(transacciones, a), paste(Cuadro, `Código columna`))
+  ), collapse = "|")
+}
+versiones <- config |>
+  mutate(firma = vapply(Año, firma, "")) |>
+  group_by(`Versión nomenclatura`) |>
+  summarise(años = paste(range(Año), collapse = "-"), n_firmas = n_distinct(firma), firma = first(firma))
+if (any(versiones$n_firmas > 1) || anyDuplicated(versiones$firma)) {
+  print(versiones)
+  stop("Versión nomenclatura de arg_config.xlsx no coincide con la vigencia de los lookups", call. = FALSE)
+}
+print(select(versiones, `Versión nomenclatura`, años))
+
+# INDEC escribe algunos códigos de actividad de otra forma (hoja de utilización)
+de_alias <- function(x) {
+  a <- actividades |> filter(!is.na(`Alias INDEC`))
+  i <- match(x, a$`Alias INDEC`)
+  if_else(is.na(i), x, a$`Código Clasificación Actividades`[i])
+}
+
+comparar <- function(en_cuadro, en_lookup, que, anio) {
+  sobran <- setdiff(en_cuadro, en_lookup)
+  faltan <- setdiff(en_lookup, en_cuadro)
+  if (length(sobran) || length(faltan)) {
+    stop(
+      sprintf("%s, %d. ", que, anio),
+      if (length(sobran)) paste0("En el cuadro pero no vigentes en los lookups: ", paste(sobran, collapse = ", "), ". "),
+      if (length(faltan)) paste0("Vigentes en los lookups pero no en el cuadro: ", paste(faltan, collapse = ", "), "."),
+      call. = FALSE
     )
+  }
 }
-filas <- bind_rows(
-  filas,
-  nueva_fila("ARGof", "ARGof227"),
-  nueva_fila("ARGuf", "ARGuf227")
-)
 
-# Columna nueva "CSCD": se trata como un margen, igual que "Mg D".
-columnas <- bind_rows(
-  columnas,
-  columnas |>
-    filter(Columnas == "ARGoc113") |>
-    mutate(
-      Columnas = "ARGoc116",
-      `Código Clasificación Actividades` = "CSCD",
-      `Descripción Actividades` =
-        "COMISIONES POR SERVICIOS DE CAMBIO DE DIVISAS"
-    )
-)
-
-# Columnas de transacciones (después de las 107 actividades), por código.
-col_oferta <- c(
-  "IMPO" = "ARGoc109", "Ajuste CIF/FOB" = "ARGoc110", "DI" = "ARGoc111",
-  "IP" = "ARGoc112", "Mg D" = "ARGoc113", "IVA" = "ARGoc114",
-  "CSCD" = "ARGoc116"
-)
-col_util <- c(
-  "CH" = "ARGuc109", "CP" = "ARGuc110", "EX" = "ARGuc111",
-  "Fbc Fijo" = "ARGuc112", "OV" = "ARGuc113",
-  "Productos terminados" = "ARGuc114", "Trabajos en curso" = "ARGuc115"
-)
-filas_ajuste <- c(
-  "Ajuste CIF/FOB" = "224",
-  "Compras de residentes en el mercado exterior" = "225",
-  "Compras de no residentes en el mercado doméstico" = "226"
-)
-
-# 2. Lectura de un año
-# --------------------
-leer_hoja <- function(anio, hoja) {
-  read_excel(
-    sprintf("data/cou/COU-%d.xls", anio),
-    sheet = hoja,
-    col_names = FALSE,
-    col_types = "text",
-    .name_repair = "minimal"
+# 2. Lectura de una hoja
+# ----------------------
+# Devuelve la hoja en formato largo con códigos de fila y de columna.
+desdoblar <- function(cfg, cuadro) {
+  anio <- cfg$Año
+  hoja <- if (cuadro == "Oferta") cfg$`Hoja oferta` else cfg$`Hoja utilización`
+  m <- read_excel(
+    file.path(dir_cou, cfg$Archivo),
+    sheet = hoja, col_names = FALSE, col_types = "text", .name_repair = "minimal"
   ) |>
-    as.data.frame()
-}
+    as.matrix()
+  etiqueta <- limpiar(m[, 1])
+  codigo <- limpiar(m[, 2])
+  enc_fila <- which(etiqueta == "Descripción")[1]
+  encabezado <- limpiar(m[enc_fila, ])
+  num <- function(x) as.numeric(x) * cfg$`Factor a millones`
 
-id_fila_producto <- function(codigo, prefijo) {
-  # Los códigos fusionados se asignan al primero de sus componentes.
-  codigo <- if_else(codigo == "651/652", "651", codigo)
-  f <- filas[str_starts(filas$Filas, prefijo), ]
-  f$Filas[match(codigo, f$`Código Nomenclatura Local de Productos`)]
-}
+  # Columnas: actividades (de la 3 hasta el primer total) y transacciones
+  primer_total <- if (cuadro == "Oferta") "OPB" else "UI"
+  j_tot <- which(encabezado == primer_total)[1]
+  j_act <- 3:(j_tot - 1)
+  encabezado[j_act] <- de_alias(encabezado[j_act])
+  act_v <- vigente(actividades, anio) |> arrange(Orden)
+  comparar(encabezado[j_act], act_v$`Código Clasificación Actividades`, paste("Actividades", cuadro), anio)
+  stopifnot(identical(encabezado[j_act], act_v$`Código Clasificación Actividades`))
 
-desdoblar <- function(hoja, anio, columnas_trans, pref_fila, pref_col, cuadro) {
-  etiqueta <- limpiar(hoja[[1]])
-  codigo <- limpiar(hoja[[2]])
-  encabezado <- limpiar(hoja[5, ])
-  fin <- which(etiqueta == "Total")[1] - 1
-  n_act <- which(encabezado %in% c("OPB", "UI"))[1] - 3
-  stopifnot(n_act == 107)
+  tr_v <- vigente(transacciones, anio) |> filter(Cuadro == cuadro)
+  j_resto <- seq(j_tot, ncol(m))
+  j_resto <- j_resto[!is.na(encabezado[j_resto]) & encabezado[j_resto] != ""]
+  comparar(encabezado[j_resto], tr_v$`Código columna`, paste("Transacciones", cuadro), anio)
+  j_tr <- j_resto[encabezado[j_resto] %in% tr_v$`Código columna`[tr_v$Tipo == "Transacción"]]
 
-  # Identificadores de columnas: actividades por posición y el resto por código.
-  idx_act <- 3:(n_act + 2)
-  id_act <- sprintf("ARG%sc%03d", pref_col, seq_len(n_act))
-  idx_tr <- match(names(columnas_trans), encabezado)
-  presentes <- !is.na(idx_tr)
-  idx <- c(idx_act, idx_tr[presentes])
-  ids <- c(id_act, unname(columnas_trans[presentes]))
+  # Filas: productos (de la siguiente al encabezado hasta "Total") y especiales
+  i_fin <- which(etiqueta == "Total")[1] - 1
+  i_prod <- (enc_fila + 1):i_fin
+  comparar(codigo[i_prod], vigente(productos, anio)$`Código Nomenclatura Local de Productos`,
+           paste("Productos", cuadro), anio)
+  esp_v <- especiales |> filter(str_detect(Cuadros, cuadro), `Código fila` != "VAB")
+  i_esp <- match(esp_v$`Etiqueta INDEC`, etiqueta)
+  if (anyNA(i_esp)) stop("Filas especiales no encontradas en ", hoja, call. = FALSE)
 
-  # Identificadores de filas: productos y filas de ajuste.
-  r_prod <- 6:fin
-  id_prod <- id_fila_producto(codigo[r_prod], paste0("ARG", pref_fila, "f"))
-  stopifnot(!anyNA(id_prod))
-  r_aj <- match(names(filas_ajuste), etiqueta)
-  id_aj <- sprintf("ARG%sf%s", pref_fila, filas_ajuste)
-  r <- c(r_prod, r_aj)
-  id_fila <- c(id_prod, id_aj)
-
-  m <- as.matrix(hoja[r, idx, drop = FALSE])
-  m <- matrix(as.numeric(m), nrow = nrow(m))
-  m[is.na(m)] <- 0
-
-  salida <- expand_grid(
-    i = seq_along(id_fila),
-    j = seq_along(ids)
-  ) |>
-    mutate(
-      Filas = id_fila[i],
-      Columnas = ids[j],
-      Valor = m[cbind(i, j)]
-    ) |>
-    select(-i, -j) |>
-    mutate(Año = anio, Cuadro = cuadro)
-  salida
-}
-
-leer_anio <- function(anio) {
-  of <- leer_hoja(anio, 1)
-  ut <- leer_hoja(anio, 2)
-  oferta <- desdoblar(of, anio, col_oferta, "o", "o", "Oferta")
-  utilizacion <- desdoblar(ut, anio, col_util, "u", "u", "Utilización")
-
-  # Valor agregado bruto por actividad
-  r_va <- which(limpiar(ut[[1]]) == "Valor Agregado Bruto pb")
-  stopifnot(length(r_va) == 1)
-  va <- tibble(
-    Filas = "ARGvf001",
-    Columnas = sprintf("ARGvc%03d", 1:107),
-    Valor = as.numeric(unlist(ut[r_va, 3:109])),
-    Año = anio,
-    Cuadro = "Valor Agregado"
+  filas <- tibble(
+    i = c(i_prod, i_esp),
+    `Tipo fila` = c(rep("Producto", length(i_prod)), rep("Ajuste", length(i_esp))),
+    `Código fila` = c(codigo[i_prod], esp_v$`Código fila`)
   )
-  bind_rows(oferta, utilizacion, va)
+  cols <- tibble(
+    j = c(j_act, j_tr),
+    `Tipo columna` = c(rep("Actividad", length(j_act)), rep("Transacción", length(j_tr))),
+    `Código columna` = encabezado[c(j_act, j_tr)]
+  )
+  d <- expand_grid(filas, cols) |>
+    mutate(Valor = num(m[cbind(i, j)]))
+
+  # Control: la suma de cada fila de productos reproduce el total de INDEC
+  col_total <- if (cuadro == "Oferta") "OPC" else "DEMANDA"
+  total_indec <- tibble(i = i_prod, total = num(m[i_prod, match(col_total, encabezado)]))
+  dif <- d |>
+    filter(`Tipo fila` == "Producto") |>
+    group_by(i) |>
+    summarise(suma = sum(Valor, na.rm = TRUE), .groups = "drop") |>
+    left_join(total_indec, by = "i") |>
+    mutate(dif = abs(suma - total) / pmax(abs(total), 1))
+  if (any(dif$dif > 1e-6)) {
+    stop(sprintf("%s %d: %d filas no suman el total %s de INDEC", cuadro, anio, sum(dif$dif > 1e-6), col_total), call. = FALSE)
+  }
+
+  # Valor agregado bruto por actividad, en la hoja de utilización
+  if (cuadro == "Utilización") {
+    i_va <- match("Valor Agregado Bruto pb", etiqueta)
+    stopifnot(!is.na(i_va))
+    d <- bind_rows(
+      d,
+      tibble(
+        `Tipo fila` = "Valor agregado", `Código fila` = "VAB",
+        `Tipo columna` = "Actividad", `Código columna` = encabezado[j_act],
+        Valor = num(m[i_va, j_act])
+      )
+    )
+  }
+  d |>
+    select(-any_of(c("i", "j"))) |>
+    mutate(Año = as.integer(anio), Cuadro = if_else(`Tipo fila` == "Valor agregado", "Valor Agregado", cuadro))
+}
+
+leer_anio <- function(k) {
+  cfg <- config[k, ]
+  message("Leyendo ", cfg$Año, " (", cfg$Archivo, ")")
+  bind_rows(desdoblar(cfg, "Oferta"), desdoblar(cfg, "Utilización"))
 }
 
 # 3. Base de datos plana con la clasificación bioeconómica
 # --------------------------------------------------------
-scn <- bind_rows(lapply(anios, leer_anio)) |>
+attr_prod <- productos |>
+  select(-Orden, -Desde, -Hasta) |>
+  mutate(`Código fila` = `Código Nomenclatura Local de Productos`, `Grupo fila` = `CPC Grupos`)
+attr_esp <- especiales |>
+  transmute(`Código fila`, `Nomenclatura Local de Productos` = `Etiqueta INDEC`, `Grupo fila` = `Fila cuadro`)
+attr_act <- actividades |>
+  select(-Orden, -Desde, -Hasta, -`Alias INDEC`) |>
+  mutate(`Código columna` = `Código Clasificación Actividades`)
+attr_tr <- transacciones |>
+  filter(Tipo == "Transacción") |>
+  select(Cuadro, `Código columna`, Componente, `Código Transacciones`, Transacciones)
+
+scn <- map_dfr(seq_len(nrow(config)), leer_anio) |>
   mutate(Valor = replace_na(Valor, 0)) |>
-  filter(Valor != 0) |>
-  left_join(columnas, by = "Columnas") |>
-  left_join(filas, by = "Filas") |>
+  filter(Valor != 0)
+
+scn <- bind_rows(
+  scn |> filter(`Tipo fila` == "Producto") |> left_join(attr_prod, by = "Código fila"),
+  scn |> filter(`Tipo fila` != "Producto") |> left_join(attr_esp, by = "Código fila")
+) |>
+  left_join(attr_act, by = "Código columna") |>
+  left_join(attr_tr, by = c("Cuadro", "Código columna")) |>
   mutate(
     Precios = "Corrientes",
-    Unidades = "Miles de pesos",
+    Unidades = "Millones de pesos",
     `No. Cuadro` = match(Cuadro, c("Oferta", "Utilización", "Valor Agregado")),
-    # Grupo de columnas del COU, con nombres uniformes para las tablas dinámicas
     Componente = case_when(
       Cuadro == "Valor Agregado" ~ "Valor agregado",
-      str_detect(Columnas, "^ARGo") & parse_number_col(Columnas) <= 107 ~
-        "Producción",
-      str_detect(Columnas, "^ARGu") & parse_number_col(Columnas) <= 107 ~
-        "Consumo intermedio",
-      Columnas == "ARGoc109" ~ "Importaciones",
-      Columnas == "ARGoc110" ~ "Ajuste CIF/FOB",
-      Columnas %in% c("ARGoc111", "ARGoc112", "ARGoc114") ~
-        "Impuestos menos subvenciones",
-      Columnas %in% c("ARGoc113", "ARGoc116") ~ "Márgenes de distribución",
-      Columnas %in% c("ARGuc109", "ARGuc110") ~ "Consumo final",
-      Columnas == "ARGuc111" ~ "Exportaciones",
-      Columnas %in% c("ARGuc112", "ARGuc113", "ARGuc114", "ARGuc115") ~
-        "Formación bruta de capital"
-    ),
-    `Sector agregado` = case_when(
-      `CIIU Compacto` %in% c("A", "B") ~ "A-B Sector primario",
-      `CIIU Compacto` == "C" ~ "C Manufacturas",
-      `CIIU Compacto` %in% c("D - E", "F", "G", "H - S") ~ "D-S Servicios"
+      `Tipo columna` == "Actividad" & Cuadro == "Oferta" ~ "Producción",
+      `Tipo columna` == "Actividad" & Cuadro == "Utilización" ~ "Consumo intermedio",
+      TRUE ~ Componente
     ),
     across(c(`Bioeconomía Actividades`, `Bioeconomía Productos`), \(x) {
       if_else(x == "-" | is.na(x), "No aplica", x)
@@ -224,43 +237,32 @@ scn <- bind_rows(lapply(anios, leer_anio)) |>
   ) |>
   select(
     Año, Precios, Unidades, `No. Cuadro`, Cuadro, Componente,
-    Filas, Columnas, Valor,
+    `Tipo fila`, `Código fila`, `Grupo fila`,
+    `Tipo columna`, `Código columna`, Valor,
     `Código Nomenclatura Local de Productos`,
     `Nomenclatura Local de Productos`,
+    `Código serie`,
     `Bioeconomía Productos`,
     `CPC Grupos Código`, `CPC Grupos`,
     `Código Clasificación Actividades`,
     `Descripción Actividades`,
     `Bioeconomía Actividades`,
-    `CIIU Compacto`, `CIIU Compacto Descripción`, `Sector agregado`,
-    `Transacciones`
-  )
-
-# Desde 2020, INDEC publica juntos los productos 651 y 652
-scn <- scn |>
-  mutate(
-    fusion = Año >= 2020 & `Código Nomenclatura Local de Productos` %in% "651",
-    `Nomenclatura Local de Productos` = if_else(
-      fusion,
-      "651 - Servicios de transporte de cabotaje y transoceánico por vía acuática / 652 - Servicios de transporte por vías de navegación interior",
-      `Nomenclatura Local de Productos`
-    ),
-    `Código Nomenclatura Local de Productos` = if_else(
-      fusion, "651/652", `Código Nomenclatura Local de Productos`
-    )
+    `CIIU Secciones`, `CIIU Compacto`, `CIIU Compacto Descripción`, `Sector agregado`,
+    `Código Transacciones`, Transacciones
   ) |>
-  select(-fusion)
+  arrange(Año, `No. Cuadro`)
 
-saveRDS(scn, "data/bd/arg_scn_2018_2021.rds", compress = "xz")
+stopifnot(
+  !anyNA(scn$Componente),
+  !anyNA(scn$`Grupo fila`),
+  all(!is.na(scn$`Sector agregado`[scn$`Tipo columna` == "Actividad"]))
+)
 
 # 4. Controles contables
 # ----------------------
 controles <- scn |>
   filter(Cuadro %in% c("Oferta", "Utilización")) |>
-  mutate(
-    Producto = str_remove(Filas, "^ARG[ou]f")
-  ) |>
-  group_by(Año, Producto, Cuadro) |>
+  group_by(Año, `Código fila`, Cuadro) |>
   summarise(v = sum(Valor), .groups = "drop") |>
   pivot_wider(names_from = Cuadro, values_from = v, values_fill = 0) |>
   mutate(dif = abs(Oferta - Utilización))
@@ -274,7 +276,19 @@ resumen_controles <- controles |>
     .groups = "drop"
   )
 print(as.data.frame(resumen_controles))
-stopifnot(all(abs(resumen_controles$oferta - resumen_controles$utilizacion) < 5e3))
+stopifnot(all(abs(resumen_controles$oferta - resumen_controles$utilizacion) < 5))
 
+# PIB por el método de la producción
+pib <- scn |>
+  group_by(Año) |>
+  summarise(
+    va = sum(Valor[Componente == "Valor agregado"]),
+    imp = sum(Valor[Componente == "Impuestos menos subvenciones"]),
+    pib = va + imp,
+    .groups = "drop"
+  )
+print(as.data.frame(pib))
+
+saveRDS(scn, salida, compress = "xz")
 cat("Filas por año:\n")
 print(count(scn, Año))

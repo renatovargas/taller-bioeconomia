@@ -35,12 +35,16 @@ execute:
 #| include: false
 source("scripts/funciones-presentacion.R")
 r <- readRDS("data/salidas/resultados.rds")
-scn <- readRDS("data/bd/arg_scn_2018_2021.rds")
-s21 <- r$series |> filter(Año == 2021, Bio == "Bioeconomía")
-arg <- function(k) pct(s21$pct[s21$Componente == k])
+scn <- readRDS("data/bd/arg_scn.rds")
+A <- r$anio
+anios <- sort(unique(scn$Año))
+periodo <- paste(min(anios), "a", max(anios))
+s_a <- r$series |> filter(Año == A, Bio == "Bioeconomía")
+arg <- function(k) pct(s_a$pct[s_a$Componente == k])
 m <- r$mult
-t21 <- r$tasas |> filter(Año == 2021)
-md <- r$medidas |> filter(Año == 2021)
+md <- r$medidas |> filter(Año == A)
+n_muy <- sum(m$Grupo == "1. Muy alta")
+mitad <- ceiling(n_muy / 2)
 ```
 
 ## Los productos bioeconómicos en la economía
@@ -82,7 +86,7 @@ md <- r$medidas |> filter(Año == 2021)
 [Promedio regional: 3,7 %]{.p}
 :::
 ::: {.cifra .azul}
-[Argentina, 2021]{.n style="font-size:1.05em;"}
+[Argentina, `r A`]{.n style="font-size:1.05em;"}
 [Cifras grandes: elaboración propia con el COU de INDEC. Promedio de 13 países: @vargas2023.]{.t}
 :::
 :::
@@ -194,21 +198,21 @@ Los cuadros de oferta y utilización son la espina dorsal del sistema.
 :::
 ::::
 
-## Cuadro de oferta de Argentina, 2021
+## Cuadro de oferta de Argentina, `r A`
 
 ```{r}
 cuadro_basico(r$basicos$oferta, "oferta")
 ```
 
-[Miles de millones de pesos corrientes. Fuente: elaboración propia con datos de @indec2021.]{.pequeno}
+[Miles de millones de pesos corrientes. Fuente: elaboración propia con datos de @indec2023.]{.pequeno}
 
-## Cuadro de utilización de Argentina, 2021
+## Cuadro de utilización de Argentina, `r A`
 
 ```{r}
 cuadro_basico(r$basicos$utilizacion, "utilizacion")
 ```
 
-[Miles de millones de pesos corrientes. Fuente: elaboración propia con datos de @indec2021.]{.pequeno}
+[Miles de millones de pesos corrientes. Fuente: elaboración propia con datos de @indec2023.]{.pequeno}
 
 ## Valor agregado y PIB por el método de la producción
 
@@ -216,7 +220,7 @@ cuadro_basico(r$basicos$utilizacion, "utilizacion")
 cuadro_pib(r$basicos)
 ```
 
-[Miles de millones de pesos corrientes, Argentina, 2021. Los márgenes y el ajuste CIF/FOB no afectan el total.]{.pequeno}
+[Miles de millones de pesos corrientes, Argentina, `r A`. Los márgenes y el ajuste CIF/FOB no afectan el total.]{.pequeno}
 
 # Metodología y abordaje {.seccion background-color="#0B4A3A"}
 
@@ -263,16 +267,16 @@ Reordenar las clasificaciones sin tocar los saldos contables.
 
 ::: {.cifras style="--col:3;"}
 ::: {.cifra}
-[`r num(sum(scn$Año == 2021))`]{.n}
-[filas con valor en la base de 2021: una por cada celda distinta de cero]{.t}
+[`r num(sum(scn$Año == A))`]{.n}
+[filas con valor en la base de `r A`: una por cada celda distinta de cero]{.t}
 :::
 ::: {.cifra .ambar}
 [3]{.n}
 [cuadros en una sola tabla: oferta, utilización y valor agregado]{.t}
 :::
 ::: {.cifra .azul}
-[2018 a 2021]{.n style="font-size:1.45em;"}
-[cuatro años procesados con la misma rutina]{.t}
+[`r periodo`]{.n style="font-size:1.45em;"}
+[`r length(anios)` años en una sola base, con la misma rutina y clasificación]{.t}
 :::
 :::
 
@@ -280,7 +284,7 @@ Reordenar las clasificaciones sin tocar los saldos contables.
 
 ```{r}
 scn |>
-  filter(Año == 2021, Cuadro == "Oferta", Componente == "Producción", `Bioeconomía Productos` == "Bioeconomía") |>
+  filter(Año == A, Cuadro == "Oferta", Componente == "Producción", `Bioeconomía Productos` == "Bioeconomía") |>
   arrange(desc(Valor)) |>
   slice(1:5) |>
   transmute(
@@ -295,7 +299,7 @@ scn |>
 ```
 
 ::: {.pequeno}
-La rutina comprueba que la oferta sea igual a la utilización para cada producto y reproduce los valores publicados de Argentina para 2018. El script y la base están en la sección de descargas.
+La rutina comprueba que la oferta sea igual a la utilización para cada producto, que cada fila sume el total de INDEC y reproduce los valores publicados de Argentina para 2018. Valores en millones de pesos. El script y la base están en la sección de descargas.
 :::
 
 ## ¿Para qué? Cuadros y gráficos a la medida
@@ -305,7 +309,7 @@ Una vez ordenada la base, el contenido de insumos de cualquier actividad sale co
 ```{r}
 #| fig-width: 12
 #| fig-height: 4.5
-g_insumos(scn, 2021, c(
+g_insumos(scn, A, c(
   "1511" = "Carne",
   "552" = "Restaurantes y bares",
   "242" = "Otros químicos",
@@ -313,27 +317,27 @@ g_insumos(scn, 2021, c(
 ), base = 18)
 ```
 
-[Composición del consumo intermedio de cuatro actividades, Argentina, 2021.]{.pequeno}
+[Composición del consumo intermedio de cuatro actividades, Argentina, `r A`.]{.pequeno}
 
 # Resultados {.seccion background-color="#0B4A3A"}
 
 La oferta y la utilización de Argentina, con la lente de la bioeconomía.
 
-## Cuadro de oferta bioeconómica de Argentina, 2021
+## Cuadro de oferta bioeconómica de Argentina, `r A`
 
 ```{r}
 cuadro_bio_html(r$bio$oferta)
 ```
 
-[Miles de millones de pesos corrientes. Fuente: elaboración propia con datos de @indec2021.]{.pequeno}
+[Miles de millones de pesos corrientes. Fuente: elaboración propia con datos de @indec2023.]{.pequeno}
 
-## Cuadro de utilización bioeconómica de Argentina, 2021
+## Cuadro de utilización bioeconómica de Argentina, `r A`
 
 ```{r}
 cuadro_bio_html(r$bio$utilizacion, va = r$bio$va)
 ```
 
-[Miles de millones de pesos corrientes. Fuente: elaboración propia con datos de @indec2021.]{.pequeno}
+[Miles de millones de pesos corrientes. Fuente: elaboración propia con datos de @indec2023.]{.pequeno}
 
 # Cálculo del valor agregado {.seccion background-color="#0B4A3A"}
 
@@ -406,18 +410,18 @@ Mide qué tan dispersos están los valores en torno a la mediana. No se ve afect
 
 . . .
 
-[En Argentina, 2021, la mediana es `r num(r$med_dam[["mediana"]], 2)` y la DAM es `r num(r$med_dam[["dam"]], 2)`, en pesos de insumos por peso de demanda final.]{.pequeno}
+[En Argentina, `r A`, la mediana es `r num(r$med_dam[["mediana"]], 2)` y la DAM es `r num(r$med_dam[["dam"]], 2)`, en pesos de insumos por peso de demanda final.]{.pequeno}
 
 ## Dependencia muy alta de insumos bioeconómicos (1)
 
 ```{r}
-lista_mult(m, "1. Muy alta", 1, 15)
+lista_mult(m, "1. Muy alta", 1, mitad)
 ```
 
 ## Dependencia muy alta de insumos bioeconómicos (2)
 
 ```{r}
-lista_mult(m, "1. Muy alta", 16, 30)
+lista_mult(m, "1. Muy alta", mitad + 1)
 ```
 
 ## Dependencia alta y sobre la mediana
@@ -436,9 +440,9 @@ cuadro_grupos_va(m)
 Las actividades con uso de insumos bioeconómicos superior a la mediana más una DAM generan **`r pct(sum(m$va[m$Grupo != "4. Mediana o abajo"]) / sum(m$va))`** del valor agregado de Argentina.
 :::
 
-# Argentina, 2018 a 2021 {.seccion background-color="#0B4A3A"}
+# Argentina, `r periodo` {.seccion background-color="#0B4A3A"}
 
-La misma medida con cuatro años de cuadros.
+La misma medida con `r length(anios)` años de cuadros.
 
 ## Participación por condición del producto
 
@@ -459,6 +463,36 @@ g_tasas(r$tasas, base = 17)
 ```
 
 [Impuestos menos subvenciones sobre los productos entre valor bruto de producción de los mismos productos.]{.pequeno}
+
+## Valor agregado bioeconómico según el método
+
+```{r}
+#| fig-width: 12.4
+#| fig-height: 5.2
+g_medidas(r$medidas, base = 17, tam = 5)
+```
+
+[Porcentaje del valor agregado bruto. Método de actividades: solo actividades bioeconómicas. Método del consumo intermedio: cada sección en proporción a sus insumos bioeconómicos.]{.pequeno}
+
+## Saldo comercial por condición del producto
+
+```{r}
+#| fig-width: 12.4
+#| fig-height: 5.2
+g_saldo(r$comercio, base = 17, tam = 5)
+```
+
+[Exportaciones menos importaciones de cada grupo de productos, como porcentaje del PIB a precios corrientes.]{.pequeno}
+
+## Composición de las exportaciones bioeconómicas
+
+```{r}
+#| fig-width: 12.4
+#| fig-height: 5.4
+g_export_comp(r$export_bio, base = 17, tam = 5)
+```
+
+[Participación en las exportaciones de productos bioeconómicos, precios corrientes. Los cinco productos son los que más exportan en `r A`.]{.pequeno}
 
 # Resultados en el contexto latinoamericano {.seccion background-color="#0B4A3A"}
 

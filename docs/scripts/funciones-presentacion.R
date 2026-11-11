@@ -312,7 +312,10 @@ orden_comp <- c(
   "Impuestos menos subvenciones", "Consumo final", "Formación bruta de capital"
 )
 
-g_participacion <- function(series, a = 2021, base = 15) {
+# Años de las series
+anios_de <- function(d) sort(unique(d$Año))
+
+g_participacion <- function(series, a = max(series$Año), base = 15) {
   d <- series |>
     filter(Año == a) |>
     mutate(
@@ -343,14 +346,16 @@ g_series <- function(series, base = 13) {
   ggplot(d, aes(Año, pct, color = Bio)) +
     geom_line(linewidth = 1) +
     geom_point(size = 2.4) +
-    geom_text(
-      data = \(x) filter(x, Año %in% c(2018, 2021)),
+    ggrepel::geom_text_repel(
+      data = \(x) filter(x, Año %in% range(x$Año)),
       aes(label = pct(pct, 1)),
-      vjust = -0.9, size = base * 0.23, show.legend = FALSE, color = TINTA
+      size = base * 0.23, show.legend = FALSE, color = TINTA,
+      direction = "y", nudge_y = 0.06, min.segment.length = Inf,
+      box.padding = 0.15, seed = 1
     ) +
     facet_wrap(~Componente, ncol = 3) +
     scale_color_manual(values = COL_BIO) +
-    scale_x_continuous(breaks = 2018:2021, expand = expansion(mult = 0.12)) +
+    scale_x_continuous(breaks = anios_de(series), labels = \(x) paste0("'", substr(x, 3, 4)), expand = expansion(mult = 0.12)) +
     scale_y_continuous(
       labels = \(x) paste0(round(100 * x), " %"),
       limits = c(0, 1),
@@ -367,10 +372,70 @@ g_tasas <- function(tasas, base = 15) {
     geom_point(size = 3) +
     geom_text(aes(label = pct(tasa, 1)), vjust = -1, size = base * 0.26, show.legend = FALSE, color = TINTA) +
     scale_color_manual(values = COL_BIO) +
-    scale_x_continuous(breaks = 2018:2021, expand = expansion(mult = 0.08)) +
+    scale_x_continuous(breaks = anios_de(tasas), expand = expansion(mult = 0.08)) +
     scale_y_continuous(labels = \(x) paste0(round(100 * x), " %"), limits = c(0, 0.22)) +
     labs(x = NULL, y = "Impuestos netos / valor bruto de producción") +
     tema_bio(base)
+}
+
+# Valor agregado bioeconómico por los dos métodos
+g_medidas <- function(medidas, base = 15, tam = 4) {
+  medidas |>
+    select(Año, `Método de actividades` = apriori_bio, `Método del consumo intermedio` = via_ci) |>
+    pivot_longer(-Año, names_to = "Medida", values_to = "v") |>
+    ggplot(aes(Año, v, color = Medida)) +
+    geom_line(linewidth = 1.1) +
+    geom_point(size = 3) +
+    geom_text(aes(label = pct(v), vjust = ifelse(v >= ave(v, Año, FUN = max), -1, 1.9)),
+              size = tam, show.legend = FALSE, color = TINTA) +
+    scale_color_manual(values = c("Método de actividades" = "#0F7B5F", "Método del consumo intermedio" = "#C27C0E")) +
+    scale_x_continuous(breaks = anios_de(medidas), expand = expansion(mult = 0.08)) +
+    scale_y_continuous(labels = \(x) paste0(round(100 * x), " %"), limits = c(0, 0.18)) +
+    labs(x = NULL, y = "% del valor agregado") +
+    tema_bio(base)
+}
+
+# Saldo comercial por condición del producto, en % del PIB
+g_saldo <- function(comercio, base = 15, tam = 4.2) {
+  d <- comercio |> mutate(Bio = factor(Bio, levels = names(COL_BIO)))
+  ggplot(d, aes(Año, saldo_pib, color = Bio)) +
+    geom_hline(yintercept = 0, color = TINTA2, linewidth = 0.5) +
+    geom_line(linewidth = 1.1) +
+    geom_point(size = 3) +
+    geom_text(aes(label = pct(saldo_pib), vjust = ifelse(saldo_pib > 0, -1, 1.9)),
+              size = tam, show.legend = FALSE, color = TINTA) +
+    scale_color_manual(values = COL_BIO) +
+    scale_x_continuous(breaks = anios_de(comercio), expand = expansion(mult = 0.08)) +
+    scale_y_continuous(labels = \(x) paste0(round(100 * x), " %"), expand = expansion(mult = 0.15)) +
+    labs(x = NULL, y = "Exportaciones menos importaciones / PIB") +
+    tema_bio(base)
+}
+
+# Composición de las exportaciones bioeconómicas: los n productos que más
+# exportan en el año de análisis y el resto
+g_export_comp <- function(export_bio, n = 5, base = 15, tam = 4) {
+  ult <- max(export_bio$Año)
+  top <- export_bio |> filter(Año == ult, rango <= n) |> arrange(rango)
+  nombres <- str_split_fixed(str_remove(top$Producto, "^[^ ]+( [A-Z]+)? - "), "\\. |; | / ", 2)[, 1] |>
+    str_remove(" animales y vegetales$") |>
+    str_trunc(34)
+  nombres[top$Código == "217/218"] <- "Tortas oleaginosas"
+  d <- export_bio |>
+    mutate(Producto = if_else(Código %in% top$Código, nombres[match(Código, top$Código)], "Otros productos")) |>
+    group_by(Año, Producto) |>
+    summarise(p = sum(p), .groups = "drop") |>
+    mutate(Producto = factor(Producto, levels = rev(c(nombres, "Otros productos"))))
+  pal <- c(colorRampPalette(c("#0B4A3A", "#7FC4A8"))(n), "#B9C3BF")
+  names(pal) <- c(nombres, "Otros productos")
+  ggplot(d, aes(factor(Año), p, fill = Producto)) +
+    geom_col(width = 0.72, color = "white", linewidth = 0.5) +
+    geom_text(aes(label = ifelse(p > 0.045, pct(p, 0), "")),
+              position = position_stack(vjust = 0.5), color = "white", size = tam, fontface = "bold") +
+    scale_fill_manual(values = pal, breaks = names(pal)) +
+    scale_y_continuous(labels = NULL, expand = c(0, 0)) +
+    labs(x = NULL, y = NULL) +
+    tema_bio(base) +
+    theme(panel.grid = element_blank(), legend.position = "right", legend.justification = "center")
 }
 
 g_barras <- function(d, x, y, fill = "Bio", etq = NULL, base = 15, leyenda = TRUE) {

@@ -238,17 +238,17 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="../data/cou/COU-2021.xls">COU-2021.xls</a></td>
-<td>Cuadro oficial de oferta y utilización de INDEC, 2021</td>
+<td><a href="../data/indec-cou/sh_cou_2023_06_26.xls">sh_cou_2023_06_26.xls</a></td>
+<td>Cuadro oficial de oferta y utilización de INDEC, 2023 (millones de pesos)</td>
 <td>Primera ronda de preguntas, a mano</td>
 </tr>
 <tr class="even">
-<td><a href="../data/bd/ARG_SCN_BD_2021.xlsx">ARG_SCN_BD_2021.xlsx</a></td>
+<td><a href="../data/bd/ARG_SCN_BD_2023.xlsx">ARG_SCN_BD_2023.xlsx</a></td>
 <td>El mismo cuadro en formato plano, con clasificación bioeconómica, tabla dinámica y hoja para reclasificar productos</td>
 <td>Segunda ronda de preguntas y ejercicio de reclasificación</td>
 </tr>
 <tr class="odd">
-<td><a href="../data/salidas/ARG_cuadros_bioeconomia_2021.xlsx">ARG_cuadros_bioeconomia_2021.xlsx</a></td>
+<td><a href="../data/salidas/ARG_cuadros_bioeconomia_2023.xlsx">ARG_cuadros_bioeconomia_2023.xlsx</a></td>
 <td>Cuadros de oferta y utilización, cuadros bioeconómicos, valor agregado y multiplicadores</td>
 <td>Consulta y gráficos propios</td>
 </tr>
@@ -258,17 +258,17 @@ ul.task-list li input[type="checkbox"] {
 <section id="años-anteriores-y-clasificaciones" class="level2">
 <h2 class="anchored" data-anchor-id="años-anteriores-y-clasificaciones">Años anteriores y clasificaciones</h2>
 <ul>
-<li>COU de INDEC: <a href="../data/cou/COU-2018.xls">2018</a>, <a href="../data/cou/COU-2019.xls">2019</a>, <a href="../data/cou/COU-2020.xls">2020</a></li>
-<li><a href="../data/clasificaciones/ARG_Clasificaciones.xlsx">ARG_Clasificaciones.xlsx</a>: clasificación de filas y columnas, con su condición bioeconómica</li>
-<li>Equivalencias de <a href="../data/clasificaciones/ARG_equivalencias_columnas.csv">columnas</a> y <a href="../data/clasificaciones/ARG_equivalencias_filas.csv">filas</a> con los grupos CIIU y CPC</li>
+<li>COU de INDEC: <a href="../data/indec-cou/sh_cou_2018_08_21.xls">2018</a>, <a href="../data/indec-cou/sh_cou_2019_06_22.xls">2019</a>, <a href="../data/indec-cou/sh_cou_2020_06_23.xls">2020</a>, <a href="../data/indec-cou/sh_cou_2021_06_24.xls">2021</a>, <a href="../data/indec-cou/sh_cou_2022_06_25.xls">2022</a>. De 2018 a 2022 vienen en miles de pesos.</li>
+<li><a href="../data/config/arg_lookups.xlsx">arg_lookups.xlsx</a>: clasificación de productos, actividades y transacciones, con su condición bioeconómica y los años en que cada código de INDEC está vigente</li>
+<li><a href="../data/config/arg_config.xlsx">arg_config.xlsx</a>: qué archivo, hojas y unidad corresponden a cada año</li>
 </ul>
 </section>
 <section id="scripts-de-procesamiento" class="level2">
 <h2 class="anchored" data-anchor-id="scripts-de-procesamiento">Scripts de procesamiento</h2>
 <p>Son opcionales: el taller no requiere programar. Están escritos en R y reproducen todos los resultados desde el cuadro original.</p>
 <ul>
-<li><a href="../scripts/01-procesar-cou-argentina.R">01-procesar-cou-argentina.R</a>: convierte los COU a formato plano y aplica la clasificación</li>
-<li><a href="../scripts/02-cuadros-y-resultados.R">02-cuadros-y-resultados.R</a>: calcula cuadros, valor agregado, multiplicadores y tasas, y genera los Excel</li>
+<li><a href="../scripts/01-procesar-cou-argentina.R">01-procesar-cou-argentina.R</a>: convierte los COU de todos los años a una sola base plana y aplica la clasificación</li>
+<li><a href="../scripts/02-cuadros-y-resultados.R">02-cuadros-y-resultados.R</a>: calcula cuadros, valor agregado, multiplicadores, tasas y series, y genera los Excel</li>
 <li><a href="../scripts/funciones-presentacion.R">funciones-presentacion.R</a>: da formato a los cuadros y gráficos del sitio</li>
 </ul>
 
