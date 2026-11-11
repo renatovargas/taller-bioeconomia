@@ -62,7 +62,73 @@ md_nob <- with(filter(m, `Bioeconomía Actividades` == B_FUE), weighted.mean(m_d
 etiqueta <- function(x, n = 34) str_trunc(str_split_fixed(x, "\\. |; ", 2)[, 1], n)
 ```
 
-## La bioeconomía argentina en cuatro cifras
+## Tres preguntas guían esta sesión
+
+::: {.cifras style="--col:3;"}
+::: {.guia style="--c:#2F6DB5;"}
+[Pregunta 1]{.g-n}
+
+[¿Dónde pesa la bioeconomía argentina?]{.g-q}
+
+En la producción, en las divisas o en la recaudación.
+
+[Hallazgos 1 y 2 → cursos 1 y 2]{.g-r}
+:::
+::: {.guia style="--c:#C27C0E;"}
+[Pregunta 2]{.g-n}
+
+[¿De qué depende?]{.g-q}
+
+De qué insumos y de qué cadenas productivas, dentro y fuera del agro.
+
+[Hallazgos 3 y 4 → cursos 3 y 4]{.g-r}
+:::
+::: {.guia style="--c:#0F7B5F;"}
+[Pregunta 3]{.g-n}
+
+[¿Qué no estamos viendo?]{.g-q}
+
+Lo que la cuenta todavía no mide bien y cómo afecta lo que concluimos.
+
+[Hallazgos 5 y 6 → cursos 5 y 6]{.g-r}
+:::
+:::
+
+. . .
+
+**El camino de cada hallazgo**
+
+::: {.flujo style="font-size:0.66em;"}
+::: {.paso}
+**Pregunta**<br>qué queremos saber
+:::
+
+[→]{.op}
+
+::: {.paso}
+**Hallazgo**<br>qué muestra la cuenta
+:::
+
+[→]{.op}
+
+::: {.paso .clave}
+**Por lo tanto**<br>qué implica
+:::
+
+[→]{.op}
+
+::: {.paso}
+**Curso de acción**<br>qué se puede hacer
+:::
+
+[→]{.op}
+
+::: {.paso}
+**Indicador**<br>cómo saber si funciona
+:::
+:::
+
+## Punto de partida: la bioeconomía en cuatro cifras
 
 ::: {.cifras style="--col:4;"}
 ::: {.cifra}
@@ -91,21 +157,78 @@ etiqueta <- function(x, n = 34) str_trunc(str_split_fixed(x, "\\. |; ", 2)[, 1],
 
 [Argentina, `r A`, precios corrientes. Elaboración propia con datos de @indec2023 y el método de @vargas2023.]{.pequeno}
 
-# Hallazgos {.seccion background-color="#0B4A3A"}
-
-Seis resultados de la cuenta de bioeconomía de Argentina.
-
-## 1. Pesa distinto según por dónde se mire
+## Pesa distinto según por dónde se mire
 
 ```{r}
 #| fig-width: 12.4
-#| fig-height: 5.6
+#| fig-height: 4.4
 g_participacion(r$series, base = 18)
 ```
 
-[Argentina, `r A`. Participación de cada condición en cada agregado.]{.pequeno}
+::: {.amarre style="--c:#2F6DB5;"}
+[Por lo tanto]{.por} [Su peso en las exportaciones (`r pct(sh("Exportaciones"))`) y en los impuestos (`r pct(sh("Impuestos menos subvenciones"))`) supera con creces su peso en la producción (`r pct(sh("Producción"))`). Los dos primeros hallazgos miran qué paga y qué aporta en divisas.]{.txt} [→ Hallazgos 1 y 2]{.dest}
+:::
 
-## 2. Genera un saldo externo, muy concentrado
+# Hallazgos {.seccion background-color="#0B4A3A"}
+
+Seis resultados de la cuenta, agrupados según las tres preguntas.
+
+## 1. Tributa más que el resto de la economía
+
+:::: {.columns}
+::: {.column width="56%"}
+```{r}
+#| fig-width: 7.6
+#| fig-height: 4.5
+g_tasas(r$tasas, base = 15)
+```
+:::
+::: {.column width="44%"}
+::: {.caja}
+La brecha persiste en los `r length(anios)` años. La tasa bioeconómica es **`r num(ta("Bioeconomía") / ta(B_FUE), 1)` veces** la del resto.
+:::
+
+::: {.caja .ambar}
+**Parte es tabaco y bebidas:** aportan `r pct(peso_exc)` de lo recaudado en productos bioeconómicos. Sin ellos, la tasa baja a **`r pct(tasa_sin)`**, y sigue por encima del resto.
+:::
+
+::: {.caja .neutra}
+No hay una política tributaria hacia la bioeconomía: la tasa suma instrumentos creados con fines distintos, y el COU no los separa [@vargas2023].
+:::
+:::
+::::
+
+::: {.amarre style="--c:#2F6DB5;"}
+[Por lo tanto]{.por} [La carga no responde a un diseño. Antes de decidir si es alta o baja, hay que saber qué instrumento la explica.]{.txt} [→ Curso 1 · Coherencia fiscal]{.dest}
+:::
+
+## La tasa cambia mucho entre productos
+
+```{r}
+#| fig-width: 12.4
+#| fig-height: 3.8
+bio |>
+  filter(X > 0.01 * sum(X) | Código %in% c("250", "243", "244")) |>
+  mutate(
+    t = Imp / VBP,
+    Producto = etiqueta(Producto, 42)
+  ) |>
+  arrange(t) |>
+  mutate(
+    Producto = factor(Producto, levels = Producto),
+    Lab = pct(t),
+    Bio = "Bioeconomía"
+  ) |>
+  g_barras("t", "Producto", etq = "Lab", base = 16, leyenda = FALSE)
+```
+
+[Productos con más de 1 % de las exportaciones bioeconómicas, más tabaco y bebidas. Impuestos netos / valor bruto de producción.]{.pequeno}
+
+::: {.amarre style="--c:#2F6DB5;"}
+[Por lo tanto]{.por} [Las tasas altas de aceites y tortas oleaginosas sugieren que pesan los derechos de exportación. La baja programada para la soja permitirá comprobarlo.]{.txt} [→ Curso 1 · Coherencia fiscal]{.dest}
+:::
+
+## 2. Genera un superávit externo muy concentrado
 
 :::: {.columns}
 ::: {.column width="46%"}
@@ -143,13 +266,13 @@ bio |>
 :::
 ::::
 
-## El saldo y su concentración en el tiempo
+## El superávit y su concentración en el tiempo
 
 :::: {.columns}
 ::: {.column width="50%"}
 ```{r}
 #| fig-width: 6.6
-#| fig-height: 4.6
+#| fig-height: 4.3
 g_saldo(r$comercio, base = 14, tam = 3.4)
 ```
 
@@ -158,7 +281,7 @@ g_saldo(r$comercio, base = 14, tam = 3.4)
 ::: {.column width="50%"}
 ```{r}
 #| fig-width: 6.6
-#| fig-height: 4.6
+#| fig-height: 4.3
 g_export_comp(r$export_bio, base = 13, tam = 3.4) + theme(legend.position = "bottom") + guides(fill = guide_legend(ncol = 2, reverse = TRUE))
 ```
 
@@ -166,56 +289,49 @@ g_export_comp(r$export_bio, base = 13, tam = 3.4) + theme(legend.position = "bot
 :::
 ::::
 
-::: {.caja .ambar}
-El superávit bioeconómico pasó de `r pct(sp("Bioeconomía", 2021))` del PIB en 2021 a `r pct(sp("Bioeconomía"))` en `r A`. Cinco productos concentran entre `r pct(min(r$conc$top5), 0)` y `r pct(max(r$conc$top5), 0)` de las exportaciones bioeconómicas en todo el periodo.
+::: {.amarre style="--c:#2F6DB5;"}
+[Por lo tanto]{.por} [El superávit pasó de `r pct(sp("Bioeconomía", 2021))` del PIB en 2021 a `r pct(sp("Bioeconomía"))` en `r A`, y cinco productos concentran entre `r pct(min(r$conc$top5), 0)` y `r pct(max(r$conc$top5), 0)` de las exportaciones: es una fortaleza para las divisas y una exposición a los precios y al clima.]{.txt} [→ Curso 2 · Diversificación]{.dest}
 :::
 
-## 3. Tributa más que el resto de la economía
+## 3. Depende de insumos importados clave
 
 :::: {.columns}
-::: {.column width="56%"}
+::: {.column width="50%"}
+::: {.cifras style="--col:1;"}
+::: {.cifra .ambar}
+[`r pct(abono_m)`]{.n}
+[de la oferta a precios básicos de **abonos y plaguicidas**, un producto de bioeconomía parcial, es importada (`r num(abono$M)` de `r num(abono$VBP + abono$M)` miles de millones)]{.t}
+:::
+::: {.cifra .azul}
+[`r num(sal(B_PAR))`]{.n}
+[miles de millones: saldo comercial de los productos de bioeconomía parcial, donde sí hay déficit]{.t}
+:::
+:::
+:::
+::: {.column width="50%"}
+**Mayores importaciones de bioeconomía parcial**
+
 ```{r}
-#| fig-width: 7.6
-#| fig-height: 4.9
-g_tasas(r$tasas, base = 15)
+p |>
+  filter(Bio == B_PAR) |>
+  arrange(desc(M)) |>
+  slice(1:5) |>
+  transmute(
+    Producto = etiqueta(Producto, 36),
+    Importaciones = num(M),
+    Producción = num(VBP),
+    `% importado` = pct(M / (M + VBP))
+  ) |>
+  tabla_simple("cou mediano")
 ```
-:::
-::: {.column width="44%"}
-::: {.caja}
-La brecha persiste en los `r length(anios)` años. La tasa bioeconómica es **`r num(ta("Bioeconomía") / ta(B_FUE), 1)` veces** la del resto.
-:::
 
-::: {.caja .ambar}
-**Parte es tabaco y bebidas:** aportan `r pct(peso_exc)` de lo recaudado en productos bioeconómicos. Sin ellos, la tasa baja a **`r pct(tasa_sin)`**, y sigue por encima del resto.
-:::
-
-::: {.caja .neutra}
-La tasa resume en un resultado neto instrumentos creados con fines diversos. El COU no los separa [@vargas2023].
-:::
+[Miles de millones de pesos, `r A`. Vínculo biológico menos directo: revisar producto por producto.]{.pequeno}
 :::
 ::::
 
-## La tasa cambia mucho entre productos
-
-```{r}
-#| fig-width: 12.4
-#| fig-height: 5.2
-bio |>
-  filter(X > 0.01 * sum(X) | Código %in% c("250", "243", "244")) |>
-  mutate(
-    t = Imp / VBP,
-    Producto = etiqueta(Producto, 42)
-  ) |>
-  arrange(t) |>
-  mutate(
-    Producto = factor(Producto, levels = Producto),
-    Lab = pct(t),
-    Bio = "Bioeconomía"
-  ) |>
-  g_barras("t", "Producto", etq = "Lab", base = 16, leyenda = FALSE)
-```
-
-[Productos con más de 1 % de las exportaciones bioeconómicas, más tabaco y bebidas. Impuestos netos entre valor bruto de producción. Hipótesis por verificar: que en los productos de exportación pesen los derechos de exportación (ver curso 1).]{.pequeno}
+::: {.amarre style="--c:#C27C0E;"}
+[Por lo tanto]{.por} [La agricultura, núcleo de la bioeconomía, depende de insumos que en buena parte se importan. Los bioinsumos son una vía para reducir esa exposición.]{.txt} [→ Curso 3 · Bioinsumos]{.dest}
+:::
 
 ## 4. Los encadenamientos llegan más allá del campo
 
@@ -223,7 +339,7 @@ bio |>
 ::: {.column width="56%"}
 ```{r}
 #| fig-width: 8.8
-#| fig-height: 5.6
+#| fig-height: 5
 top <- m |> arrange(desc(m_total)) |> slice(1:10)
 top |>
   mutate(
@@ -247,45 +363,42 @@ top |>
 :::
 :::
 
-[Multiplicadores de uso total, por peso de demanda final. Son útiles para comparar actividades. Su nivel está sobrestimado porque no separan importaciones.]{.pequeno}
+[Multiplicadores de uso total, por peso de demanda final. Sirven para comparar actividades; su nivel está sobrestimado porque no separan importaciones.]{.pequeno}
 :::
 ::::
 
-## 5. Depende de insumos importados clave
+::: {.amarre style="--c:#C27C0E;"}
+[Por lo tanto]{.por} [`r ar_grupos$n[1]` actividades dependen mucho de insumos biológicos, entre ellas buena parte de la agroindustria y los restaurantes. Ahí un peso de demanda arrastra más producción.]{.txt} [→ Curso 4 · Encadenamientos]{.dest}
+:::
+
+## 5. La inversión y la innovación casi no se ven
 
 :::: {.columns}
-::: {.column width="50%"}
-::: {.cifras style="--col:1;"}
-::: {.cifra .ambar}
-[`r pct(abono_m)`]{.n}
-[de la oferta a precios básicos de **abonos y plaguicidas**, un producto de bioeconomía parcial, es importada (`r num(abono$M)` de `r num(abono$VBP + abono$M)` miles de millones)]{.t}
-:::
-::: {.cifra .azul}
-[`r num(sal(B_PAR))`]{.n}
-[miles de millones: saldo comercial de los productos de bioeconomía parcial, donde sí hay déficit]{.t}
-:::
-:::
-:::
-::: {.column width="50%"}
-**Mayores importaciones de bioeconomía parcial**
-
+::: {.column width="56%"}
 ```{r}
-p |>
-  filter(Bio == B_PAR) |>
-  arrange(desc(M)) |>
-  slice(1:6) |>
-  transmute(
-    Producto = etiqueta(Producto, 36),
-    Importaciones = num(M),
-    Producción = num(VBP),
-    `% importado` = pct(M / (M + VBP))
-  ) |>
-  tabla_simple("cou mediano")
+#| fig-width: 7.6
+#| fig-height: 4.0
+r$series |>
+  filter(Componente %in% c("Producción", "Formación bruta de capital")) |>
+  g_series(base = 15) +
+  facet_wrap(~Componente, ncol = 2)
 ```
+:::
+::: {.column width="44%"}
+::: {.cifra .ambar}
+[`r pct(sh("Formación bruta de capital"))`]{.n}
+[de la formación bruta de capital, frente a `r pct(sh("Producción"))` de la producción]{.t}
+:::
 
-[Miles de millones de pesos, `r A`. El vínculo de estos productos con los recursos biológicos es menos directo, y conviene revisarlo producto por producto.]{.pequeno}
+::: {.caja .neutra}
+**Se mide por tipo de bien.** Un tractor comprado por un productor agrícola cuenta fuera de la bioeconomía. Y buena parte de la innovación es propiedad intelectual, que se registra con dificultad [@vargas2023].
+:::
 :::
 ::::
+
+::: {.amarre style="--c:#0F7B5F;"}
+[Por lo tanto]{.por} [Lo que no se mide es difícil de financiar. Hace falta medir la inversión de las actividades bioeconómicas, no solo la de sus productos.]{.txt} [→ Curso 5 · Inversión]{.dest}
+:::
 
 ## 6. La medición misma es una decisión
 
@@ -293,13 +406,13 @@ p |>
 ::: {.column width="56%"}
 ```{r}
 #| fig-width: 7.6
-#| fig-height: 4.6
+#| fig-height: 4.4
 g_medidas(r$medidas, base = 15, tam = 3.6)
 ```
 :::
 ::: {.column width="44%"}
 ::: {.caja}
-En `r length(anios) - length(inv)` de los `r length(anios)` años, el método del consumo intermedio da **más** que el de actividades, como se esperaba en 10 de 13 países [@vargas2023]. Se invierte en `r y_lista(inv)`.
+En `r length(anios) - length(inv)` de los `r length(anios)` años, el método del consumo intermedio da **más** que el de actividades, como en 10 de 13 países [@vargas2023]. Se invierte en `r y_lista(inv)`.
 :::
 
 ::: {.caja .ambar}
@@ -308,13 +421,103 @@ En 2023, con la sequía, cae el método de actividades (`r pct(md("apriori_bio",
 :::
 ::::
 
-# Cursos de política pública {.seccion background-color="#0B4A3A"}
+::: {.amarre style="--c:#0F7B5F;"}
+[Por lo tanto]{.por} [Las cifras dependen del método y de la clasificación. Para usarlas en decisiones, la cuenta tiene que ser regular, abierta y comparable.]{.txt} [→ Curso 6 · Sistema de información]{.dest}
+:::
 
-Opciones para discutir, a partir de los datos. Todas requieren contrastarse con la normativa y la evidencia sectorial vigentes.
+# De los hallazgos a la política pública {.seccion background-color="#0B4A3A"}
+
+Cada hallazgo abre un curso de acción. Todos requieren contrastarse con la normativa y la evidencia sectorial vigentes.
+
+## El mapa: de cada hallazgo a un curso de acción
+
+::: {.mapa}
+::: {.cab}
+Pregunta
+:::
+::: {.cab}
+Hallazgo
+:::
+::: {.cab}
+Curso de acción
+:::
+::: {.cab}
+Indicador de seguimiento
+:::
+
+::: {.mq style="--c:#2F6DB5;"}
+1 · ¿Dónde pesa?
+:::
+::: {.mh style="--c:#2F6DB5;"}
+**1 · Tributa más.** Tasa implícita de `r pct(ta("Bioeconomía"))` frente a `r pct(ta(B_FUE))` en el resto.
+:::
+::: {.mc style="--c:#2F6DB5;--cl:#E3EDF8;"}
+**1 · Coherencia fiscal.** Saber qué instrumento explica la carga y qué objetivo cumple.
+:::
+::: {.mi}
+Tasa implícita por producto y por instrumento.
+:::
+
+::: {.mh style="--c:#2F6DB5;"}
+**2 · Superávit concentrado.** Cinco productos, `r pct(conc)` de las exportaciones bioeconómicas.
+:::
+::: {.mc style="--c:#2F6DB5;--cl:#E3EDF8;"}
+**2 · Diversificación y circularidad.** Más cadenas, más valor por unidad de biomasa.
+:::
+::: {.mi}
+Concentración de exportaciones y biomasa residual.
+:::
+
+::: {.mq style="--c:#C27C0E;"}
+2 · ¿De qué depende?
+:::
+::: {.mh style="--c:#C27C0E;"}
+**3 · Insumos importados.** `r pct(abono_m)` de la oferta de abonos y plaguicidas.
+:::
+::: {.mc style="--c:#C27C0E;--cl:#FBEFD9;"}
+**3 · Insumos y bioinsumos.** Sustituir sin perder rendimientos.
+:::
+::: {.mi}
+Porcentaje importado, con una fila propia para bioinsumos.
+:::
+
+::: {.mh style="--c:#C27C0E;"}
+**4 · Encadenamientos.** `r ar_grupos$n[1]` actividades con dependencia muy alta, dentro y fuera del agro.
+:::
+::: {.mc style="--c:#C27C0E;--cl:#FBEFD9;"}
+**4 · Encadenamientos.** Proveedores, compras públicas y foco regional.
+:::
+::: {.mi}
+Multiplicador nacional, empleo y emisiones por actividad.
+:::
+
+::: {.mq style="--c:#0F7B5F;"}
+3 · ¿Qué no vemos?
+:::
+::: {.mh style="--c:#0F7B5F;"}
+**5 · Inversión invisible.** `r pct(sh("Formación bruta de capital"))` de la formación de capital, medida por tipo de bien.
+:::
+::: {.mc style="--c:#0F7B5F;--cl:#DCEFE8;"}
+**5 · Inversión e innovación.** Medir y financiar el capital bioeconómico.
+:::
+::: {.mi}
+Inversión e I+D de las actividades bioeconómicas.
+:::
+
+::: {.mh style="--c:#0F7B5F;"}
+**6 · La medición decide.** El resultado cambia según el método y la clasificación.
+:::
+::: {.mc style="--c:#0F7B5F;--cl:#DCEFE8;"}
+**6 · Sistema de información.** Una cuenta regular, abierta y comparable.
+:::
+::: {.mi}
+Una cuenta anual, publicada y usada en decisiones.
+:::
+:::
 
 ## Un marco común: los principios del G20 sobre bioeconomía
 
-[Diez principios voluntarios acordados en 2024 [@g20gib2024]. La bioeconomía debe:]{.pequeno}
+[Diez principios voluntarios acordados en 2024 [@g20gib2024]. Los tres destacados se relacionan directamente con esta cuenta. La bioeconomía debe:]{.pequeno}
 
 ::: {.principios}
 ::: {.pr}
@@ -352,45 +555,14 @@ Opciones para discutir, a partir de los datos. Todas requieren contrastarse con 
 . . .
 
 ::: {.caja .ambar}
-**Una advertencia.** "La bioeconomía no es intrínsecamente sostenible": puede competir con los alimentos y presionar los suelos si no se acompaña de incentivos a prácticas sostenibles [@oecd2019].
-:::
-
-## Seis cursos de acción posibles
-
-::: {.cifras style="--col:3;"}
-::: {.curso style="--c:#2F6DB5;"}
-[1. Coherencia fiscal]{.curso-t}
-
-Revisar cómo tributan los productos bioeconómicos y qué objetivo cumple cada instrumento.
-:::
-::: {.curso style="--c:#0F7B5F;"}
-[2. Diversificación y circularidad]{.curso-t}
-
-Reducir la concentración, exportar más valor por unidad de biomasa y aprovechar residuos.
-:::
-::: {.curso style="--c:#C27C0E;"}
-[3. Insumos y bioinsumos]{.curso-t}
-
-Reducir la exposición a abonos y plaguicidas importados.
-:::
-::: {.curso style="--c:#0F7B5F;"}
-[4. Encadenamientos]{.curso-t}
-
-Priorizar las actividades con mayor arrastre, dentro y fuera del agro.
-:::
-::: {.curso style="--c:#C27C0E;"}
-[5. Inversión e innovación]{.curso-t}
-
-Hacer visible y financiar el capital bioeconómico, incluido el conocimiento.
-:::
-::: {.curso style="--c:#2F6DB5;"}
-[6. Sistema de información]{.curso-t}
-
-Convertir este ejercicio en una cuenta regular, con empleo y datos físicos.
-:::
+**Una advertencia.** "La bioeconomía no es intrínsecamente sostenible": puede competir con los alimentos y presionar los suelos si no se acompaña de incentivos a prácticas sostenibles [@oecd2019]. Hacerla más grande no es, por sí solo, un objetivo de política.
 :::
 
 ## Curso 1: coherencia fiscal
+
+::: {.ruta style="--c:#2F6DB5;"}
+[Viene del hallazgo 1]{.de} [¿La carga combinada sobre cada cadena es coherente con los objetivos que el país se fija para ella?]{.q}
+:::
 
 :::: {.columns}
 ::: {.column width="48%"}
@@ -423,18 +595,22 @@ Tasa implícita por producto y por instrumento, año a año.
 
 ## Curso 2: diversificación y circularidad
 
+::: {.ruta style="--c:#2F6DB5;"}
+[Viene del hallazgo 2]{.de} [¿Cómo reducir la exposición a precios y clima, y aprovechar mejor la misma biomasa, incluidos sus residuos?]{.q}
+:::
+
 :::: {.columns}
 ::: {.column width="48%"}
-::: {.caja}
+::: {.caja .azul}
 **El dato.** Cinco productos concentran `r pct(conc)` de las exportaciones bioeconómicas, que aportan `r pct(sh("Exportaciones"))` de las exportaciones del país. Con la sequía, el superávit bioeconómico cayó a `r pct(sp("Bioeconomía", 2023))` del PIB en 2023.
 :::
 
 ::: {.caja .neutra}
-**La pregunta.** ¿Cómo reducir la exposición a precios y clima, y aprovechar mejor la misma biomasa, incluidos sus residuos?
+**Lo que falta medir.** El COU no registra los residuos que no se venden. Una cuenta de biomasa residual, compatible con el SCN y el SEEA, sería su complemento natural.
 :::
 :::
 ::: {.column width="52%"}
-::: {.curso style="--c:#0F7B5F;"}
+::: {.curso style="--c:#2F6DB5;"}
 [Opciones]{.curso-t}
 
 - Priorizar cadenas con ventas externas pequeñas y alto valor agregado.
@@ -453,6 +629,10 @@ Concentración de exportaciones, valor agregado por peso producido y una cuenta 
 ::::
 
 ## Curso 3: insumos y bioinsumos
+
+::: {.ruta style="--c:#C27C0E;"}
+[Viene del hallazgo 3]{.de} [¿Se puede sustituir parte de los insumos importados por bioinsumos sin perder rendimientos?]{.q}
+:::
 
 :::: {.columns}
 ::: {.column width="48%"}
@@ -474,7 +654,7 @@ Concentración de exportaciones, valor agregado por peso producido y una cuenta 
 
 [Tensión]{.curso-t}
 
-El COU agrupa plaguicidas biológicos y de síntesis en una sola fila: hoy el éxito de esta política sería invisible en la cuenta. Y la sustitución solo vale si mantiene los rendimientos.
+El COU agrupa plaguicidas biológicos y de síntesis en una sola fila: hoy el éxito de esta política sería invisible en la cuenta (hallazgo 6). Y la sustitución solo vale si mantiene los rendimientos.
 
 [Indicador]{.curso-t}
 
@@ -485,18 +665,22 @@ Porcentaje importado por insumo, con una fila separada para los bioinsumos.
 
 ## Curso 4: encadenamientos
 
+::: {.ruta style="--c:#C27C0E;"}
+[Viene del hallazgo 4]{.de} [¿Dónde tiene mayor efecto un peso adicional de demanda, y quién lo recibe?]{.q}
+:::
+
 :::: {.columns}
 ::: {.column width="48%"}
-::: {.caja}
+::: {.caja .ambar}
 **El dato.** `r ar_grupos$n[1]` actividades tienen dependencia muy alta de insumos bioeconómicos, entre ellas carne, lácteos, alimentos para animales, cueros y restaurantes.
 :::
 
 ::: {.caja .neutra}
-**La pregunta.** ¿Dónde tiene mayor efecto un peso adicional de demanda, y quién lo recibe?
+**Lectura cuidadosa.** Los multiplicadores ordenan actividades, pero no predicen impactos: no separan los insumos importados.
 :::
 :::
 ::: {.column width="52%"}
-::: {.curso style="--c:#0F7B5F;"}
+::: {.curso style="--c:#C27C0E;"}
 [Opciones]{.curso-t}
 
 - Programas de desarrollo de proveedores en las cadenas de mayor arrastre.
@@ -516,9 +700,13 @@ Multiplicador de uso nacional, empleo y emisiones por actividad, cuando se dispo
 
 ## Curso 5: inversión e innovación
 
+::: {.ruta style="--c:#0F7B5F;"}
+[Viene del hallazgo 5]{.de} [¿Cómo financiar bien una inversión que hoy no se mide?]{.q}
+:::
+
 :::: {.columns}
 ::: {.column width="48%"}
-::: {.caja .ambar}
+::: {.caja}
 **El dato.** Solo `r pct(sh("Formación bruta de capital"))` de la formación bruta de capital corresponde a productos bioeconómicos, frente a `r pct(sh("Producción"))` de la producción.
 :::
 
@@ -527,7 +715,7 @@ Multiplicador de uso nacional, empleo y emisiones por actividad, cuando se dispo
 :::
 :::
 ::: {.column width="52%"}
-::: {.curso style="--c:#C27C0E;"}
+::: {.curso style="--c:#0F7B5F;"}
 [Opciones]{.curso-t}
 
 - Medir la inversión de las actividades bioeconómicas con encuestas específicas.
@@ -547,18 +735,22 @@ Inversión e I+D de las actividades bioeconómicas.
 
 ## Curso 6: sistema de información
 
+::: {.ruta style="--c:#0F7B5F;"}
+[Viene del hallazgo 6]{.de} [¿Quién mantiene la cuenta, con qué frecuencia y con qué datos adicionales?]{.q}
+:::
+
 :::: {.columns}
 ::: {.column width="48%"}
-::: {.caja .azul}
+::: {.caja}
 **El dato.** Argentina ya publica los COU que permiten esta cuenta. Con una rutina reproducible se procesaron `r length(anios)` años en una sola base, y la [herramienta](`r URL_HERRAMIENTA`){target="_blank"} deja que cualquiera ponga a prueba la clasificación.
 :::
 
 ::: {.caja .neutra}
-**La pregunta.** ¿Quién la mantiene, con qué frecuencia y con qué datos adicionales? La OCDE advierte que sin una definición acordada es difícil fijar objetivos y evaluar políticas [@oecd2019].
+**Por qué importa.** Sin una definición acordada es difícil fijar objetivos y evaluar políticas [@oecd2019]. Los cursos 2, 3, 4 y 5 dependen de datos que hoy faltan.
 :::
 :::
 ::: {.column width="52%"}
-::: {.curso style="--c:#2F6DB5;"}
+::: {.curso style="--c:#0F7B5F;"}
 [Opciones]{.curso-t}
 
 - Consensuar la clasificación con los sectores y publicarla, con su vigencia por año.
@@ -592,6 +784,55 @@ tibble(
 
 [Valoración cualitativa, propuesta como punto de partida para la discusión. Principios del G20 sobre bioeconomía [@g20gib2024].]{.pequeno}
 
+## Lo que estos datos no permiten afirmar
+
+::: {.cifras style="--col:2;"}
+::: {.caja .neutra}
+**Causalidad.** Son identidades contables que muestran la estructura de un año. Medir el efecto de una política requiere otro diseño.
+:::
+::: {.caja .neutra}
+**Volúmenes.** Están a precios corrientes, en un periodo de alta inflación y cambios de precios relativos.
+:::
+::: {.caja .neutra}
+**Empleo y ambiente.** El COU no los incluye. Una bioeconomía grande no es por sí misma una bioeconomía sostenible [@oecd2019].
+:::
+::: {.caja .neutra}
+**Clasificación.** Los resultados dependen de qué se considera bioeconómico, sobre todo en químicos, farmacéuticos y textiles.
+:::
+:::
+
+## Tres mensajes para llevar
+
+::: {.cifras style="--col:3;font-size:1.2em;margin-top:0.8em;"}
+::: {.guia style="--c:#2F6DB5;"}
+[¿Dónde pesa?]{.g-n}
+
+[Pesa más en divisas e impuestos que en producción.]{.g-q}
+
+Por eso importa cómo tributa y qué tan concentrado está su superávit.
+
+[Cursos 1 y 2: coherencia fiscal y diversificación]{.g-r}
+:::
+::: {.guia style="--c:#C27C0E;"}
+[¿De qué depende?]{.g-n}
+
+[Depende de insumos importados y de cadenas que van más allá del campo.]{.g-q}
+
+Por eso importan los bioinsumos y los proveedores locales.
+
+[Cursos 3 y 4: bioinsumos y encadenamientos]{.g-r}
+:::
+::: {.guia style="--c:#0F7B5F;"}
+[¿Qué no vemos?]{.g-n}
+
+[Lo que no se mide no se puede gestionar.]{.g-q}
+
+Por eso importa medir la inversión y sostener la cuenta en el tiempo.
+
+[Cursos 5 y 6: inversión y sistema de información]{.g-r}
+:::
+:::
+
 ## Ejercicio en grupos
 
 :::: {.columns}
@@ -624,23 +865,6 @@ tibble(
 2. Si los derechos de exportación de la soja bajan a 15 %, ¿qué esperan que pase con la tasa implícita de la bioeconomía? ¿Y con su participación en los impuestos?
 3. ¿Qué principio del G20 está peor cubierto por la información disponible en Argentina? ¿Qué dato haría falta?
 4. La OCDE advierte que la bioeconomía no es intrínsecamente sostenible. ¿Qué indicador agregarían a esta cuenta para saber si lo es?
-:::
-
-## Lo que estos datos no permiten afirmar
-
-::: {.cifras style="--col:2;"}
-::: {.caja .neutra}
-**Causalidad.** Son identidades contables que muestran la estructura de un año. Medir el efecto de una política requiere otro diseño.
-:::
-::: {.caja .neutra}
-**Volúmenes.** Están a precios corrientes, en un periodo de alta inflación y cambios de precios relativos.
-:::
-::: {.caja .neutra}
-**Empleo y ambiente.** El COU no los incluye. Una bioeconomía grande no es por sí misma una bioeconomía sostenible [@oecd2019].
-:::
-::: {.caja .neutra}
-**Clasificación.** Los resultados dependen de qué se considera bioeconómico, sobre todo en químicos, farmacéuticos y textiles.
-:::
 :::
 
 ## Referencias
