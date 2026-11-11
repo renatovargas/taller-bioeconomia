@@ -37,6 +37,8 @@ ta <- function(b, a = A) r$tasas$tasa[r$tasas$Bio == b & r$tasas$Año == a]
 md <- function(k, a = A) r$medidas[[k]][r$medidas$Año == a]
 sp <- function(b, a = A) r$comercio$saldo_pib[r$comercio$Bio == b & r$comercio$Año == a]
 conc_a <- function(a) r$conc$top5[r$conc$Año == a]
+inv <- r$medidas$Año[r$medidas$via_ci < r$medidas$apriori_bio]
+y_lista <- function(x) if (length(x) <= 1) as.character(x) else paste(paste(head(x, -1), collapse = ", "), "y", tail(x, 1))
 p <- r$productos |>
   rename(VBP = Producción, X = Exportaciones, M = Importaciones, CI = `Consumo intermedio`, Imp = `Impuestos menos subvenciones`)
 bio <- p |> filter(Bio == "Bioeconomía")
@@ -297,7 +299,7 @@ g_medidas(r$medidas, base = 15, tam = 3.6)
 :::
 ::: {.column width="44%"}
 ::: {.caja}
-En casi todos los años el método del consumo intermedio da **más** que el de actividades, como se esperaba en 10 de 13 países [@vargas2023]. Solo en 2021 se invierte.
+En `r length(anios) - length(inv)` de los `r length(anios)` años, el método del consumo intermedio da **más** que el de actividades, como se esperaba en 10 de 13 países [@vargas2023]. Se invierte en `r y_lista(inv)`.
 :::
 
 ::: {.caja .ambar}

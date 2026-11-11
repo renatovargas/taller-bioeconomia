@@ -320,7 +320,7 @@ scn |>
 ```
 
 ::: {.pequeno}
-La rutina comprueba que la oferta sea igual a la utilización para cada producto, que cada fila sume el total de INDEC y reproduce los valores publicados de Argentina para 2018. Valores en millones de pesos. El script y la base están en la sección de descargas.
+La rutina comprueba que la oferta sea igual a la utilización para cada producto, que cada fila sume el total de INDEC y, con la clasificación original, reproduce celda por celda la base de 2018 publicada por la CEPAL. La única corrección posterior es la actividad 050 Pesca, que pasa a la sección A y a bioeconomía. Valores en millones de pesos. El script y la base están en la sección de descargas.
 :::
 
 ## ¿Para qué? Cuadros y gráficos a la medida

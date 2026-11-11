@@ -41,6 +41,8 @@ ta <- function(b, a = A) r$tasas$tasa[r$tasas$Bio == b & r$tasas$Año == a]
 md <- function(k, a = A) r$medidas[[k]][r$medidas$Año == a]
 sp <- function(b, a = A) r$comercio$saldo_pib[r$comercio$Bio == b & r$comercio$Año == a]
 cb <- r$comercio |> filter(Bio == "Bioeconomía")
+inv <- r$medidas$Año[r$medidas$via_ci < r$medidas$apriori_bio]
+y_lista <- function(x) if (length(x) <= 1) as.character(x) else paste(paste(head(x, -1), collapse = ", "), "y", tail(x, 1))
 p <- r$productos |>
   rename(VBP = Producción, X = Exportaciones, M = Importaciones, CI = `Consumo intermedio`, Imp = `Impuestos menos subvenciones`)
 bio <- p |> filter(Bio == "Bioeconomía")
@@ -89,7 +91,9 @@ Como un producto puede salir de varias actividades y una actividad puede produci
 
 Los COU se publican como matrices. Para analizarlos, cada celda distinta de cero se convierte en una fila de una tabla con sus atributos: cuadro, producto, actividad, condición bioeconómica y valor. Después, cualquier cuadro se reconstruye con una tabla dinámica, y los totales siguen coincidiendo con los oficiales.
 
-Para Argentina se usaron los COU de INDEC de `r periodo` [@indec2023], con la clasificación de productos y actividades elaborada para @vargas2023. Todos los años quedan en una sola base, en millones de pesos corrientes. La rutina asigna filas y columnas por su código, porque la nomenclatura de INDEC cambió entre años, y cada código tiene una sola clasificación válida para todo el periodo. Controlamos tres cosas: que la oferta y la utilización sean iguales para cada producto y año, que cada fila sume el total publicado por INDEC, y que para 2018 se reproduzcan los valores publicados: `r pct(sh("Exportaciones", a = 2018))` de las exportaciones, `r pct(ta("Bioeconomía", 2018))` de tasa implícita y `r pct(md("via_ci", 2018))` de valor agregado por consumo intermedio.
+Para Argentina se usaron los COU de INDEC de `r periodo` [@indec2023], con la clasificación de productos y actividades elaborada para @vargas2023. Todos los años quedan en una sola base, en millones de pesos corrientes. La rutina asigna filas y columnas por su código, porque la nomenclatura de INDEC cambió entre años, y cada código tiene una sola clasificación válida para todo el periodo. Controlamos tres cosas: que la oferta y la utilización sean iguales para cada producto y año, que cada fila sume el total publicado por INDEC, y que, con la clasificación original, la base de 2018 coincida celda por celda con la de @vargas2023, que da `r pct(sh("Exportaciones", a = 2018))` de las exportaciones y `r pct(ta("Bioeconomía", 2018))` de tasa implícita.
+
+Esta actualización corrige un error de esa clasificación. La actividad 050 Pesca estaba en la sección B y clasificada como no bioeconómica. Esa letra corresponde a la pesca en la CIIU Rev. 3 que usa INDEC, pero a minas y canteras en la Rev. 4 que usa la cuenta. Ahora Pesca está en la sección A y es bioeconómica, como el pescado que produce. La corrección eleva el valor agregado bioeconómico de 2018 de 10,9 % a `r pct(md("apriori_bio", 2018))` por el método de actividades, y de 12,3 % a `r pct(md("via_ci", 2018))` por el del consumo intermedio.
 
 ## Dos maneras de medir el valor agregado
 
@@ -144,7 +148,7 @@ Argentina: utilización bioeconómica, `r A` (miles de millones de pesos corrien
 
 ## Valor agregado
 
-Las actividades bioeconómicas generaron `r pct(md("apriori_bio"))` del valor agregado bruto de `r num(va_tot)` miles de millones de pesos, y las de bioeconomía parcial `r pct(md("apriori_ext"))`. Por el método del consumo intermedio, la bioeconomía aporta `r pct(md("via_ci"))`. En todos los años, salvo 2021, el segundo método da más que el primero (@fig-medidas). Una explicación posible para 2021 es que los precios agrícolas elevaron el valor agregado primario, pero el COU a precios corrientes no permite separar ese efecto. En `r A`, el método de actividades bajó a `r pct(md("apriori_bio"))` desde `r pct(md("apriori_bio", A - 1))` el año anterior, mientras que el del consumo intermedio se mantuvo en `r pct(md("via_ci"))`: la sequía golpeó la producción primaria, pero cambió menos la mezcla de insumos de las demás actividades.
+Las actividades bioeconómicas generaron `r pct(md("apriori_bio"))` del valor agregado bruto de `r num(va_tot)` miles de millones de pesos, y las de bioeconomía parcial `r pct(md("apriori_ext"))`. Por el método del consumo intermedio, la bioeconomía aporta `r pct(md("via_ci"))`. En `r length(anios) - length(inv)` de los `r length(anios)` años, el segundo método da más que el primero; se invierte en `r y_lista(inv)` (@fig-medidas). Una explicación posible es que en esos años los precios agrícolas elevaron el valor agregado primario, pero el COU a precios corrientes no permite separar ese efecto. En `r A`, el método de actividades bajó a `r pct(md("apriori_bio"))` desde `r pct(md("apriori_bio", A - 1))` el año anterior, mientras que el del consumo intermedio se mantuvo en `r pct(md("via_ci"))`: la sequía golpeó la producción primaria, pero cambió menos la mezcla de insumos de las demás actividades.
 
 ```{r}
 #| label: fig-medidas

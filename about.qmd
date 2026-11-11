@@ -24,6 +24,6 @@ Para citar los resultados de Argentina de 2023:
 
 # Fuentes y descargo de responsabilidad
 
-Los cuadros de oferta y utilización son de INDEC. Las cifras de bioeconomía de Argentina para 2019 a 2023 son elaboración propia, no son estadísticas oficiales y no han sido revisadas por INDEC ni por la CEPAL. Los resultados de 2018 reproducen los publicados por la CEPAL.
+Los cuadros de oferta y utilización son de INDEC. Las cifras de bioeconomía de Argentina para 2019 a 2023 son elaboración propia, no son estadísticas oficiales y no han sido revisadas por INDEC ni por la CEPAL. Con la clasificación original, los resultados de 2018 reproducen los publicados por la CEPAL. Esta versión corrige la actividad 050 Pesca, que pasa a la sección A y a bioeconomía, lo que eleva ligeramente el valor agregado bioeconómico de todos los años.
 
 Las opiniones y los cursos de política pública que aparecen en estos materiales se presentan para la discusión. Son responsabilidad del autor y no representan necesariamente la opinión de ninguna institución. Cualquier error u omisión es responsabilidad del autor.

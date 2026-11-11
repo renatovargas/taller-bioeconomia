@@ -335,7 +335,8 @@ div.csl-indent {
 <section id="del-cuadro-a-la-base-de-datos" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="del-cuadro-a-la-base-de-datos"><span class="header-section-number">2.2</span> Del cuadro a la base de datos</h2>
 <p>Los COU se publican como matrices. Para analizarlos, cada celda distinta de cero se convierte en una fila de una tabla con sus atributos: cuadro, producto, actividad, condición bioeconómica y valor. Después, cualquier cuadro se reconstruye con una tabla dinámica, y los totales siguen coincidiendo con los oficiales.</p>
-<p>Para Argentina se usaron los COU de INDEC de 2018 a 2023 <span class="citation" data-cites="indec2023">(<a href="#ref-indec2023" role="doc-biblioref">Instituto Nacional de Estadística y Censos, s.f.</a>)</span>, con la clasificación de productos y actividades elaborada para <span class="citation" data-cites="vargas2023">Vargas et&nbsp;al. (<a href="#ref-vargas2023" role="doc-biblioref">2023</a>)</span>. Todos los años quedan en una sola base, en millones de pesos corrientes. La rutina asigna filas y columnas por su código, porque la nomenclatura de INDEC cambió entre años, y cada código tiene una sola clasificación válida para todo el periodo. Controlamos tres cosas: que la oferta y la utilización sean iguales para cada producto y año, que cada fila sume el total publicado por INDEC, y que para 2018 se reproduzcan los valores publicados: 46,7 % de las exportaciones, 17,8 % de tasa implícita y 12,3 % de valor agregado por consumo intermedio.</p>
+<p>Para Argentina se usaron los COU de INDEC de 2018 a 2023 <span class="citation" data-cites="indec2023">(<a href="#ref-indec2023" role="doc-biblioref">Instituto Nacional de Estadística y Censos, s.f.</a>)</span>, con la clasificación de productos y actividades elaborada para <span class="citation" data-cites="vargas2023">Vargas et&nbsp;al. (<a href="#ref-vargas2023" role="doc-biblioref">2023</a>)</span>. Todos los años quedan en una sola base, en millones de pesos corrientes. La rutina asigna filas y columnas por su código, porque la nomenclatura de INDEC cambió entre años, y cada código tiene una sola clasificación válida para todo el periodo. Controlamos tres cosas: que la oferta y la utilización sean iguales para cada producto y año, que cada fila sume el total publicado por INDEC, y que, con la clasificación original, la base de 2018 coincida celda por celda con la de <span class="citation" data-cites="vargas2023">Vargas et&nbsp;al. (<a href="#ref-vargas2023" role="doc-biblioref">2023</a>)</span>, que da 46,7 % de las exportaciones y 17,8 % de tasa implícita.</p>
+<p>Esta actualización corrige un error de esa clasificación. La actividad 050 Pesca estaba en la sección B y clasificada como no bioeconómica. Esa letra corresponde a la pesca en la CIIU Rev.&nbsp;3 que usa INDEC, pero a minas y canteras en la Rev.&nbsp;4 que usa la cuenta. Ahora Pesca está en la sección A y es bioeconómica, como el pescado que produce. La corrección eleva el valor agregado bioeconómico de 2018 de 10,9 % a 11,3 % por el método de actividades, y de 12,3 % a 12,4 % por el del consumo intermedio.</p>
 </section>
 <section id="dos-maneras-de-medir-el-valor-agregado" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="dos-maneras-de-medir-el-valor-agregado"><span class="header-section-number">2.3</span> Dos maneras de medir el valor agregado</h2>
@@ -436,11 +437,11 @@ facturas</th>
 <tbody>
 <tr class="subtotal s-1 odd">
 <td class="izq">Bioeconomía</td>
-<td>21.872</td>
+<td>22.538</td>
 <td>31.317</td>
 <td>313</td>
 <td>15</td>
-<td>666</td>
+<td></td>
 <td>22</td>
 <td>87</td>
 <td>2.434</td>
@@ -451,11 +452,11 @@ facturas</th>
 </tr>
 <tr class="even">
 <td class="izq"> Productos agrícolas</td>
-<td>20.917</td>
+<td>21.583</td>
 <td>804</td>
 <td>33</td>
 <td></td>
-<td>666</td>
+<td></td>
 <td></td>
 <td>16</td>
 <td>1.873</td>
@@ -676,11 +677,11 @@ facturas</th>
 </tr>
 <tr class="total odd">
 <td class="izq">Oferta total</td>
-<td>22.082</td>
+<td>22.748</td>
 <td>33.021</td>
 <td>14.349</td>
 <td>12.266</td>
-<td>13.394</td>
+<td>12.728</td>
 <td>51.560</td>
 <td>177.154</td>
 <td>26.520</td>
@@ -750,11 +751,11 @@ facturas</th>
 <tbody>
 <tr class="subtotal s-1 odd">
 <td class="izq">Bioeconomía</td>
-<td>5.221</td>
+<td>5.235</td>
 <td>17.707</td>
 <td>761</td>
 <td>4.521</td>
-<td>15</td>
+<td></td>
 <td>276</td>
 <td>1.587</td>
 <td>10.734</td>
@@ -778,11 +779,11 @@ facturas</th>
 </tr>
 <tr class="odd">
 <td class="izq"> Manufacturas</td>
-<td>1.099</td>
+<td>1.106</td>
 <td>4.544</td>
 <td>502</td>
 <td>3.090</td>
-<td>7</td>
+<td></td>
 <td>243</td>
 <td>1.378</td>
 <td>6.865</td>
@@ -792,11 +793,11 @@ facturas</th>
 </tr>
 <tr class="even">
 <td class="izq"> Otros servicios</td>
-<td>959</td>
+<td>966</td>
 <td>3</td>
 <td>2</td>
 <td></td>
-<td>7</td>
+<td></td>
 <td></td>
 <td></td>
 <td>5</td>
@@ -806,11 +807,11 @@ facturas</th>
 </tr>
 <tr class="subtotal s-2 odd">
 <td class="izq">Bioeconomía parcial</td>
-<td>2.378</td>
+<td>2.390</td>
 <td>664</td>
 <td>2.978</td>
 <td>257</td>
-<td>186</td>
+<td>174</td>
 <td>2.915</td>
 <td>3.197</td>
 <td>1.433</td>
@@ -820,11 +821,11 @@ facturas</th>
 </tr>
 <tr class="even">
 <td class="izq"> Manufacturas</td>
-<td>2.378</td>
+<td>2.390</td>
 <td>655</td>
 <td>2.971</td>
 <td>256</td>
-<td>144</td>
+<td>132</td>
 <td>2.905</td>
 <td>3.073</td>
 <td>1.218</td>
@@ -848,11 +849,11 @@ facturas</th>
 </tr>
 <tr class="subtotal s-3 even">
 <td class="izq">Fuera de la bioeconomía</td>
-<td>3.606</td>
+<td>3.796</td>
 <td>4.988</td>
 <td>5.055</td>
 <td>2.443</td>
-<td>5.943</td>
+<td>5.752</td>
 <td>31.720</td>
 <td>63.317</td>
 <td>12.064</td>
@@ -876,11 +877,11 @@ facturas</th>
 </tr>
 <tr class="even">
 <td class="izq"> Manufacturas</td>
-<td>951</td>
+<td>1.033</td>
 <td>1.825</td>
 <td>2.462</td>
 <td>855</td>
-<td>1.793</td>
+<td>1.712</td>
 <td>20.240</td>
 <td>15.963</td>
 <td>5.374</td>
@@ -932,11 +933,11 @@ facturas</th>
 </tr>
 <tr class="even">
 <td class="izq"> Otros servicios</td>
-<td>1.721</td>
+<td>1.830</td>
 <td>2.875</td>
 <td>2.254</td>
 <td>1.522</td>
-<td>3.800</td>
+<td>3.692</td>
 <td>5.394</td>
 <td>39.985</td>
 <td>4.269</td>
@@ -960,11 +961,11 @@ facturas</th>
 </tr>
 <tr class="total even">
 <td class="izq">Utilización total</td>
-<td>11.205</td>
+<td>11.422</td>
 <td>23.359</td>
 <td>8.795</td>
 <td>7.222</td>
-<td>6.144</td>
+<td>5.926</td>
 <td>34.912</td>
 <td>68.102</td>
 <td>24.565</td>
@@ -974,11 +975,11 @@ facturas</th>
 </tr>
 <tr class="total odd">
 <td class="izq">Valor agregado bruto</td>
-<td>10.877</td>
+<td>11.326</td>
 <td>9.662</td>
 <td>5.554</td>
 <td>5.044</td>
-<td>7.250</td>
+<td>6.801</td>
 <td>16.648</td>
 <td>109.052</td>
 <td></td>
@@ -997,7 +998,7 @@ facturas</th>
 </section>
 <section id="valor-agregado" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="valor-agregado"><span class="header-section-number">3.2</span> Valor agregado</h2>
-<p>Las actividades bioeconómicas generaron 12,5 % del valor agregado bruto de 164.087 miles de millones de pesos, y las de bioeconomía parcial 6,5 %. Por el método del consumo intermedio, la bioeconomía aporta 14,4 %. En todos los años, salvo 2021, el segundo método da más que el primero (<a href="#fig-medidas" class="quarto-xref">Gráfico&nbsp;3</a>). Una explicación posible para 2021 es que los precios agrícolas elevaron el valor agregado primario, pero el COU a precios corrientes no permite separar ese efecto. En 2023, el método de actividades bajó a 12,5 % desde 13,7 % el año anterior, mientras que el del consumo intermedio se mantuvo en 14,4 %: la sequía golpeó la producción primaria, pero cambió menos la mezcla de insumos de las demás actividades.</p>
+<p>Las actividades bioeconómicas generaron 12,8 % del valor agregado bruto de 164.087 miles de millones de pesos, y las de bioeconomía parcial 6,5 %. Por el método del consumo intermedio, la bioeconomía aporta 14,5 %. En 4 de los 6 años, el segundo método da más que el primero; se invierte en 2020 y 2021 (<a href="#fig-medidas" class="quarto-xref">Gráfico&nbsp;3</a>). Una explicación posible es que en esos años los precios agrícolas elevaron el valor agregado primario, pero el COU a precios corrientes no permite separar ese efecto. En 2023, el método de actividades bajó a 12,8 % desde 14,1 % el año anterior, mientras que el del consumo intermedio se mantuvo en 14,5 %: la sequía golpeó la producción primaria, pero cambió menos la mezcla de insumos de las demás actividades.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="fig-medidas" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1148,7 +1149,7 @@ Gráfico&nbsp;6: Argentina: tasa impositiva implícita sobre los productos, 2018
 </section>
 <section id="encadenamientos" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="encadenamientos"><span class="header-section-number">3.5</span> Encadenamientos</h2>
-<p>La dependencia de insumos bioeconómicos es muy alta en 32 actividades, y no todas son del sector primario. Destacan carne, alimentos para animales, lácteos, cueros, aceites y restaurantes. Las actividades por encima de la mediana más una DAM generan 22,2 % del valor agregado (<a href="#tbl-mult" class="quarto-xref">Cuadro&nbsp;4</a>). El multiplicador de demanda promedio de las actividades bioeconómicas (2,49) supera al de las actividades fuera de la bioeconomía (2,03), un resultado que coincide en dirección con el de Costa Rica <span class="citation" data-cites="vargas2022">(<a href="#ref-vargas2022" role="doc-biblioref">Vargas et&nbsp;al., 2022</a>)</span>, aunque aquí los niveles están sobrestimados por no separar las importaciones.</p>
+<p>La dependencia de insumos bioeconómicos es muy alta en 32 actividades, y no todas son del sector primario. Destacan carne, alimentos para animales, lácteos, cueros, aceites y restaurantes. Las actividades por encima de la mediana más una DAM generan 22,2 % del valor agregado (<a href="#tbl-mult" class="quarto-xref">Cuadro&nbsp;4</a>). El multiplicador de demanda promedio de las actividades bioeconómicas (2,48) supera al de las actividades fuera de la bioeconomía (2,03), un resultado que coincide en dirección con el de Costa Rica <span class="citation" data-cites="vargas2022">(<a href="#ref-vargas2022" role="doc-biblioref">Vargas et&nbsp;al., 2022</a>)</span>, aunque aquí los niveles están sobrestimados por no separar las importaciones.</p>
 <div id="tbl-mult" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-mult-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1249,7 +1250,7 @@ Cuadro&nbsp;4: Argentina: actividades con mayor uso directo e indirecto de insum
 </section>
 <section id="insumos-clave" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="insumos-clave"><span class="header-section-number">3.6</span> Insumos clave</h2>
-<p>Las importaciones de la bioeconomía parcial superan a sus exportaciones, y algunos de sus insumos dependen de forma importante del exterior. En abonos y plaguicidas, las importaciones equivalen a 28,4 % de la oferta a precios básicos. Este resultado merece una lectura cuidadosa, porque la categoría agrupa productos de distinto origen. Aun así, señala una exposición relevante para el sector agrícola, cuyo consumo intermedio contiene 46,6 % de productos bioeconómicos.</p>
+<p>Las importaciones de la bioeconomía parcial superan a sus exportaciones, y algunos de sus insumos dependen de forma importante del exterior. En abonos y plaguicidas, las importaciones equivalen a 28,4 % de la oferta a precios básicos. Este resultado merece una lectura cuidadosa, porque la categoría agrupa productos de distinto origen. Aun así, señala una exposición relevante para el sector agrícola, cuyo consumo intermedio contiene 45,8 % de productos bioeconómicos.</p>
 </section>
 </section>
 <section id="implicaciones-para-la-política-pública" class="level1" data-number="4">
@@ -2504,7 +2505,7 @@ Vargas, R., Mondaini, A. y Rodríguez, A. G. (2023). <em>Cuentas satélite de bi
 </section>
 <section id="actividades" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="actividades">Actividades</h2>
-<p>Son 107 actividades: 24 bioeconómicas, 12 de bioeconomía parcial y 71 fuera de la bioeconomía.</p>
+<p>Son 107 actividades: 25 bioeconómicas, 12 de bioeconomía parcial y 70 fuera de la bioeconomía.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Bioeconomía</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Bioeconomía parcial</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href="">Fuera de la bioeconomía</a></li></ul>
 <div class="tab-content">
@@ -2546,96 +2547,101 @@ Vargas, R., Mondaini, A. y Rodríguez, A. G. (2023). <em>Cuentas satélite de bi
 <td class="izq">Agricultura</td>
 </tr>
 <tr class="even">
+<td class="izq">050</td>
+<td class="izq">050 - Pesca</td>
+<td class="izq">Agricultura</td>
+</tr>
+<tr class="odd">
 <td class="izq">1511</td>
 <td class="izq">1511 - Producción, procesamiento y conservación de carne y productos cárnicos</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">1512</td>
 <td class="izq">1512 - Elaboración de pescado y productos de pescado</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">1513</td>
 <td class="izq">1513 - Preparación de frutas, hortalizas y legumbres</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">1514</td>
 <td class="izq">1514 - Elaboración de aceites y grasas de origen vegetal</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">1520</td>
 <td class="izq">1520 - Elaboración de productos lácteos</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">1531/2</td>
 <td class="izq">1531 - Elaboración de productos de molinería. 1532 - Elaboración de almidones y productos derivados del almidón</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">15330</td>
 <td class="izq">15330 - Elaboración de alimentos preparados para animales</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">1541</td>
 <td class="izq">1541 - Elaboración de productos de panadería</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">15420</td>
 <td class="izq">15420 - Elaboración de azúcar</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">15430</td>
 <td class="izq">15430 - Elaboración de cacao y chocolate y de productos de confitería</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">1544</td>
 <td class="izq">15441 - Elaboración de pastas alimenticias frescas. 15442 - Elaboración de pastas alimenticias secas</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">1549</td>
 <td class="izq">15491 - Tostado, torrado y molienda de café. Elaboración y molienda de hierbas aromáticas y especias. 15492 - Preparación de hojas de té. 15493 - Elaboración de yerba mate.15499 - Elaboración de productos alimenticios n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">15510</td>
 <td class="izq">15510 - Destilación, rectificación y mezcla de bebidas alcohólicas; producción de alcohol etílico</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">1552</td>
 <td class="izq">15521 - Elaboración de vinos. 15529 - Elaboración de sidra y otras bebidas alcohólicas fermentadas a partir de frutas</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">15530</td>
 <td class="izq">15530 - Elaboración de cerveza, bebidas malteadas y de malta</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">1554</td>
 <td class="izq">15541 - Elaboración de soda y aguas. 15542 - Elaboración de bebidas gaseosas, excepto soda. 15549 - Elaboración de hielo, jugos envasados para diluir y otras bebidas no alcohólicas</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">160</td>
 <td class="izq">16001 - Preparación de hojas de tabaco. 16009 - Elaboración de cigarrillos y productos de tabaco n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">191</td>
 <td class="izq">19110 - Curtido y terminación de cueros. 19120 - Fabricación de maletas, bolsos de mano y similares, artículos de talabartería y artículos de cuero n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">201/2</td>
 <td class="izq">201 - Aserrado y acepilladura de madera. 202 - Fabricación de productos de madera, corcho, paja y materiales trenzables</td>
 <td class="izq">Manufacturas</td>
@@ -2735,356 +2741,351 @@ Vargas, R., Mondaini, A. y Rodríguez, A. G. (2023). <em>Cuentas satélite de bi
 </thead>
 <tbody>
 <tr class="odd">
-<td class="izq">050</td>
-<td class="izq">050 - Pesca</td>
-<td class="izq">Minería</td>
-</tr>
-<tr class="even">
 <td class="izq">101</td>
 <td class="izq">101 - Extracción y aglomeración de carbón de piedra</td>
 <td class="izq">Minería</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">111</td>
 <td class="izq">111 - Extracción de petróleo crudo y gas natural.</td>
 <td class="izq">Minería</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">112</td>
 <td class="izq">112 - Actividades de servicios relacionadas con la extracción de petróleo y gas excepto las act. de prospección</td>
 <td class="izq">Minería</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">132</td>
 <td class="izq">132 - Extracción de minerales metalíferos no ferrosos, excepto los minerales de uranio y torio</td>
 <td class="izq">Minería</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">141/142</td>
 <td class="izq">141 - Extracción de piedra arena y arcilla. 142 - Explotación de minas y canteras n.c.p</td>
 <td class="izq">Minería</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">221</td>
 <td class="izq">221 - Actividades de edición</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">222</td>
 <td class="izq">22210 - Impresión. 22220-Servicios relacionados con la impresión</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">23</td>
 <td class="izq">23200 - Fabricación de productos de la refinación del petróleo. 23300-Fabricación de combustible nuclear</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">2411</td>
 <td class="izq">24111 - Fabricación de gases comprimidos y licuados. 24119-Fabricación de materias químicas orgánicas básicas, n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">24130</td>
 <td class="izq">24130 - Fabricación de plásticos en formas primarias y de caucho sintético</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">251</td>
 <td class="izq">251 - Fabricación de productos de caucho</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">252</td>
 <td class="izq">25201 - Fabricación de envases plásticos. 25209 - Fabricación de productos plásticos en formas básicas y artículos de plástico n.c.p., excepto muebles</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">261</td>
 <td class="izq">26101 - Fabricación de envases de vidrio. 26102 - Fabricación y elaboración de vidrio plano. 26109 - Fabricación de productos de vidrio n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">269</td>
 <td class="izq">269 - Fabricación de productos minerales no metálicos n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">27100</td>
 <td class="izq">27100 - Industrias básicas de hierro y acero</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">272</td>
 <td class="izq">27201 - Elaboración de aluminio primario y semielaborados de aluminio. 27209 - Producción de metales no ferrosos n.c.p. y sus semielaborados</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">273</td>
 <td class="izq">27310 - Fundición de hierro y acero. 27320 - Fundición de metales no ferrosos</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">281</td>
 <td class="izq">28110 - Fabricación de productos metálicos para uso estructural y montaje estructural. 28120 - Fabricación de tanques, depósitos y recipientes de metal. 28130 - Fabricación de generadores de vapor</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">289</td>
 <td class="izq">289 - Fabricación de otros productos elaborados de metal; actividades de servicios de trabajo de metales</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">291</td>
 <td class="izq">29110 - Fabricación de motores y turbinas, excepto motores para aeronaves, vehículos automotores y motocicletas. 29120 - Fabricación de bombas. compresores. grifos y válvulas. 29130 - Fabricación de cojinetes. engranajes. trenes de engranaje y piezas de transmisión. 29140 - Fabricación de hornos. hogares y quemadores. 29150 - Fabricación de equipo de elevación y manipulación 29190 - Fabricación de maquinaria y equipo de uso general n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">292</td>
 <td class="izq">292 - Fabricación de maquinaria de uso especial</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">29300</td>
 <td class="izq">29300 - Fabricación de aparatos de uso doméstico n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">30000</td>
 <td class="izq">30000 - Fabricación de maquinaria de oficina, contabilidad e informática</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">311/12</td>
 <td class="izq">31100 - Fabricación de motores, generadores y transformadores eléctricos. 31200 - Fabricación de aparatos de distribución y control de la energía eléctrica</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">31300</td>
 <td class="izq">31300 - Fabricación de hilos y cables aislados</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">314/15/19</td>
 <td class="izq">31400 - Fabricación de acumuladores, pilas y baterías primarias. 31500 - Fabricación de lámparas eléctricas y equipo de iluminación. 31900 - Fabricación de equipo eléctrico n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">32100/32200</td>
 <td class="izq">32100 - Fabricación de tubos, válvulas y otros componentes electrónicos. 32200 - Fabricación de transmisores de radio y televisión y de aparatos para telefonía y telegrafía con hilos (equipos de comunicación)</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">32300</td>
 <td class="izq">32300 - Fabricación de receptores de radio y televisión, aparatos de grabación y reproducción de sonido y video, y productos conexos</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">331/332</td>
 <td class="izq">33110 - Fabricación de equipo médico y quirúrgico y de aparatos ortopédicos. 33120 - Fabricación de instrumentos y aparatos para medir, verificar, ensayar, navegar, control de procesos industriales y otros fines. 33200 - Fabricación de instrumentos de óptica y equipo fotográfico</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">341/2</td>
 <td class="izq">341 - Fabricación de vehículos automotores. 342 - Fabricación de carrocerías para vehículos automotores; fabricación de remolques y semirremolques</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">34300</td>
 <td class="izq">34300 - Fabricación de partes; piezas y accesorios para vehículos automotores y sus motores</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">351/2/3/9</td>
 <td class="izq">351 - Construcción y reparación de buques y otras embarcaciones. 352 - Fabricación de locomotoras y de material rodante para ferrocarriles y tranvías. 353 Fabricación de aeronaves y naves espaciales. 359 Fabricación de otros tipos de equipo de transporte n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">361/9</td>
 <td class="izq">361 - Fabricación de muebles. 369 - Industrias manufactureras, n.c.p.</td>
 <td class="izq">Manufacturas</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">401</td>
 <td class="izq">401 - Generación captación y distribución de energía eléctrica</td>
 <td class="izq">Servicios básicos y agua</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">402</td>
 <td class="izq">402 - Fabricación de gas ; distribución de combustibles gaseosos por tuberías</td>
 <td class="izq">Servicios básicos y agua</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">45</td>
 <td class="izq">45 - Construcción</td>
 <td class="izq">Construcción</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">502</td>
 <td class="izq">502 - Comercios por mayor y menor, mantenimiento y reparación de automotores</td>
 <td class="izq">Comercio</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">51</td>
 <td class="izq">51 - Comercio mayorista</td>
 <td class="izq">Comercio</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">521/5</td>
 <td class="izq">521/5 - Comercio minorista excepto reparaciones</td>
 <td class="izq">Comercio</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">526</td>
 <td class="izq">526 - Reparación de efectos personales y enseres domésticos</td>
 <td class="izq">Comercio</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">551</td>
 <td class="izq">551 - Hoteles ; campamentos y otros tipos de hospedaje temporal</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">601</td>
 <td class="izq">601 - Servicio de transporte ferroviario</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">602</td>
 <td class="izq">602 - Servicio de transporte automotor</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">603</td>
 <td class="izq">603 - Transporte por tuberías</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">61</td>
 <td class="izq">61 - TRANSPORTE POR VÍA ACUÁTICA</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">62</td>
 <td class="izq">62 - TRANSPORTE POR VÍA AÉREA</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">63</td>
 <td class="izq">63 - ACTIVIDADES DE TRANSPORTE COMPLEMENTARIAS Y AUXILIARES; ACTIVIDADES DE AGENCIAS DE VIAJES</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">641</td>
 <td class="izq">641 - Servicios de correos</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">642</td>
 <td class="izq">642 - Servicios de transmisión de radio y televisión</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">643</td>
 <td class="izq">643 - Servicios de Telecomunicaciones</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">644</td>
 <td class="izq">644 - Servicios de Internet</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">651 2</td>
 <td class="izq">651 2 - Intermediación monetaria</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">659</td>
 <td class="izq">659 - Otros tipos de intermediación financiera</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">66</td>
 <td class="izq">66 - Financiación de planes de seguros y de pensiones, excepto los planes</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">67</td>
 <td class="izq">67 - ACTIVIDADES AUXILIARES DE LA INTERMEDIACIÓN</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">701 A</td>
 <td class="izq">701 A - Propiedad de la vivienda.</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">701 B</td>
 <td class="izq">701 B - Alquiler de los sectores productores.</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">702</td>
 <td class="izq">702 - Actividades inmobiliarias realizadas a cambio de una retribución o por contrata</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">71</td>
 <td class="izq">71 - ALQUILER DE MAQUINARIA Y EQUIPO SIN OPERARIOS Y DE EFECTOS PERSONALES Y ENSERES DOMÉSTICOS</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">72</td>
 <td class="izq">72 - Informática y actividades conexas</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">74</td>
 <td class="izq">74 - OTRAS ACTIVIDADES EMPRESARIALES</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">75</td>
 <td class="izq">75 - Administración Pública y Defensa; Planes de Seguridad Social de Afiliación Obligatoria</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">80 PR</td>
 <td class="izq">Enseñanza Privada - Adultos y otros servicios de enseñanza</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">80 PU</td>
 <td class="izq">Enseñanza Pública - Todos los niveles</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">85 PR</td>
 <td class="izq">85 - SERVICIOS SOCIALES Y DE SALUD - Privados</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">85 PU</td>
 <td class="izq">85 - SERVICIOS SOCIALES Y DE SALUD - Públicos</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">919</td>
 <td class="izq">919 - Servicios de asociaciones n.c.p.</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">92</td>
 <td class="izq">92 - ACTIVIDADES DE ESPARCIMIENTO Y ACTIVIDADES CULTURALES Y DEPORTIVAS</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td class="izq">930</td>
 <td class="izq">930 - Otras actividades de servicios</td>
 <td class="izq">Otros servicios</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td class="izq">950</td>
 <td class="izq">950 - Servicios de hogares privados que contratan servicio doméstico</td>
 <td class="izq">Otros servicios</td>
