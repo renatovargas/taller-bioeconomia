@@ -25,9 +25,9 @@ Resumen de investigación para decidir las denominaciones de la clasificación b
 
 | Categoría actual | Concepto del SCN 2025 | Observación |
 |---|---|---|
-| Bioeconomía | Dentro del ámbito de la actividad clave | Todo el contenido es de origen biológico |
-| Bioeconomía extendida | Parcialmente dentro del ámbito ("partly within the bounds", "straddle the boundary") | El SCN 2025 pide desagregar estas filas y columnas. Con el detalle del COU de INDEC no se puede, por eso quedan como una categoría propia |
-| No bioeconomía | Fuera del ámbito ("out-of-scope") | |
+| Bioeconomía | Dentro de la frontera de la actividad clave | Todo el contenido es de origen biológico |
+| Bioeconomía extendida | Parcialmente dentro de la frontera ("partly within the bounds", "straddle the boundary") | El SCN 2025 pide desagregar estas filas y columnas. Con el detalle del COU de INDEC no se puede, por eso quedan como una categoría propia |
+| No bioeconomía | Fuera de la frontera ("out-of-scope") | |
 
 El SCN 2025 no fija nombres en español para estas categorías; los de la tabla son una traducción propia. Habría que verificar si existe una versión oficial en español del SCN 2025 antes de fijar la terminología.
 
