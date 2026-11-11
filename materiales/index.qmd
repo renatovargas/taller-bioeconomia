@@ -6,7 +6,7 @@ toc: false
 
 :::: {.grid}
 
-::: {.g-col-12 .g-col-md-4}
+::: {.g-col-12 .g-col-md-6}
 ::: {.card .h-100 .shadow-sm}
 ::: {.card-body}
 ### Presentaciones
@@ -18,7 +18,7 @@ El método, el ejercicio práctico y la discusión de política pública.
 :::
 :::
 
-::: {.g-col-12 .g-col-md-4}
+::: {.g-col-12 .g-col-md-6}
 ::: {.card .h-100 .shadow-sm}
 ::: {.card-body}
 ### Documento
@@ -30,7 +30,7 @@ Una nota para leer con calma: método resumido y resultados de Argentina con ori
 :::
 :::
 
-::: {.g-col-12 .g-col-md-4}
+::: {.g-col-12 .g-col-md-6}
 ::: {.card .h-100 .shadow-sm}
 ::: {.card-body}
 ### Descargas
@@ -38,6 +38,18 @@ Una nota para leer con calma: método resumido y resultados de Argentina con ori
 El COU oficial, la base de datos en Excel, los cuadros y los scripts.
 
 [Ver descargas](descargas.qmd){.btn .btn-primary}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100 .shadow-sm}
+::: {.card-body}
+### Herramienta
+
+Explore los cuadros y los multiplicadores de 2018 a 2023, reclasifique productos y actividades y compare su escenario con la clasificación original.
+
+[Abrir la herramienta](https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/){.btn .btn-primary target="_blank"} [Ver la clasificación](clasificacion.qmd){.btn .btn-outline-primary}
 :::
 :::
 :::

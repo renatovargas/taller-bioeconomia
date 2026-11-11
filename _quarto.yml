@@ -33,6 +33,11 @@ website:
         text: Descargas
       - href: about.qmd
         text: Acerca de
+    right:
+      - href: https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/
+        text: Herramienta
+        icon: box-arrow-up-right
+        target: _blank
   sidebar:
     - title: Materiales
       style: docked

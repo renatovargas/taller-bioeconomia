@@ -20,6 +20,8 @@ Todo el material está en la sección [Materiales](materiales/index.qmd).
 
 **Documento.** Una nota de lectura que resume el método y analiza los resultados de Argentina con una orientación de política pública.
 
+**[Herramienta de bioeconomía](https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/){target="_blank"}.** Una aplicación para explorar los cuadros y los multiplicadores de 2018 a 2023, y para reclasificar productos y actividades y ver al instante cómo cambian los agregados.
+
 **[Descargas](materiales/descargas.qmd).** El cuadro oficial, la base de datos en Excel con tabla dinámica, los cuadros bioeconómicos y los scripts de procesamiento.
 
 # Objetivos
@@ -27,5 +29,6 @@ Todo el material está en la sección [Materiales](materiales/index.qmd).
 * Entender qué es la bioeconomía y cómo se mide con el Sistema de Cuentas Nacionales.
 * Leer un cuadro de oferta y utilización real.
 * Pasar de buscar celdas en un cuadro a hacer preguntas con tablas dinámicas.
+* Poner a prueba la clasificación y ver qué cambia en los resultados.
 * Interpretar los resultados de Argentina y sus límites.
 * Plantear cursos de política pública basados en datos.

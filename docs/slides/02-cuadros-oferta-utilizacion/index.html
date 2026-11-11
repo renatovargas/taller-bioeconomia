@@ -55,7 +55,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-c35ba5b47f00fb1ea0587f8aaac40558.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-c6494c27f9414f6f3a05d281e17204c8.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -554,7 +554,7 @@ Renato Vargas
 </section>
 <section id="ejercicio-y-si-clasificamos-distinto" class="slide level2">
 <h2>Ejercicio: ¿y si clasificamos distinto?</h2>
-<p>La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba con la hoja <code>Ejercicio</code> de la <a href="../../data/bd/ARG_SCN_BD_2023.xlsx">base de datos</a>.</p>
+<p>La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba con la <a href="https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/" target="_blank">herramienta de bioeconomía</a> o con la hoja <code>Ejercicio</code> de la <a href="../../data/bd/ARG_SCN_BD_2023.xlsx">base de datos</a>.</p>
 <div class="cifras" style="--col:4;">
 <div class="cifra">
 <p><span class="n">1</span> <span class="t">Elijan un producto dudoso en la <a href="../../materiales/documentos/bioeconomia-argentina-politica-publica/index.html#anexo">lista del anexo</a>.</span></p>
@@ -563,10 +563,10 @@ Renato Vargas
 <p><span class="n">2</span> <span class="t">Anoten qué esperan que cambie, antes de tocar nada.</span></p>
 </div>
 <div class="cifra azul">
-<p><span class="n">3</span> <span class="t">Cambien su condición en la celda amarilla de la columna E.</span></p>
+<p><span class="n">3</span> <span class="t">Cambien su categoría: un clic en su recuadro de la pantalla <strong>Clasificación</strong>, o la celda amarilla del Excel.</span></p>
 </div>
 <div class="cifra">
-<p><span class="n">4</span> <span class="t">Comparen el panel de la derecha y defiendan su decisión.</span></p>
+<p><span class="n">4</span> <span class="t">Comparen en la pantalla <strong>Reclasificar</strong> y defiendan su decisión.</span></p>
 </div>
 </div>
 <div class="fragment">
@@ -615,7 +615,7 @@ Renato Vargas
 </table>
 </div>
 </div>
-<p><span class="pequeno">Miles de millones de pesos, 2023. Para verlo en una tabla dinámica: use el campo <code>Condición ejercicio</code> y seleccione Datos &gt; Actualizar todo.</span></p>
+<p><span class="pequeno">Miles de millones de pesos, 2023. En Excel, para verlo en una tabla dinámica: use el campo <code>Condición ejercicio</code> y seleccione Datos &gt; Actualizar todo.</span></p>
 </div>
 </section>
 <section id="ejemplo-sacar-abonos-y-plaguicidas-de-la-bioeconomía-parcial" class="slide level2">
@@ -691,7 +691,110 @@ Renato Vargas
 <p><strong>Para discutir.</strong> ¿Un plaguicida de síntesis debería contar? ¿Y uno biológico? El COU los agrupa en una sola fila.</p>
 </div>
 </div></div>
-<p><span class="pequeno">Valores de la bioeconomía parcial, Argentina, 2023, al trasladar el producto 346 a “Fuera de la bioeconomía”.</span></p>
+<p><span class="pequeno">Valores de la bioeconomía parcial, Argentina, 2023, al trasladar el producto 346 a “Fuera de la bioeconomía”. <a href="https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/?tab=Reclasificar&amp;anio=2023&amp;p=346%3A3" target="_blank">Abrir este escenario en la herramienta</a>.</span></p>
+</section>
+<section id="escenario-la-regla-del-producto-principal" class="slide level2">
+<h2>Escenario: la regla del producto principal</h2>
+<div class="columns">
+<div class="column" style="width:64%;">
+<div class="cell">
+<div class="cell-output-display">
+<table class="cou regla caption-top">
+<thead>
+<tr class="header">
+<th class="izq" data-quarto-table-cell-role="th">Actividad</th>
+<th class="izq" data-quarto-table-cell-role="th">Producto principal</th>
+<th data-quarto-table-cell-role="th">%</th>
+<th data-quarto-table-cell-role="th">Antes → ahora</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td class="izq">900 Eliminación de desperdi...</td>
+<td class="izq">Servicios de alcantar...</td>
+<td>100 %</td>
+<td><span class="pill p2">Parcial</span> → <span class="pill p3">Fuera</span></td>
+</tr>
+<tr class="even">
+<td class="izq">552 Restaurantes, bares y c...</td>
+<td class="izq">Servicios de suminist...</td>
+<td>96 %</td>
+<td><span class="pill p2">Parcial</span> → <span class="pill p3">Fuera</span></td>
+</tr>
+<tr class="odd">
+<td class="izq">292 Fabricación de maquinar...</td>
+<td class="izq">Maquinaria agrícola o...</td>
+<td>81 %</td>
+<td><span class="pill p3">Fuera</span> → <span class="pill p2">Parcial</span></td>
+</tr>
+<tr class="even">
+<td class="izq">41 Captación , depuración ...</td>
+<td class="izq">Servicios de distribu...</td>
+<td>77 %</td>
+<td><span class="pill p2">Parcial</span> → <span class="pill p3">Fuera</span></td>
+</tr>
+<tr class="odd">
+<td class="izq">016 Construcciones agropecu...</td>
+<td class="izq">Servicios de construc...</td>
+<td>61 %</td>
+<td><span class="pill p1">Bio</span> → <span class="pill p3">Fuera</span></td>
+</tr>
+<tr class="even">
+<td class="izq">37/38 Reciclado</td>
+<td class="izq">Servicios de mantenim...</td>
+<td>44 %</td>
+<td><span class="pill p2">Parcial</span> → <span class="pill p3">Fuera</span></td>
+</tr>
+<tr class="odd">
+<td class="izq">222 Impresión</td>
+<td class="izq">Libros de registro, l...</td>
+<td>34 %</td>
+<td><span class="pill p3">Fuera</span> → <span class="pill p2">Parcial</span></td>
+</tr>
+<tr class="even">
+<td class="izq">2411 Fabricación de gases co...</td>
+<td class="izq">Productos químicos or...</td>
+<td>33 %</td>
+<td><span class="pill p3">Fuera</span> → <span class="pill p2">Parcial</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><span class="pequeno">Cada actividad toma la categoría de su producto principal, el de mayor producción en 2023. %: su peso en la producción de la actividad.</span></p>
+</div><div class="column" style="width:36%;">
+<div class="cifras" style="--col:1;">
+<div class="cifra ambar">
+<p><span class="n" style="font-size:1.25em;">6,5 % → 4,8 %</span> <span class="t">valor agregado de la bioeconomía parcial, método de actividades</span></p>
+</div>
+<div class="cifra">
+<p><span class="n" style="font-size:1.25em;">12,8 % → 12,7 %</span> <span class="t">valor agregado de la bioeconomía, método de actividades</span></p>
+</div>
+</div>
+<div class="caja neutra">
+<p><strong>Lo que no cambia:</strong> las participaciones en los agregados, la tasa implícita, el valor agregado vía consumo intermedio y los multiplicadores. Todos dependen de la clasificación de <strong>productos</strong>.</p>
+</div>
+</div></div>
+</section>
+<section id="para-discutir-el-escenario" class="slide level2">
+<h2>Para discutir el escenario</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li class="fragment"><strong>¿Basta el producto principal?</strong> En 222 Impresión, el producto principal es solo 34 % de lo que produce la actividad. En 900 Desechos, es el 100 %.</li>
+<li class="fragment"><strong>Restaurantes.</strong> Su producto, el servicio de comida, está fuera de la bioeconomía, pero 71 % de sus insumos son de bioeconomía. ¿Dónde debe verse esa dependencia: en su categoría o en su multiplicador?</li>
+<li class="fragment"><strong>Comparabilidad.</strong> Las publicaciones de la CEPAL usan la clasificación original. ¿Qué vale más: la coherencia interna o poder comparar con otros países?</li>
+<li class="fragment"><strong>El método.</strong> El valor agregado vía consumo intermedio no se mueve con este escenario. ¿Es una ventaja?</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="caja">
+<p><strong>Pruébenlo.</strong> Este enlace abre la herramienta con las 8 actividades ya movidas:</p>
+<p><a href="https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/?tab=Reclasificar&amp;anio=2023&amp;a=016%3A3%2C222%3A2%2C2411%3A2%2C292%3A2%2C37%2F38%3A3%2C41%3A3%2C552%3A3%2C900%3A3" target="_blank">Abrir el escenario en la herramienta</a></p>
+</div>
+<div class="caja ambar">
+<p><strong>Variante.</strong> En la pantalla <strong>Reclasificar</strong>, deshagan uno por uno los cambios que no los convenzan y miren qué indicador se mueve.</p>
+</div>
+</div></div>
 </section>
 <section id="referencias" class="slide level2 smaller scrollable">
 <h2>Referencias</h2>

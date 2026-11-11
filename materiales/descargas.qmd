@@ -11,6 +11,7 @@ toc: false
 | [sh_cou_2023_06_26.xls](../data/indec-cou/sh_cou_2023_06_26.xls) | Cuadro oficial de oferta y utilización de INDEC, 2023 (millones de pesos) | Primera ronda de preguntas, a mano |
 | [ARG_SCN_BD_2023.xlsx](../data/bd/ARG_SCN_BD_2023.xlsx) | El mismo cuadro en formato plano, con clasificación bioeconómica, tabla dinámica y hoja para reclasificar productos | Segunda ronda de preguntas y ejercicio de reclasificación |
 | [ARG_cuadros_bioeconomia_2023.xlsx](../data/salidas/ARG_cuadros_bioeconomia_2023.xlsx) | Cuadros de oferta y utilización, cuadros bioeconómicos, valor agregado y multiplicadores | Consulta y gráficos propios |
+| [Herramienta de bioeconomía](https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/){target="_blank"} | Aplicación en línea con los cuadros, la clasificación y los multiplicadores de 2018 a 2023 | Reclasificar productos y actividades y comparar escenarios ([código](https://github.com/renatovargas/arg-tool-bioeconomia)) |
 
 : {tbl-colwidths="[34,40,26]"}
 

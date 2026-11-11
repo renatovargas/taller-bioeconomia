@@ -30,7 +30,8 @@ execute:
 source("scripts/funciones-presentacion.R")
 r <- readRDS("data/salidas/resultados.rds")
 A <- r$anio
-scn <- readRDS("data/bd/arg_scn.rds") |> filter(Año == A)
+scn_todos <- readRDS("data/bd/arg_scn.rds")
+scn <- scn_todos |> filter(Año == A)
 cfg <- readxl::read_excel("data/config/arg_config.xlsx", "config") |> filter(Año == A)
 ruta_cou <- file.path("../../data/indec-cou", cfg$Archivo)
 n_prod <- n_distinct(scn$`Código fila`[scn$`Tipo fila` == "Producto"])
@@ -86,6 +87,11 @@ escenario <- tibble(
     Original = pct(Original),
     Escenario = pct(Escenario)
   )
+
+# Escenario: cada actividad toma la categoría de su producto principal
+regla <- regla_producto_principal(scn_todos, A)
+rv <- regla$va |> filter(Año == A)
+corto_n <- function(x, n = 34) str_trunc(str_split_fixed(str_remove(x, "^[^ ]+( [A-Z]+)? - "), "\\. |; | / ", 2)[, 1], n)
 ```
 
 ## La cuenta de producción
@@ -436,7 +442,7 @@ qa(
 
 ## Ejercicio: ¿y si clasificamos distinto?
 
-La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba con la hoja `Ejercicio` de la [base de datos](../../data/bd/ARG_SCN_BD_2023.xlsx).
+La clasificación es la decisión más discutible de la cuenta. Pongámosla a prueba con la [herramienta de bioeconomía](`r URL_HERRAMIENTA`){target="_blank"} o con la hoja `Ejercicio` de la [base de datos](../../data/bd/ARG_SCN_BD_2023.xlsx).
 
 ::: {.cifras style="--col:4;"}
 ::: {.cifra}
@@ -449,11 +455,11 @@ La clasificación es la decisión más discutible de la cuenta. Pongámosla a pr
 :::
 ::: {.cifra .azul}
 [3]{.n}
-[Cambien su condición en la celda amarilla de la columna E.]{.t}
+[Cambien su categoría: un clic en su recuadro de la pantalla **Clasificación**, o la celda amarilla del Excel.]{.t}
 :::
 ::: {.cifra}
 [4]{.n}
-[Comparen el panel de la derecha y defiendan su decisión.]{.t}
+[Comparen en la pantalla **Reclasificar** y defiendan su decisión.]{.t}
 :::
 :::
 
@@ -471,7 +477,7 @@ candidatos |>
   tabla_simple("cou mediano", izq = 2)
 ```
 
-[Miles de millones de pesos, `r A`. Para verlo en una tabla dinámica: use el campo `Condición ejercicio` y seleccione Datos > Actualizar todo.]{.pequeno}
+[Miles de millones de pesos, `r A`. En Excel, para verlo en una tabla dinámica: use el campo `Condición ejercicio` y seleccione Datos > Actualizar todo.]{.pequeno}
 
 ## Ejemplo: sacar abonos y plaguicidas de la bioeconomía parcial
 
@@ -496,7 +502,67 @@ tabla_simple(escenario, "cou grande")
 :::
 ::::
 
-[Valores de la bioeconomía parcial, Argentina, `r A`, al trasladar el producto 346 a "Fuera de la bioeconomía".]{.pequeno}
+[Valores de la bioeconomía parcial, Argentina, `r A`, al trasladar el producto 346 a "Fuera de la bioeconomía". [Abrir este escenario en la herramienta](`r enlace_herramienta(p = c("346" = B_FUE), anio = A)`){target="_blank"}.]{.pequeno}
+
+## Escenario: la regla del producto principal
+
+:::: {.columns}
+::: {.column width="64%"}
+```{r}
+regla$tabla |>
+  arrange(desc(sh)) |>
+  transmute(
+    Actividad = paste(Código, corto_n(nombre_actividad(Actividad, 200), 26)),
+    `Producto principal` = corto_n(Producto, 24),
+    `%` = pct(sh, 0),
+    `Antes → ahora` = paste0(pill_corta(Antes), " → ", pill_corta(Ahora))
+  ) |>
+  tabla_simple("cou regla", izq = 2)
+```
+
+[Cada actividad toma la categoría de su producto principal, el de mayor producción en `r A`. %: su peso en la producción de la actividad.]{.pequeno}
+:::
+::: {.column width="36%"}
+::: {.cifras style="--col:1;"}
+::: {.cifra .ambar}
+[`r pct(rv$par0)` → `r pct(rv$par1)`]{.n style="font-size:1.25em;"}
+[valor agregado de la bioeconomía parcial, método de actividades]{.t}
+:::
+::: {.cifra}
+[`r pct(rv$bio0)` → `r pct(rv$bio1)`]{.n style="font-size:1.25em;"}
+[valor agregado de la bioeconomía, método de actividades]{.t}
+:::
+:::
+
+::: {.caja .neutra}
+**Lo que no cambia:** las participaciones en los agregados, la tasa implícita, el valor agregado vía consumo intermedio y los multiplicadores. Todos dependen de la clasificación de **productos**.
+:::
+:::
+::::
+
+## Para discutir el escenario
+
+:::: {.columns}
+::: {.column width="55%"}
+::: incremental
+- **¿Basta el producto principal?** En 222 Impresión, el producto principal es solo `r pct(regla$tabla$sh[regla$tabla$Código == "222"], 0)` de lo que produce la actividad. En 900 Desechos, es el 100 %.
+- **Restaurantes.** Su producto, el servicio de comida, está fuera de la bioeconomía, pero `r pct(sum(scn$Valor[scn$Componente == "Consumo intermedio" & scn[["Código columna"]] == "552" & scn[["Bioeconomía Productos"]] == B_BIO]) / sum(scn$Valor[scn$Componente == "Consumo intermedio" & scn[["Código columna"]] == "552"]), 0)` de sus insumos son de bioeconomía. ¿Dónde debe verse esa dependencia: en su categoría o en su multiplicador?
+- **Comparabilidad.** Las publicaciones de la CEPAL usan la clasificación original. ¿Qué vale más: la coherencia interna o poder comparar con otros países?
+- **El método.** El valor agregado vía consumo intermedio no se mueve con este escenario. ¿Es una ventaja?
+:::
+:::
+::: {.column width="45%"}
+::: {.caja}
+**Pruébenlo.** Este enlace abre la herramienta con las `r nrow(regla$tabla)` actividades ya movidas:
+
+[Abrir el escenario en la herramienta](`r regla$url`){target="_blank"}
+:::
+
+::: {.caja .ambar}
+**Variante.** En la pantalla **Reclasificar**, deshagan uno por uno los cambios que no los convenzan y miren qué indicador se mueve.
+:::
+:::
+::::
 
 ## Referencias
 

@@ -343,3 +343,6 @@ $code-block-font-size: 0.75em;
   &.p2 { background: $theme-ambar-claro; &::before { background: $theme-ambar; } }
   &.p3 { background: $theme-azul-claro; &::before { background: $theme-azul; } }
 }
+
+// Tabla del escenario de la regla del producto principal: una línea por fila
+.reveal table.cou.regla { font-size: 0.54em; td { white-space: nowrap; padding: 0.38em 0.5em; } .pill { font-size: 0.92em; } }

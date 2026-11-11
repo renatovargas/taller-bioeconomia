@@ -553,7 +553,7 @@ tibble(
 :::: {.columns}
 ::: {.column width="50%"}
 ::: {.caja}
-**1. Elijan un curso.** Con la base en Excel, busquen tres cifras que lo respalden y una que lo cuestione.
+**1. Elijan un curso.** Con la herramienta o la base en Excel, busquen tres cifras que lo respalden y una que lo cuestione.
 :::
 
 ::: {.caja .ambar}
@@ -571,7 +571,7 @@ tibble(
 :::
 ::::
 
-[Descargar la base de datos](../../data/bd/ARG_SCN_BD_2023.xlsx) · [Descargar los cuadros](../../data/salidas/ARG_cuadros_bioeconomia_2023.xlsx)
+[Abrir la herramienta de bioeconomía](`r URL_HERRAMIENTA`){target="_blank"} · [Descargar la base de datos](../../data/bd/ARG_SCN_BD_2023.xlsx) · [Descargar los cuadros](../../data/salidas/ARG_cuadros_bioeconomia_2023.xlsx)
 
 ## Lo que estos datos no permiten afirmar
 

@@ -522,6 +522,10 @@ pill <- function(cat) {
   k <- match(cat, niveles_bio)
   paste0("<span class='pill p", k, "'>", cat, "</span>")
 }
+pill_corta <- function(cat) {
+  k <- match(cat, niveles_bio)
+  paste0("<span class='pill p", k, "'>", c("Bio", "Parcial", "Fuera")[k], "</span>")
+}
 lamina_lookup <- function(scn, a,
                           celdas = list(c("011", "011/014"), c("211", "552"),
                                         c("346", "011/014"), c("651/652", "61"))) {
@@ -572,4 +576,40 @@ lamina_lookup <- function(scn, a,
     "<div class='lk-paso lk-res'><div class='lk-t'><b>3</b> Base clasificada: se une por código y año</div>", res, "</div>",
     "</div>"
   ))
+}
+
+# Herramienta de Shiny
+# --------------------
+URL_HERRAMIENTA <- "https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/"
+
+# Enlace a la herramienta con un escenario: cambios = list(p = c(cod = cat), a = c(cod = cat))
+enlace_herramienta <- function(tab = "Reclasificar", p = NULL, a = NULL, anio = NULL) {
+  cod <- function(x) if (length(x)) utils::URLencode(paste0(names(x), ":", match(x, niveles_bio), collapse = ","), reserved = TRUE)
+  q <- c(tab = utils::URLencode(tab, reserved = TRUE), anio = anio, p = cod(p), a = cod(a))
+  paste0(URL_HERRAMIENTA, "?", paste0(names(q), "=", q, collapse = "&"))
+}
+
+# Escenario: cada actividad toma la categoría de su producto principal en el año `a`
+regla_producto_principal <- function(scn, a) {
+  pp <- scn |>
+    filter(Año == a, Componente == "Producción", `Tipo fila` == "Producto") |>
+    group_by(Código = `Código columna`) |>
+    mutate(sh = Valor / sum(Valor)) |>
+    slice_max(Valor, n = 1, with_ties = FALSE) |>
+    ungroup() |>
+    filter(`Bioeconomía Actividades` != `Bioeconomía Productos`) |>
+    transmute(Código, Actividad = `Descripción Actividades`, Antes = `Bioeconomía Actividades`,
+              Producto = `Nomenclatura Local de Productos`, Ahora = `Bioeconomía Productos`, sh)
+  nuevo <- setNames(pp$Ahora, pp$Código)
+  va <- scn |>
+    filter(Componente == "Valor agregado") |>
+    mutate(b1 = coalesce(unname(nuevo[`Código columna`]), `Bioeconomía Actividades`)) |>
+    group_by(Año) |>
+    summarise(
+      across(c(), sum),
+      bio0 = sum(Valor[`Bioeconomía Actividades` == B_BIO]) / sum(Valor), bio1 = sum(Valor[b1 == B_BIO]) / sum(Valor),
+      par0 = sum(Valor[`Bioeconomía Actividades` == B_PAR]) / sum(Valor), par1 = sum(Valor[b1 == B_PAR]) / sum(Valor),
+      .groups = "drop"
+    )
+  list(tabla = pp, va = va, url = enlace_herramienta(a = nuevo, anio = a))
 }

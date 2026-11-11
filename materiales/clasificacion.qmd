@@ -96,6 +96,8 @@ alias <- read_excel(lk, "actividades") |> filter(!is.na(`Alias INDEC`))
 
 ::: {.clasif-intro}
 Cada producto (fila del COU) y cada actividad (columna) tiene **una sola categoría**, válida para todos los años en que INDEC publica su código. Elija un año para ver qué códigos existen, cuánto pesan en la producción y a qué categoría pertenecen.
+
+Para cambiar categorías y ver qué pasa con los agregados, use la [herramienta de bioeconomía](https://01a1cbe7-8fae-9e7f-3fdc-9194f74a648a.share.connect.posit.cloud/){target="_blank"}: el mismo mosaico, con un clic para reclasificar.
 :::
 
 ```{ojs}
